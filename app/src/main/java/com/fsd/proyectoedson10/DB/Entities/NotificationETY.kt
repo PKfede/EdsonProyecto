@@ -3,11 +3,11 @@ import androidx.room.*
 
 
 @Entity(tableName = "notification", foreignKeys = [ForeignKey(
-    entity = UsersETY::class,
+    entity = UserETY::class,
     parentColumns = ["idUser"],
     childColumns = ["userId"], onDelete = ForeignKey.CASCADE),
     ForeignKey(
-        entity = ListsETY::class,
+        entity = ListETY::class,
         parentColumns = ["idList"],
         childColumns = ["listId"], onDelete = ForeignKey.CASCADE)],
 

@@ -6,28 +6,27 @@ import androidx.room.Database
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.fsd.proyectoedson10.DB.DAO.*
+import com.fsd.proyectoedson10.DB.Entities.*
 
 
-//@Database(
-//    entities = [
-//        Perfil::class, Pregunta::class, Puntuacion::class, Juego::class
-//    ], version = 1
-//)
+@Database(
+    entities = [
+        UserETY::class, SharedListETY::class, TaskETY::class, NotificationETY::class, ListETY::class
+    ], version = 1
+)
 abstract class AppDatabase : RoomDatabase() {
 
-//    abstract fun getperfilDao(): PerfilDao
+    abstract fun UserDAO(): UserDAO
 //
-//    abstract fun getpreguntaDao(): PreguntaDao
+    abstract fun TaskDAO(): TaskDAO
+
+    abstract fun SharedListDAO(): SharedListDAO
 //
-//    abstract fun getpuntuacionDao(): PuntuacionDao
-//
-//    abstract fun getjuegoDao(): JuegoDao
+    abstract fun NotificationDAO(): NotificationDAO
 
-    //abstract fun professorCategoryDao(): ProfessorCategoryDao
+    abstract fun ListDAO(): ListDAO
 
-    //abstract fun professorDao(): ProfessorDao
-
-    //abstract fun reportsDao(): ReportsDao
 
     companion object {
 
