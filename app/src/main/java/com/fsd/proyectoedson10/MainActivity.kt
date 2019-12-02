@@ -13,10 +13,12 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -47,6 +49,24 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+    }
+
+    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.nav_todas -> {
+                Toast.makeText(this, "Todas", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_importantes -> {
+                Toast.makeText(this, "Importantes", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_planeadas -> {
+                Toast.makeText(this, "Planeadas", Toast.LENGTH_SHORT).show()
+            }
+        }
+        //drawer_layout.closeDrawer(GravityCompat.START)
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
