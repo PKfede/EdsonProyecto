@@ -65,13 +65,13 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
 
                 R.id.nav_alls -> {
-                    Toast.makeText(this, "Todas", Toast.LENGTH_LONG).show()
+
                 }
                 R.id.nav_importants -> {
-                    Toast.makeText(this, "Importantes", Toast.LENGTH_LONG).show()
+
                 }
                 R.id.nav_planneds -> {
-                    Toast.makeText(this, "Planeadas", Toast.LENGTH_LONG).show()
+
                 }
             }
             // Add code here to update the UI based on the item selected
