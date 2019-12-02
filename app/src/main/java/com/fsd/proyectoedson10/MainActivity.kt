@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import com.facebook.stetho.Stetho
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         Stetho.initializeWithDefaults(this)
+
+
 
 
 
@@ -61,17 +64,19 @@ class MainActivity : AppCompatActivity() {
             // close drawer when item is tapped
             drawerLayout.closeDrawers()
 
+            val nameList : TextView = findViewById(R.id.nameList)
+
             // Handle navigation view item clicks here.
             when (menuItem.itemId) {
 
                 R.id.nav_alls -> {
-                    Toast.makeText(this, "Todas", Toast.LENGTH_LONG).show()
+                    nameList.setText("Todas")
                 }
                 R.id.nav_importants -> {
-                    Toast.makeText(this, "Importantes", Toast.LENGTH_LONG).show()
+                    nameList.setText("Importantes")
                 }
                 R.id.nav_planneds -> {
-                    Toast.makeText(this, "Planeadas", Toast.LENGTH_LONG).show()
+                    nameList.setText("Planeadas")
                 }
             }
             // Add code here to update the UI based on the item selected
