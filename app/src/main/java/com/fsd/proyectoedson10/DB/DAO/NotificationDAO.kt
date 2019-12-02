@@ -6,10 +6,10 @@ import com.fsd.proyectoedson10.DB.Entities.NotificationETY
 @Dao
 interface NotificationDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(idUser:Int, idSharedList: Int, date: String)
+    fun insert(notification: NotificationETY)
 
     @Delete
-    fun deleteUser(notification: NotificationETY)
+    fun delete(notification: NotificationETY)
 
     @Query("DELETE FROM notification where idNotification= :id")
     fun deleteById(id:Int)
