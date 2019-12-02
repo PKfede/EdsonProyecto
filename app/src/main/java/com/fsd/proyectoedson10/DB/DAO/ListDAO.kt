@@ -2,9 +2,10 @@ package com.fsd.proyectoedson10.DB.DAO
 
 import androidx.room.Dao
 import androidx.room.Insert
+import com.fsd.proyectoedson10.DB.Entities.ListETY
 
 @Dao
-interface ListsDAO {
+interface ListDAO {
     @Insert
-    fun insertList(lists : ListsDAO)
+    fun insertList(list : ListETY)
 }

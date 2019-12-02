@@ -4,16 +4,16 @@ import androidx.room.*
 
 @Entity(tableName = "lists" ,foreignKeys =
 [ForeignKey(
-    entity = UsersETY::class,
+    entity = UserETY::class,
     parentColumns = ["idUser"],
     childColumns = ["userId"], onDelete = ForeignKey.CASCADE
 )], indices = [Index(value = ["userId"], unique = true)]
 
 )
 
-data class  ListsETY(@ColumnInfo(name="userId") var userId: String){
+data class  ListETY(@ColumnInfo(name="userId") var userId: String){
 
-    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "idList") var idList: String = ""
+    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "idList") var idList: Int = 0
     @field:ColumnInfo(name = "listName") var listName: String = ""
     @field:ColumnInfo(name = "listColor") var listColor: String = ""
     @field:ColumnInfo(name = "listIcon") var listIcon: String = ""
