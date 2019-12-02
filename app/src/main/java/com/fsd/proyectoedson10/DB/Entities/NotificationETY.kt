@@ -7,14 +7,14 @@ import androidx.room.*
     parentColumns = ["idUser"],
     childColumns = ["userId"], onDelete = ForeignKey.CASCADE),
     ForeignKey(
-        entity = SharedListsETY::class,
-        parentColumns = ["idUser"],
-        childColumns = ["userId"], onDelete = ForeignKey.CASCADE)],
+        entity = ListsETY::class,
+        parentColumns = ["idList"],
+        childColumns = ["listId"], onDelete = ForeignKey.CASCADE)],
 
-    indices = [Index(value = ["userId"], unique = true), Index(value = ["sharedListId"], unique = true)]
+    indices = [Index(value = ["userId"], unique = true), Index(value = ["listId"], unique = true)]
 )
 data class NotificationETY(@ColumnInfo(name="userId") var userId: Int,
-                           @ColumnInfo(name="sharedListId") var sharedListId: Int,
+                           @ColumnInfo(name="listId") var sharedListId: Int,
                            @ColumnInfo(name="date") var date: String
                            ){
 
