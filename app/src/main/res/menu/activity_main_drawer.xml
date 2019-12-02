@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_alls"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Todas"/>
+            android:title="Todas" />
         <item
             android:id="@+id/nav_importants"
             android:icon="@drawable/ic_menu_gallery"
@@ -19,14 +19,28 @@
 
     </group>
 
-    <item android:title="Communicate">
+    <item
+        android:icon="@drawable/add_list"
+        android:title="Mis listas">
         <menu>
 
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:icon="@drawable/add_list"
+                android:title="Agregar Lista" />
         </menu>
     </item>
+
+
+    <item
+        android:title="Listas compartidas">
+        <menu>
+
+            <item
+                android:id="@+id/sharedList"
+                android:icon="@drawable/add_list"
+                android:title="Agregar Lista" />
+        </menu>
+    </item>
+
 
 </menu>
