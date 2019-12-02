@@ -5,10 +5,10 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-    @Entity(tableName = "users", indices = [Index(value = ["idUser"], unique = true)]
+    @Entity(tableName = "user", indices = [Index(value = ["idUser"], unique = true), Index(value = ["email"], unique = true)]
     )
 
-    data class UsersETY(
+    data class UserETY(
         @PrimaryKey @ColumnInfo(name = "idUser") val id: String,
         @ColumnInfo(name = "name") var name: String,
         @ColumnInfo(name = "lastName") var lastName: String,
