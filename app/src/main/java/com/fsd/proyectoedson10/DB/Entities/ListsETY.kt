@@ -11,10 +11,10 @@ import androidx.room.*
 
 )
 
-data class  ListsETY(@ColumnInfo(name="userId") var user_id: Int){
+data class  ListsETY(@ColumnInfo(name="userId") var userId: String){
 
-    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "idLista") var idLista: Int = 0
-    @field:ColumnInfo(name = "listName") var listsName: String = ""
+    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "idLista") var idLista: String = ""
+    @field:ColumnInfo(name = "listName") var listName: String = ""
     @field:ColumnInfo(name = "listColor") var listColor: String = ""
     @field:ColumnInfo(name = "listIcon") var listIcon: String = ""
 
