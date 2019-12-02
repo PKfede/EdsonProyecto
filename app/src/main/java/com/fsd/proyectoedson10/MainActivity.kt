@@ -1,5 +1,6 @@
 package com.fsd.proyectoedson10
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -17,7 +18,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import com.facebook.stetho.Stetho
-import com.fsd.proyectoedson10.DB.AppDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -72,6 +72,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_planneds -> {
                     Toast.makeText(this, "Planeadas", Toast.LENGTH_LONG).show()
+                }
+                R.id.nav_addList ->{
+                    val intent = Intent(this, AddMyListActivity::class.java)
+                    startActivity(intent)
                 }
             }
             // Add code here to update the UI based on the item selected

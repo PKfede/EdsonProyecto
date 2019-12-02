@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/editText_NameList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nombre de la lista"
-        android:textSize="20dp"
-        />
+        android:textSize="20dp" />
 
-    
+    <Button
+        android:id="@+id/button_Color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Color de fondo"
+        android:layout_gravity="center"/>
+   <RadioGroup
+       android:layout_width="match_parent"
+       android:layout_height="200dp">
 
-</RelativeLayout>
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+
+   </RadioGroup>
+
+
+</LinearLayout>

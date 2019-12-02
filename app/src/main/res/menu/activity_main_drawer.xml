@@ -25,6 +25,7 @@
         <menu>
 
             <item
+                android:id="@+id/nav_addList"
                 android:icon="@drawable/add_list"
                 android:title="Agregar Lista" />
         </menu>
