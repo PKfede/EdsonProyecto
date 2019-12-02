@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_todas, R.id.nav_importantes,
-                R.id.nav_planeadas
+                R.id.nav_home, R.id.nav_alls, R.id.nav_importants,
+                R.id.nav_planneds
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -64,13 +64,13 @@ class MainActivity : AppCompatActivity() {
             // Handle navigation view item clicks here.
             when (menuItem.itemId) {
 
-                R.id.nav_todas -> {
+                R.id.nav_alls -> {
                     Toast.makeText(this, "Todas", Toast.LENGTH_LONG).show()
                 }
-                R.id.nav_importantes -> {
+                R.id.nav_importants -> {
                     Toast.makeText(this, "Importantes", Toast.LENGTH_LONG).show()
                 }
-                R.id.nav_planeadas -> {
+                R.id.nav_planneds -> {
                     Toast.makeText(this, "Planeadas", Toast.LENGTH_LONG).show()
                 }
             }
