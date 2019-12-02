@@ -5,27 +5,45 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_all"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:title="Todas" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_Impor"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:title="Importantes" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_plan"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="Planeadas" />
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Pendientes">
         <menu>
 
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_Pend"
                 android:icon="@drawable/ic_menu_send"
-                android:title="hola" />
+                android:title="Tareas Pendientes" />
+        </menu>
+    </item>
+
+    <item android:title="Listas">
+        <menu>
+
+            <item
+                android:id="@+id/nav_List"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Listas existentes" />
+            <item
+                android:id="@+id/nav_Addlist"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Añadir Lista" />
+            <item
+                android:id="@+id/nav_ListComp"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Lista compartida" />
         </menu>
     </item>
 
