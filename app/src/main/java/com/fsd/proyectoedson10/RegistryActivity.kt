@@ -5,6 +5,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.fsd.proyectoedson10.DB.Entities.UserETY
+import com.google.firebase.database.FirebaseDatabase
+
+data class User(var name: String = "", var lastName: String = "", var password : String = "", var avatar : String= "", var status : Int = 0)
 
 class RegistryActivity : AppCompatActivity() {
 
@@ -30,6 +34,15 @@ class RegistryActivity : AppCompatActivity() {
         
 
         btnRegistry.setOnClickListener {
+
+            val database = FirebaseDatabase.getInstance()
+            val dbRef = database.getReference("user")
+
+            val user = User(etUserName.text.toString(),etUserLastName.text.toString(),etPass.text.toString(),avatar.text.toString(),0)
+
+            dbRef.child(etEmail.text.toString()).setValue(user)
+
+
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
