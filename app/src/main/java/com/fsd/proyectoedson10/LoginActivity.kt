@@ -58,10 +58,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
-        btnLogin.setOnClickListener {
 
+
+        btnLogin.setOnClickListener {
+            var modifiedEmail = etUser.text.toString().replace("""[.]""".toRegex(),",")
             val database = FirebaseDatabase.getInstance()
-            val usersRef =  database.getReference("user").child("kike@hotmail,com")
+            val usersRef =  database.getReference("user").child(modifiedEmail)
             usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
@@ -70,17 +72,23 @@ class LoginActivity : AppCompatActivity() {
                     var user : User? = p0.getValue(User::class.java)
                     user?.id = p0.key
 
-                    Log.d("hola", user!!.password.toString())
+                 // var auxUser =  Log.d("email", user!!.id.toString()).toString()
+                 // var auxLogin =  Log.d("pass", user!!.password.toString()).toString()
+                    var auxUser = user!!.id.toString()
+                    var auxLogin = user!!.password.toString()
+
+                    if(auxUser == modifiedEmail && auxLogin == etPass.text.toString())
+                    {
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    else
+                    {
+                        Toast.makeText(this@LoginActivity, "Datos incorrectos", Toast.LENGTH_LONG).show()
+                    }
                 }
             })
         }
-
-
-
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-
             val user = etUser.text.toString()
         }
 
