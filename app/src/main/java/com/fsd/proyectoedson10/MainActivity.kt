@@ -85,7 +85,8 @@ class MainActivity : AppCompatActivity() {
                     nameList.setText("Planeadas")
                 }
                 R.id.nav_addList ->{
-                    nameList.setText("Agregar lista")
+                    val intent = Intent(this, AddMyListActivity::class.java)
+                    startActivity(intent)
                 }
             }
             // Add code here to update the UI based on the item selected
