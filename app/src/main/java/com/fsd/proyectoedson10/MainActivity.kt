@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val intent = Intent(this, CreateTaskActivity::class.java)
+            startActivity(intent)
         }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
 
                 R.id.nav_home, R.id.nav_alls, R.id.nav_importants,
-                R.id.nav_planneds,R.id.nav_addList
+                R.id.nav_planneds,R.id.nav_createTask
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
