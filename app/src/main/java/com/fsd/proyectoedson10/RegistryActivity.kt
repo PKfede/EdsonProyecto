@@ -4,9 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fsd.proyectoedson10.DB.Entities.UserETY
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 data class User(var name: String = "", var lastName: String = "", var password : String = "", var avatar : String= "", var status : Int = 0)
 
@@ -42,11 +46,31 @@ class RegistryActivity : AppCompatActivity() {
 
             var modifiedEmail = etEmail.text.toString().replace("""[.]""".toRegex(),",")
 
-            dbRef.child(modifiedEmail).setValue(user)
+            val userRef = database.getReference("user").child(modifiedEmail)
+
+            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.value == null)
+                    {
+                        dbRef.child(modifiedEmail).setValue(user)
+                        val intent = Intent(this@RegistryActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
+                    else
+                    {
+                        Toast.makeText(this@RegistryActivity, "Ya existe el usuario", Toast.LENGTH_LONG).show()
+                    }
+                }
+            })
 
 
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+
+
+
         }
 
     }
