@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/editText_NameList"
+        android:id="@+id/editTextNameList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nombre de la lista"
@@ -13,7 +13,7 @@
         android:layout_marginTop="20dp"/>
 
     <Button
-        android:id="@+id/button_Color"
+        android:id="@+id/buttonColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Color de fondo"
@@ -111,7 +111,7 @@
 
 
     <Button
-        android:id="@+id/button_Save"
+        android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Guardar"

@@ -2,12 +2,16 @@ package com.fsd.proyectoedson10.DB
 
 
 import android.content.Context
+import android.widget.TextView
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.room.Database
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.fsd.proyectoedson10.DB.DAO.*
 import com.fsd.proyectoedson10.DB.Entities.*
+import com.fsd.proyectoedson10.R
+import com.google.android.material.navigation.NavigationView
 
 
 @Database(
@@ -31,6 +35,25 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
 
         private var INSTANCE: AppDatabase? = null
+        private lateinit var navView : NavigationView
+        private lateinit var nameList : TextView
+        private lateinit var drawerLayout: DrawerLayout
+
+        fun getNav() = navView
+        fun setNav(naView : NavigationView){
+            navView = naView
+        }
+
+        fun getList() = nameList
+        fun setList(NameList : TextView){
+            nameList = NameList
+        }
+
+        fun getDrawer() = drawerLayout
+        fun setDrawer(DrawerLayout : DrawerLayout)
+        {
+            drawerLayout = DrawerLayout
+        }
 
         fun getAppDatabase(context: Context): AppDatabase {
             if (INSTANCE == null) {

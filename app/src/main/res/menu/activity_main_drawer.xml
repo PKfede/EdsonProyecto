@@ -3,45 +3,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
         <item
+            android:orderInCategory="0"
             android:id="@+id/nav_alls"
             android:icon="@drawable/ic_menu_camera"
             android:title="Todas" />
         <item
+            android:orderInCategory="0"
             android:id="@+id/nav_importants"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Importantes" />
         <item
+            android:orderInCategory="0"
             android:id="@+id/nav_planneds"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Planeadas" />
 
     </group>
 
-    <item
-        android:icon="@drawable/add_list"
-        android:title="Mis listas">
-        <menu>
+    <group android:id="@+id/group2">
+        <item
+            android:orderInCategory="1"
+            android:title="Mis listas">
+            <menu>
 
-            <item
-                android:id="@+id/nav_addList"
-                android:icon="@drawable/add_list"
-                android:title="Agregar Lista" />
-        </menu>
-    </item>
+                <item
+                    android:orderInCategory="1"
+                    android:id="@+id/nav_addList"
+                    android:icon="@drawable/add_list"
+                    android:title="Agregar Lista" />
+            </menu>
+        </item>
+    </group>
 
+    <group android:id="@+id/group3">
+        <item
+            android:orderInCategory="2"
+            android:title="Listas compartidas">
+            <menu>
 
-    <item
-        android:title="Listas compartidas">
-        <menu>
-
-            <item
-                android:id="@+id/sharedList"
-                android:icon="@drawable/add_list"
-                android:title="Agregar Lista" />
-        </menu>
-    </item>
-
+                <item
+                    android:orderInCategory="2"
+                    android:id="@+id/sharedList"
+                    android:icon="@drawable/add_list"
+                    android:title="Agregar Lista" />
+            </menu>
+        </item>
+    </group>
 
 </menu>
