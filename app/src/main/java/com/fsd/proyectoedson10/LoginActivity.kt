@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.stetho.Stetho
 
-class Login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private lateinit var textRegistry: TextView
     private lateinit var btnLogin: Button
     private lateinit var etUser: EditText
@@ -27,7 +27,7 @@ class Login : AppCompatActivity() {
 
 
         textRegistry.setOnClickListener{
-            val intent = Intent(this, ActivityRegistry::class.java)
+            val intent = Intent(this, RegistryActivity::class.java)
             startActivity(intent)
         }
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".ActivityRegistry">
+    tools:context=".RegistryActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         android:gravity="center">
 
 
-   
+
 
         <EditText
             android:id="@+id/editText_userName"

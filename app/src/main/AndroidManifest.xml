@@ -18,9 +18,9 @@
         </activity>
         <activity android:name=".AddMyListActivity">
         </activity>
-        <activity android:name=".ActivityRegistry">
+        <activity android:name=".RegistryActivity">
         </activity>
-        <activity android:name=".Login">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

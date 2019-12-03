@@ -1,18 +1,12 @@
 package com.fsd.proyectoedson10
 
-import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import java.util.*
 
-class ActivityRegistry : AppCompatActivity() {
+class RegistryActivity : AppCompatActivity() {
 
     private lateinit var btnRegistry : Button
     private lateinit var avatar : EditText
@@ -33,13 +27,10 @@ class ActivityRegistry : AppCompatActivity() {
         etUserLastName= findViewById(R.id.editText_userLastName)
         etEmail= findViewById(R.id.editText_email)
         etPass = findViewById(R.id.editText_userPass)
-
-
-
-
+        
 
         btnRegistry.setOnClickListener {
-            val intent = Intent(this, Login::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
