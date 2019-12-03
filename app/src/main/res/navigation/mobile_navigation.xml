@@ -18,13 +18,6 @@
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_addList"
-        android:name="com.fsd.proyectoedson10.AddMyListActivity"
-        android:label="Crear Lista"
-        tools:layout="@layout/fragment_add_my_list" >
-    </fragment>
-
-    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.fsd.proyectoedson10.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
@@ -48,4 +41,10 @@
         android:name="com.fsd.proyectoedson10.ui.send.SendFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_send" />
+
+    <fragment
+        android:id="@+id/nav_createTask"
+        android:name="com.fsd.proyectoedson10.ui.createtask.CreateTask"
+        android:label="Crear tarea"
+        tools:layout="@layout/create_task_fragment" />
 </navigation>

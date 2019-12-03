@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_alls, R.id.nav_importants,
-                R.id.nav_planneds,R.id.nav_addList
+                R.id.nav_planneds,R.id.nav_createTask
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -79,7 +79,8 @@ class MainActivity : AppCompatActivity() {
                     nameList.setText("Planeadas")
                 }
                 R.id.nav_addList ->{
-                    nameList.setText("Agregar lista")
+                    val intent = Intent(this, AddMyListActivity::class.java)
+                    startActivity(intent)
                 }
             }
             // Add code here to update the UI based on the item selected
