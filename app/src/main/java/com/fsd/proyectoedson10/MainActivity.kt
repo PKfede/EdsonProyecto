@@ -53,7 +53,9 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home
+
+                R.id.nav_home, R.id.nav_alls, R.id.nav_importants,
+                R.id.nav_planneds,R.id.nav_addList
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -83,8 +85,7 @@ class MainActivity : AppCompatActivity() {
                     nameList.setText("Planeadas")
                 }
                 R.id.nav_addList ->{
-                    val intent = Intent(this, AddMyListActivity::class.java)
-                    startActivity(intent)
+                    nameList.setText("Agregar lista")
                 }
             }
             // Add code here to update the UI based on the item selected
