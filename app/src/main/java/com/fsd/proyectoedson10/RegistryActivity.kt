@@ -27,7 +27,7 @@ class RegistryActivity : AppCompatActivity() {
         etUserLastName= findViewById(R.id.editText_userLastName)
         etEmail= findViewById(R.id.editText_email)
         etPass = findViewById(R.id.editText_userPass)
-        
+
 
         btnRegistry.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
