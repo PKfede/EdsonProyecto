@@ -63,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         btnLogin.setOnClickListener {
+
             var modifiedEmail = etUser.text.toString().replace("""[.]""".toRegex(),",")
             val database = FirebaseDatabase.getInstance()
             val usersRef =  database.getReference("user").child(modifiedEmail)
@@ -71,37 +72,45 @@ class LoginActivity : AppCompatActivity() {
 
                 }
                 override fun onDataChange(p0: DataSnapshot) {
-                    var user : User? = p0.getValue(User::class.java)
-                    user?.id = p0.key
-
-                 // var auxUser =  Log.d("email", user!!.id.toString()).toString()
-                 // var auxLogin =  Log.d("pass", user!!.password.toString()).toString()
-                    var auxUser = user!!.id.toString()
-                    var auxLogin = user.password
-
-
-
-                    if(auxUser == modifiedEmail && auxLogin == etPass.text.toString())
+                    if(p0.exists())
                     {
-                        if(user.status == 1)
-                        {
-                            val usuarioRoom = UserETY(user.id.toString(),user.name,user.lastName,user.password,user.avatar,1)
-                            val db = AppDatabase.getAppDatabase(this@LoginActivity)
-                            db.UserDAO().insertUser(usuarioRoom)
+                        var user : User? = p0.getValue(User::class.java)
+                        user?.id = p0.key
 
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
+                        // var auxUser =  Log.d("email", user!!.id.toString()).toString()
+                        // var auxLogin =  Log.d("pass", user!!.password.toString()).toString()
+                        var auxUser = user!!.id.toString()
+                        var auxLogin = user.password
+
+
+
+                        if(auxUser == modifiedEmail && auxLogin == etPass.text.toString())
+                        {
+                            if(user.status == 1)
+                            {
+                                val usuarioRoom = UserETY(user.id.toString(),user.name,user.lastName,user.password,user.avatar,1)
+                                val db = AppDatabase.getAppDatabase(this@LoginActivity)
+                                db.UserDAO().insertUser(usuarioRoom)
+
+                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                startActivity(intent)
+                            }
+                            else
+                            {
+                                Toast.makeText(this@LoginActivity, "Correo no validado", Toast.LENGTH_LONG).show()
+                            }
+
                         }
                         else
                         {
-                            Toast.makeText(this@LoginActivity, "Correo no validado", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@LoginActivity, "Datos incorrectos", Toast.LENGTH_LONG).show()
                         }
-
                     }
                     else
                     {
-                        Toast.makeText(this@LoginActivity, "Datos incorrectos", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@LoginActivity, "Usuario no existe", Toast.LENGTH_LONG).show()
                     }
+
                 }
             })
         }
