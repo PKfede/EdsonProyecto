@@ -12,7 +12,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-data class User(var name: String = "", var lastName: String = "", var password : String = "", var avatar : String= "", var status : Int = 0)
 
 class RegistryActivity : AppCompatActivity() {
 
