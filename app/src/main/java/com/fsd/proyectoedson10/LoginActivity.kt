@@ -35,6 +35,8 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+
+            val user = etUser.text.toString()
         }
 
     }

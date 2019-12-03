@@ -18,9 +18,11 @@
         </activity>
         <activity android:name=".AddMyListActivity">
         </activity>
-        <activity android:name=".RegistryActivity">
+        <activity android:name=".RegistryActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
