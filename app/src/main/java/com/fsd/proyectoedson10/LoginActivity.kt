@@ -13,7 +13,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var etUser: EditText
     private lateinit var etPass: EditText
-    private lateinit var hola: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
