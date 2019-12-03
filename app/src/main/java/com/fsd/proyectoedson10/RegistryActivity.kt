@@ -40,7 +40,9 @@ class RegistryActivity : AppCompatActivity() {
 
             val user = User(etUserName.text.toString(),etUserLastName.text.toString(),etPass.text.toString(),avatar.text.toString(),0)
 
-            dbRef.child(etEmail.text.toString()).setValue(user)
+            var modifiedEmail = etEmail.text.toString().replace("""[.]""".toRegex(),",")
+
+            dbRef.child(modifiedEmail).setValue(user)
 
 
             val intent = Intent(this, LoginActivity::class.java)
