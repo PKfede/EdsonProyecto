@@ -19,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import com.facebook.stetho.Stetho
+import com.fsd.proyectoedson10.DB.AppDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -45,17 +46,21 @@ class MainActivity : AppCompatActivity() {
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
+        AppDatabase.setNav(navView)
+        AppDatabase.setDrawer(drawerLayout)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
+
                 R.id.nav_home, R.id.nav_alls, R.id.nav_importants,
                 R.id.nav_planneds,R.id.nav_createTask
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
 
 
         navView.setNavigationItemSelectedListener { menuItem ->
@@ -65,6 +70,7 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawers()
 
             val nameList : TextView = findViewById(R.id.nameList)
+            AppDatabase.setList(nameList)
 
             // Handle navigation view item clicks here.
             when (menuItem.itemId) {
