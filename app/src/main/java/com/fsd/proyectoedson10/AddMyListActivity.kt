@@ -12,7 +12,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
+import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
+import com.fsd.proyectoedson10.DB.DAO.ListDAO
+import com.fsd.proyectoedson10.DB.Entities.ListETY
+import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.R
 import com.google.android.material.navigation.NavigationView
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -59,6 +63,11 @@ class AddMyListActivity : AppCompatActivity() {
 
         val nameList = AppDatabase.getList()
 
+        val db = AppDatabase.getAppDatabase(this)
+        Stetho.initializeWithDefaults(this)
+
+        val listas = db.ListDAO().getAll()
+
         colorButton.setOnClickListener( object: View.OnClickListener{
 
           override fun onClick(v : View) {
@@ -70,6 +79,7 @@ class AddMyListActivity : AppCompatActivity() {
 
 
          val menu = AppDatabase.getNav().menu
+         val background = AppDatabase.getBackground()
 
         btnSave.setOnClickListener{
 
@@ -119,8 +129,15 @@ class AddMyListActivity : AppCompatActivity() {
                 nameList.setText(edName.text.toString())
                 val drawerLayout = AppDatabase.getDrawer()
                 drawerLayout.closeDrawers()
+                background.setBackgroundColor(db.ListDAO().selectList(db.ListDAO().selectByName(edName.text.toString()).idList).listColor.toInt())
                 true
             }
+
+            var list = ListETY("AAA")
+            list.listColor = defaultColor.toString()
+            list.listIcon = nameString.toString()
+            list.listName = edName.text.toString()
+            db.ListDAO().insertList(list)
             finish()
         }
 

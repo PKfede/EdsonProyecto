@@ -2,12 +2,12 @@ package com.fsd.proyectoedson10.DB.Entities
 
 import androidx.room.*
 
-@Entity(tableName = "lists" ,foreignKeys =
+@Entity(tableName = "list" ,foreignKeys =
 [ForeignKey(
     entity = UserETY::class,
     parentColumns = ["idUser"],
     childColumns = ["userId"], onDelete = ForeignKey.CASCADE
-)], indices = [Index(value = ["userId"], unique = true)]
+)], indices = [Index(value = ["userId"], unique = false)]
 
 )
 

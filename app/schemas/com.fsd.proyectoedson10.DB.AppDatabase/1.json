@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6c389b30ec4dd4a50880998e481e6d80",
+    "identityHash": "911a63dac9ae687be881de0f974f6bda",
     "entities": [
       {
         "tableName": "user",
@@ -65,7 +65,7 @@
       },
       {
         "tableName": "sharedList",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idSharedList` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `listId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, FOREIGN KEY(`listId`) REFERENCES `lists`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idSharedList` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `listId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "idSharedList",
@@ -120,7 +120,7 @@
         ],
         "foreignKeys": [
           {
-            "table": "lists",
+            "table": "list",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -145,7 +145,7 @@
       },
       {
         "tableName": "task",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idTask` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `listId` INTEGER NOT NULL, `title` TEXT NOT NULL, `expiredDate` TEXT NOT NULL, `priority` TEXT NOT NULL, `userId` TEXT NOT NULL, `status` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `lists`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idTask` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `listId` INTEGER NOT NULL, `title` TEXT NOT NULL, `expiredDate` TEXT NOT NULL, `priority` TEXT NOT NULL, `userId` TEXT NOT NULL, `status` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "idTask",
@@ -235,7 +235,7 @@
             ]
           },
           {
-            "table": "lists",
+            "table": "list",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -249,7 +249,7 @@
       },
       {
         "tableName": "notification",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idNotification` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` INTEGER NOT NULL, `listId` INTEGER NOT NULL, `date` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `lists`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idNotification` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` INTEGER NOT NULL, `listId` INTEGER NOT NULL, `date` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "idNotification",
@@ -321,7 +321,7 @@
             ]
           },
           {
-            "table": "lists",
+            "table": "list",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -334,7 +334,7 @@
         ]
       },
       {
-        "tableName": "lists",
+        "tableName": "list",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idList` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `listName` TEXT NOT NULL, `listColor` TEXT NOT NULL, `listIcon` TEXT NOT NULL, `userId` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
@@ -376,12 +376,12 @@
         },
         "indices": [
           {
-            "name": "index_lists_userId",
-            "unique": true,
+            "name": "index_list_userId",
+            "unique": false,
             "columnNames": [
               "userId"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_lists_userId` ON `${TABLE_NAME}` (`userId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_list_userId` ON `${TABLE_NAME}` (`userId`)"
           }
         ],
         "foreignKeys": [
@@ -402,7 +402,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6c389b30ec4dd4a50880998e481e6d80')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '911a63dac9ae687be881de0f974f6bda')"
     ]
   }
 }
