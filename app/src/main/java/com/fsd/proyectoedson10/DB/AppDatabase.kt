@@ -41,6 +41,13 @@ abstract class AppDatabase : RoomDatabase() {
         private lateinit var drawerLayout: DrawerLayout
         private lateinit var backgorund : LinearLayout
 
+        private var currentListId : Int = 0
+
+        fun getCurrentListId() = currentListId
+        fun setCurrentListId(id:Int){
+            currentListId = id
+        }
+
         fun getNav() = navView
         fun setNav(naView : NavigationView){
             navView = naView

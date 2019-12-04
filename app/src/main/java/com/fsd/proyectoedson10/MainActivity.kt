@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
 
         val db = AppDatabase.getAppDatabase(this)
-        db.TaskDAO().InsertChingon()
+        //db.TaskDAO().InsertChingon()
 
     }
 
@@ -165,19 +165,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(listLists.isNotEmpty()) {
             for (x in listLists) {
 
-                //Log.d("Hola", listLists.size.toString())
+                Log.d("Hola", x.idList)
 
                 menu.add(R.id.group2, x.idList.toInt(), 1, x.listName)
                     .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
                         val drawerLayout = AppDatabase.getDrawer()
                         drawerLayout.closeDrawers()
-                        val listTask = db.TaskDAO().getTaskById("474253")
 
-                        rv = findViewById<RecyclerView>(R.id.rv).apply {
-                            setHasFixedSize(true)
-                            layoutManager = LinearLayoutManager(this@MainActivity)
-                            adapter = DemoAdapter(listTask)
-                        }
+//                        val listTask = db.TaskDAO().getTaskById("210697")
+//                        Log.d("Hola", listTask.size.toString())
+
+//                        rv = findViewById<RecyclerView>(R.id.rv).apply {
+//                            setHasFixedSize(true)
+//                            layoutManager = LinearLayoutManager(this@MainActivity)
+//                            adapter = DemoAdapter(listTask)
+//                        }
                         var fragment = ListFragment()
                         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
                         true
