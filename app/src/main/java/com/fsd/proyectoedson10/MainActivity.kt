@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Layout
 import android.util.Log
+import android.view.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -15,22 +16,59 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.ListETY
+import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
+class DemoAdapter(private val tasks: Array<TaskETY>) :
+    RecyclerView.Adapter<DemoAdapter.DemoViewHolder>() {
+
+    class DemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private var tvName: TextView
+
+        init {
+            tvName = view.findViewById(R.id.name)
+
+        }
+
+        public fun bind(task: TaskETY) {
+            tvName.setText(task.title)
+        }
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): DemoAdapter.DemoViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.rv_demo_holder, parent, false) as View
+
+        return DemoViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: DemoViewHolder, position: Int) {
+        holder.bind(tasks[position])
+    }
+
+    override fun getItemCount() = tasks.size
+}
+
+
 class MainActivity : AppCompatActivity() {
 
+
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var rv: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         Stetho.initializeWithDefaults(this)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             val intent = Intent(this, CreateTaskActivity::class.java)
             startActivity(intent)
         }
@@ -100,7 +138,10 @@ class MainActivity : AppCompatActivity() {
 
             true }
 
-            fillNavigationDrawer()
+        val db = AppDatabase.getAppDatabase(this)
+        db.TaskDAO().InsertChingon()
+        fillNavigationDrawer()
+
     }
 
 
@@ -133,8 +174,6 @@ class MainActivity : AppCompatActivity() {
 
         var menu = navView.menu
         val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
-         //Esto consigue los ids de las listas porque no necesariamente son seguidos
-
 
         if(listLists.isNotEmpty()) {
             for (x in listLists) {
@@ -143,20 +182,28 @@ class MainActivity : AppCompatActivity() {
 
                 menu.add(R.id.group2, Menu.NONE, 1, x.listName)
                     .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
-                    val nameList: TextView = findViewById(R.id.nameList)
-                    AppDatabase.setList(nameList)
-                    nameList.setText(x.listName)
-                    val drawerLayout = AppDatabase.getDrawer()
-                    drawerLayout.closeDrawers()
-                    background.setBackgroundColor(
-                        db.ListDAO().selectList(
-                            db.ListDAO().selectByName(
-                                x.listName
-                            ).idList
-                        ).listColor.toInt()
-                    )
-                    true
-                }
+                        val nameList: TextView = findViewById(R.id.nameList)
+                        AppDatabase.setList(nameList)
+                        nameList.setText(x.listName)
+                        val drawerLayout = AppDatabase.getDrawer()
+                        drawerLayout.closeDrawers()
+                        background.setBackgroundColor(
+                            db.ListDAO().selectList(
+                                db.ListDAO().selectByName(
+                                    x.listName
+                                ).idList
+                            ).listColor.toInt()
+                        )
+
+                        val listTask = db.TaskDAO().getTaskById("474253")
+
+                        rv = findViewById<RecyclerView>(R.id.rv).apply {
+                            setHasFixedSize(true)
+                            layoutManager = LinearLayoutManager(this@MainActivity)
+                            adapter = DemoAdapter(listTask)
+                        }
+                        true
+                    }
             }
         }
     }
