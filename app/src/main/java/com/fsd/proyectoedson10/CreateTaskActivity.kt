@@ -84,7 +84,7 @@ class CreateTaskActivity : AppCompatActivity() {
 
         btnSaveTask.setOnClickListener{
             val db = AppDatabase.getAppDatabase(this)
-            
+
             if(radioHigh.isChecked)
             {
                 priority = "3"
