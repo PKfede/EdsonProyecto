@@ -1,28 +1,30 @@
-package com.fsd.proyectoedson10
+package com.fsd.proyectoedson10.ui.addlist
 
-import android.app.usage.UsageEvents.Event.NONE
-import android.graphics.drawable.Drawable
+import android.content.Context
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RadioButton
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
-import androidx.drawerlayout.widget.DrawerLayout
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
-import com.fsd.proyectoedson10.DB.DAO.ListDAO
 import com.fsd.proyectoedson10.DB.Entities.ListETY
-import com.fsd.proyectoedson10.DB.Entities.UserETY
-import com.fsd.proyectoedson10.R
-import com.google.android.material.navigation.NavigationView
-import yuku.ambilwarna.AmbilWarnaDialog
-import java.util.*
 
-class AddMyListActivity : AppCompatActivity() {
+import com.fsd.proyectoedson10.R
+import yuku.ambilwarna.AmbilWarnaDialog
+
+class AddListFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = AddListFragment()
+    }
+
+    private lateinit var viewModel: AddListViewModel
     private lateinit var colorButton : Button
     private var defaultColor  : Int = 0
     private lateinit var btnSave : Button
@@ -39,39 +41,45 @@ class AddMyListActivity : AppCompatActivity() {
     private lateinit var rbImagen : RadioButton
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_add_my_list)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
+        var view = inflater.inflate(R.layout.fragment_add_list_, container, false)
+        return view
 
+        btnSave = view.findViewById(R.id.buttonSave)
+        colorButton = view.findViewById(R.id.buttonColor)
+        defaultColor = ContextCompat.getColor(view.context,R.color.colorPrimary)
+        edName = view.findViewById(R.id.editTextNameList)
+        rbCoche = view.findViewById(R.id.radioCar)
+        rbPintura = view.findViewById(R.id.radioPainting)
+        rbAvion = view.findViewById(R.id.radioPlane)
+        rbCarreola = view.findViewById(R.id.radioTrolley)
+        rbTrabajo = view.findViewById(R.id.radioWork)
+        rbBici = view.findViewById(R.id.radioBike)
+        rbSuper = view.findViewById(R.id.radiMarketPlace)
+        rbMusica = view.findViewById(R.id.radioMusic)
+        rbMartillo = view.findViewById(R.id.radioHammer)
+        rbImagen = view.findViewById(R.id.radioPicture)
 
+        val nameList = AppDatabase.getList()
 
-        btnSave = findViewById(R.id.buttonSave)
-        colorButton = findViewById(R.id.buttonColor)
-        defaultColor = ContextCompat.getColor(this,R.color.colorPrimary)
-        edName = findViewById(R.id.editTextNameList)
-        rbCoche = findViewById(R.id.radioCar)
-        rbPintura = findViewById(R.id.radioPainting)
-        rbAvion = findViewById(R.id.radioPlane)
-        rbCarreola = findViewById(R.id.radioTrolley)
-        rbTrabajo = findViewById(R.id.radioWork)
-        rbBici = findViewById(R.id.radioBike)
-        rbSuper = findViewById(R.id.radiMarketPlace)
-        rbMusica = findViewById(R.id.radioMusic)
-        rbMartillo = findViewById(R.id.radioHammer)
-        rbImagen = findViewById(R.id.radioPicture)
+        val db = AppDatabase.getAppDatabase(view.context)
+        Stetho.initializeWithDefaults(view.context)
 
-        val db = AppDatabase.getAppDatabase(this)
-        Stetho.initializeWithDefaults(this)
+        val listas = db.ListDAO().getAll()
 
         colorButton.setOnClickListener( object: View.OnClickListener{
 
-          override fun onClick(v : View) {
-              openColorPicker()
-          }
-            })
+            override fun onClick(v : View) {
+                openColorPicker(view.context)
+            }
+        })
 
-         val menu = AppDatabase.getNav().menu
+        val menu = AppDatabase.getNav().menu
+        val background = AppDatabase.getBackground()
 
         btnSave.setOnClickListener{
 
@@ -119,8 +127,10 @@ class AddMyListActivity : AppCompatActivity() {
             }
             var rnds = (0..1000000).random()
             menu.add(R.id.group2,rnds,1,edName.text.toString()).setIcon(nameString).setOnMenuItemClickListener {
+                nameList.setText(edName.text.toString())
                 val drawerLayout = AppDatabase.getDrawer()
                 drawerLayout.closeDrawers()
+                background.setBackgroundColor(db.ListDAO().selectList(db.ListDAO().selectByName(edName.text.toString()).idList).listColor.toInt())
                 true
             }
 
@@ -131,14 +141,24 @@ class AddMyListActivity : AppCompatActivity() {
             list.listIcon = nameString.toString()
             list.listName = edName.text.toString()
             db.ListDAO().insertList(list)
-            finish()
+            //view.finish()
         }
+
     }
-    fun openColorPicker(){
-        var colorPicker = AmbilWarnaDialog(this, defaultColor, object:AmbilWarnaDialog.OnAmbilWarnaListener{
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(AddListViewModel::class.java)
+        // TODO: Use the ViewModel
+    }
+
+    fun openColorPicker(context: Context){
+        var colorPicker = AmbilWarnaDialog(context, defaultColor, object: AmbilWarnaDialog.OnAmbilWarnaListener{
             override fun onCancel(dialog: AmbilWarnaDialog?) {
             }
+
             override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+
                 defaultColor = color
                 colorButton.setBackgroundColor(defaultColor)
             }
