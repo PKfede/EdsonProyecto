@@ -24,14 +24,14 @@ import yuku.ambilwarna.AmbilWarnaDialog
 import java.util.*
 
 data class toDoList(
-    var name: String = "", var idUser: String = "", var icon : String = "", var color : String= ""
+    var name: String = "", var idUser: String = "", var icon : String = "", var color : String= "", var idList : Long = 0
 ){
-    var id : String? = null
+    var id : String = ""
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as User
+        other as toDoList
 
         if (id != other.id) return false
 

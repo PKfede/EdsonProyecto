@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
+import com.fsd.proyectoedson10.DB.DAO.ListDAO
+import com.fsd.proyectoedson10.DB.Entities.ListETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.google.firebase.database.*
 
@@ -48,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
        val db = AppDatabase.getAppDatabase(this)
+       var listUserToDo : MutableList<toDoList> = mutableListOf()
         Stetho.initializeWithDefaults(this)
 
         textRegistry = findViewById(R.id.editText_registry)
@@ -71,20 +74,12 @@ class LoginActivity : AppCompatActivity() {
        // etUser.setText(lastUser)
 
 
-       if(db.UserDAO().getUser() != null) {
-           if (db.UserDAO().getUser().isLogged == 1) {
-               val intent = Intent(this, MainActivity::class.java)
-               startActivity(intent)
-               finish()
-           }
-       }
-
-
            btnLogin.setOnClickListener {
 
                var modifiedEmail = etUser.text.toString().replace("""[.]""".toRegex(), ",")
                val database = FirebaseDatabase.getInstance()
                val usersRef = database.getReference("user").child(modifiedEmail)
+
                usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
                    override fun onCancelled(p0: DatabaseError) {
 
@@ -120,6 +115,45 @@ class LoginActivity : AppCompatActivity() {
                                    if (db.UserDAO().getUser().isLogged == 0) {
                                        db.UserDAO().updateByNameTo1(usuarioRoom.name)
                                    }
+                                    //A PARTIR DE AQUÍ SE RECUPERA LA INFORMACIÓN DE LAS LISTAS DEL USUARIO QUE SE ESTÁ LOGEANDO
+                                  // val listRef = database.getReference("listasproyecto").child("list").orderByChild("idUser").equalTo(etUser.text.toString())
+                                   val listRef = database.getReference("list").orderByChild("idUser").equalTo(auxUser)
+
+
+                                   //val referencia = database.getReference("app").child("list").orderByChild("idUser").equalTo(auxUser)
+
+                                   listRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                                       override fun onCancelled(p0: DatabaseError) {
+                                       }
+
+                                       override fun onDataChange(p0: DataSnapshot) {
+                                           if(p0.exists())
+                                           {
+
+                                               val children = p0!!.children
+                                               children.forEach{
+                                                   var listColor = it.child("color").value
+                                                   var listIcon = it.child("icon").value
+                                                   var listName = it.child("name").value
+                                                   var listIdUser = it.child("idUser").value
+                                                   var listIdList = it.child("idList").value
+
+                                                   var listToDatabase = ListETY(listIdUser.toString())
+                                                   listToDatabase.listColor = listColor.toString()
+                                                   listToDatabase.listIcon = listIcon.toString()
+                                                   listToDatabase.listName = listName.toString()
+                                                   listToDatabase.idList = listIdList.toString()
+
+                                                   db.ListDAO().insertList(listToDatabase)
+                                               }
+                                            Log.d("hola",p0.toString())
+
+
+
+
+                                           }
+                                       }
+                                   })
 
                                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                    startActivity(intent)
@@ -149,6 +183,9 @@ class LoginActivity : AppCompatActivity() {
 
                    }
                })
+
+
+
            }
 
         }
