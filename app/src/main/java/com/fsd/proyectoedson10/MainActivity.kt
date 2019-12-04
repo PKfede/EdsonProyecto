@@ -1,13 +1,9 @@
 package com.fsd.proyectoedson10
 
-import android.content.ClipData
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Layout
 import android.util.Log
-import android.view.*
-import android.widget.ImageView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -19,65 +15,22 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.ListETY
-import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
-import javax.annotation.meta.When
-
-class DemoAdapter(private val tasks: Array<TaskETY>) :
-    RecyclerView.Adapter<DemoAdapter.DemoViewHolder>() {
-
-    class DemoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        private var tvName: TextView
-
-        init {
-            tvName = view.findViewById(R.id.name)
-
-        }
-
-        public fun bind(task: TaskETY) {
-            tvName.setText("${task.title}")
-        }
-    }
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): DemoAdapter.DemoViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_demo_holder, parent, false) as View
-
-        return DemoViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: DemoViewHolder, position: Int) {
-        holder.bind(tasks[position])
-    }
-
-    override fun getItemCount() = tasks.size
-}
-
 
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var rv: RecyclerView
-
-    private lateinit var imageUser : ImageView
-    private lateinit var userName : TextView
-    private lateinit var userEmail : TextView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,14 +38,10 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-
-
         Stetho.initializeWithDefaults(this)
 
-
-
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener {
+        fab.setOnClickListener { view ->
             val intent = Intent(this, CreateTaskActivity::class.java)
             startActivity(intent)
         }
@@ -152,7 +101,6 @@ class MainActivity : AppCompatActivity() {
             true }
 
             fillNavigationDrawer()
-
     }
 
 
@@ -170,38 +118,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
-
-        val db  = AppDatabase.getAppDatabase(this)
-        val user = db.UserDAO().getUser()
-
-        imageUser = findViewById(R.id.imageUser)
-        userName = findViewById(R.id.tv_userName)
-        userEmail = findViewById(R.id.tv_userEmail)
-
-        when(user.avatar){
-            "1" ->{
-                imageUser.setImageResource(R.drawable.mujer_negra_rara)
-            }
-            "2" ->{
-                imageUser.setImageResource(R.drawable.mujer_pelo_gris)
-            }
-            "3" ->{
-                imageUser.setImageResource(R.drawable.mujer_verde)
-            }
-            "4" ->{
-                imageUser.setImageResource(R.drawable.hombre_negro_calvo)
-            }
-            "5" ->{
-                imageUser.setImageResource(R.drawable.hombre_pelo_gris)
-            }
-            "6" ->{
-                imageUser.setImageResource(R.drawable.hombre_wero)
-            }
-        }
-        userName.setText(user.name)
-        userEmail.setText(user.id)
-
-
         return true
     }
 
@@ -217,6 +133,7 @@ class MainActivity : AppCompatActivity() {
 
         var menu = navView.menu
         val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
+         //Esto consigue los ids de las listas porque no necesariamente son seguidos
 
 
         if(listLists.isNotEmpty()) {
@@ -237,8 +154,6 @@ class MainActivity : AppCompatActivity() {
                                 x.listName
                             ).idList
                         ).listColor.toInt()
-
-
                     )
                     true
                 }

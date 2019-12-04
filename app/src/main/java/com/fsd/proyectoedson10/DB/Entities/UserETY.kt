@@ -14,5 +14,7 @@ import androidx.room.PrimaryKey
         @ColumnInfo(name = "lastName") var lastName: String,
         @ColumnInfo(name = "password") var password: String,
         @ColumnInfo(name = "avatar") var avatar: String,
-        @ColumnInfo(name = "status") var status : Int = 0)
+        @ColumnInfo(name = "status") var status : Int = 0,
+        @ColumnInfo(name = "isLogged") var isLogged : Int,
+        @ColumnInfo(name = "lastVisited") var lastVisited : Int = 0)
 

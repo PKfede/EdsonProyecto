@@ -17,9 +17,24 @@ interface UserDAO {
     fun getAll() : List<UserETY>
 
     @Query("Select * from user where idUser = :id")
-    fun getById(id : String) : UserETY
+    fun getById(id : String) : UserETY?
 
     @Query("SELECT * FROM user")
     fun getUser() : UserETY
+
+    @Query("SELECT * FROM user WHERE name = :name")
+    fun getUserByName(name: String): UserETY?
+
+    @Query("DELETE FROM user where idUser = :name")
+    fun deleteUserById(name:String)
+
+    @Query("DELETE FROM user")
+    fun deleteAll()
+
+    @Query("UPDATE user SET isLogged = 0 where name = :name ")
+    fun updateByNameTo0(name:String)
+
+    @Query("UPDATE user SET isLogged = 1 where name = :name ")
+    fun updateByNameTo1(name:String)
 
 }
