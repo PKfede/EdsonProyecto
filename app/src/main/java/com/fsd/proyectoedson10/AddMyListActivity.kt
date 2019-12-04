@@ -19,8 +19,30 @@ import com.fsd.proyectoedson10.DB.Entities.ListETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.R
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.FirebaseDatabase
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.util.*
+
+data class toDoList(
+    var name: String = "", var idUser: String = "", var icon : String = "", var color : String= ""
+){
+    var id : String? = null
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as User
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+
+}
 
 class AddMyListActivity : AppCompatActivity() {
     private lateinit var colorButton : Button
@@ -131,6 +153,16 @@ class AddMyListActivity : AppCompatActivity() {
             list.listIcon = nameString.toString()
             list.listName = edName.text.toString()
             db.ListDAO().insertList(list)
+
+            val database = FirebaseDatabase.getInstance()
+            val dbRef = database.getReference("list")
+
+            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor)
+
+
+            dbRef.child(rnds.toString()).setValue(listToFirebase)
+
+
             finish()
         }
     }
