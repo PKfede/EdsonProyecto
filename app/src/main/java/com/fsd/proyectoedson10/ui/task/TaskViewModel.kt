@@ -1,7 +1,7 @@
-package com.fsd.proyectoedson10.ui.home
+package com.fsd.proyectoedson10.ui.task
 
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class TaskViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

@@ -20,5 +20,6 @@ data class TaskETY(
     @field:ColumnInfo(name="expiredDate") var expiredDate: String,
     @field:ColumnInfo(name="priority") var priority: String,
     @field:ColumnInfo(name="userId") var userId: String,
-    @field:ColumnInfo(name="status") var status: String
+    @field:ColumnInfo(name="status") var status: String,
+    @field:ColumnInfo(name="description") var description: String
 )

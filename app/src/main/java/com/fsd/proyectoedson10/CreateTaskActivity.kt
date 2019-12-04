@@ -1,6 +1,7 @@
 package com.fsd.proyectoedson10
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,6 +11,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
+import com.fsd.proyectoedson10.DB.AppDatabase
+import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import java.util.*
 
 class CreateTaskActivity : AppCompatActivity() {
@@ -37,6 +40,7 @@ class CreateTaskActivity : AppCompatActivity() {
         radioNormal = findViewById(R.id.radioNormal)
         radioHigh = findViewById(R.id.radioHigh)
         radioLow = findViewById(R.id.radioLow)
+        var priority : String
 
         btnDate.setOnClickListener(View.OnClickListener {
             val cal = Calendar.getInstance()
@@ -58,12 +62,63 @@ class CreateTaskActivity : AppCompatActivity() {
         dateListener =
             DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
                 var month = month
+                var day = day
                 month = month + 1
                 Log.d(TAG, "onDateSet: mm/dd/yyy: $month/$day/$year")
+
+                if(month < 10)
+                {
+                    month = ("0" + month.toString()).toInt()
+                }
+
+                if(day < 10)
+                {
+                   day = ("0" + day.toString()).toInt()
+                }
 
                 val date = "$month/$day/$year"
                 btnDate.setText(date)  // el date es lo que vas a guardar en la BD como la fecha ejemplo del string que imprime 11/5/2019
             }
+
+
+
+        btnSaveTask.setOnClickListener{
+            val db = AppDatabase.getAppDatabase(this)
+
+            if(radioHigh.isChecked)
+            {
+                priority = "3"
+            }
+            else if(radioNormal.isChecked)
+            {
+                priority = "2"
+            }
+            else if(radioLow.isChecked)
+            {
+                priority = "1"
+            }
+            else
+            {
+                priority = "0"
+            }
+            var rnds = (0..1000000).random()
+
+            var task = TaskETY(
+                rnds.toString(),
+                AppDatabase.getCurrentListId().toString(),
+                etTaskTitle.text.toString(),
+                btnDate.text.toString(),
+                priority,
+                db.UserDAO().getUser().id,
+                "1",
+                etDescripton.text.toString()
+            )
+
+            db.TaskDAO().insertTask(task)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
     }
 

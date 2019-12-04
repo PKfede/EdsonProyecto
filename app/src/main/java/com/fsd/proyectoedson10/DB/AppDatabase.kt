@@ -41,6 +41,13 @@ abstract class AppDatabase : RoomDatabase() {
         private lateinit var drawerLayout: DrawerLayout
         private lateinit var backgorund : LinearLayout
 
+        private var currentListId : Int = 0
+
+        fun getCurrentListId() = currentListId
+        fun setCurrentListId(id:Int){
+            currentListId = id
+        }
+
         fun getNav() = navView
         fun setNav(naView : NavigationView){
             navView = naView
@@ -83,12 +90,12 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         fun initializeData(db: SupportSQLiteDatabase) {
-
-        //  db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('857428', 'Ir por mi hermanita a las 2', '2019-12-06', 'no asignada', 'AAA', 1)")
-        //  db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('857428', 'Ir por la comida', '2019-12-08', 'no asignada', 'AAA', 1)")
-        //  db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('857428', 'Jugar halo reach', '2019-12-09', 'no asignada', 'AAA', 1)")
-        //  db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('26210', 'Jalarmela', '2019-12-09', 'no asignada', 'AAA', 1)")
-        //  db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('26210', 'Hacer mis vistas', '2019-12-10', 'no asignada', 'AAA', 1)")
+//
+//            db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('857428', 'Ir por mi hermanita a las 2', '2019-12-06', 'no asignada', 'AAA', 1)")
+//            db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('857428', 'Ir por la comida', '2019-12-08', 'no asignada', 'AAA', 1)")
+//            db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('857428', 'Jugar halo reach', '2019-12-09', 'no asignada', 'AAA', 1)")
+//            db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('26210', 'Jalarmela', '2019-12-09', 'no asignada', 'AAA', 1)")
+//            db.execSQL("INSERT INTO task (listId, title, expiredData, priority, userId, status) VALUES ('26210', 'Hacer mis vistas', '2019-12-10', 'no asignada', 'AAA', 1)")
 
             //db.execSQL("INSERT INTO user (idUser,name, lastName, password, avatar, status) VALUES ('AAA', 'Alex', 'Brito', '111', 'avatar1', 1)")
             //db.beginTransaction();

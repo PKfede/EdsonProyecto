@@ -47,7 +47,6 @@ class AddListFragment : Fragment() {
     ): View? {
 
         var view = inflater.inflate(R.layout.fragment_add_list_, container, false)
-        return view
 
         btnSave = view.findViewById(R.id.buttonSave)
         colorButton = view.findViewById(R.id.buttonColor)
@@ -144,6 +143,7 @@ class AddListFragment : Fragment() {
             //view.finish()
         }
 
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
