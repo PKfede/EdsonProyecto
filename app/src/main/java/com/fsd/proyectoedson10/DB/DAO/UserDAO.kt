@@ -19,5 +19,7 @@ interface UserDAO {
     @Query("Select * from user where idUser = :id")
     fun getById(id : String) : UserETY
 
+    @Query("SELECT * FROM user")
+    fun getUser() : UserETY
 
 }

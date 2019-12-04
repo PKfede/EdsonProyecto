@@ -2,6 +2,7 @@ package com.fsd.proyectoedson10.DB
 
 
 import android.content.Context
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.room.Database
@@ -38,6 +39,7 @@ abstract class AppDatabase : RoomDatabase() {
         private lateinit var navView : NavigationView
         private lateinit var nameList : TextView
         private lateinit var drawerLayout: DrawerLayout
+        private lateinit var backgorund : LinearLayout
 
         fun getNav() = navView
         fun setNav(naView : NavigationView){
@@ -55,6 +57,11 @@ abstract class AppDatabase : RoomDatabase() {
             drawerLayout = DrawerLayout
         }
 
+        fun getBackground() = backgorund
+        fun setBackground(bg : LinearLayout)
+        {
+            backgorund = bg
+        }
         fun getAppDatabase(context: Context): AppDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
@@ -76,6 +83,8 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         fun initializeData(db: SupportSQLiteDatabase) {
+
+            //db.execSQL("INSERT INTO user (idUser,name, lastName, password, avatar, status) VALUES ('AAA', 'Alex', 'Brito', '111', 'avatar1', 1)")
             //db.beginTransaction();
 
 //            db.execSQL("INSERT INTO perfil (iniciales, avatar, categorias, numpreguntas, dificultad, pistas, numpistas, estado) VALUES ('AAA',3,'100101',5,2,0,0,1)")

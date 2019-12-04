@@ -13,10 +13,10 @@ import androidx.room.*
 
     indices = [Index(value = ["userId"], unique = true), Index(value = ["listId"], unique = true)]
 )
-data class NotificationETY(@ColumnInfo(name="userId") var userId: Int,
-                           @ColumnInfo(name="listId") var sharedListId: Int,
+data class NotificationETY(@ColumnInfo(name="userId") var userId: String,
+                           @ColumnInfo(name="listId") var sharedListId: String,
                            @ColumnInfo(name="date") var date: String
                            ){
 
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "idNotification", index = true) var idNotification: Int = 0
+   @PrimaryKey @ColumnInfo(name = "idNotification", index = true) var idNotification: String = ""
 }

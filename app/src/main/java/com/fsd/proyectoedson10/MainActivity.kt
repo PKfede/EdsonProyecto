@@ -3,6 +3,8 @@ package com.fsd.proyectoedson10
 import android.content.ClipData
 import android.content.Intent
 import android.os.Bundle
+import android.text.Layout
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -16,13 +18,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
+import com.fsd.proyectoedson10.DB.Entities.ListETY
+import com.fsd.proyectoedson10.DB.Entities.UserETY
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_list.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,10 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         Stetho.initializeWithDefaults(this)
 
-
-
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             val intent = Intent(this, CreateTaskActivity::class.java)
             startActivity(intent)
         }
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
 
 
 
@@ -93,7 +97,12 @@ class MainActivity : AppCompatActivity() {
             // Add code here to update the UI based on the item selected
             // For example, swap UI fragments here
 
+            val background : LinearLayout = findViewById(R.id.background)
+            AppDatabase.setBackground(background)
+
             true }
+
+            fillNavigationDrawer()
     }
 
 
@@ -118,5 +127,39 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun fillNavigationDrawer()
+    {
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val db = AppDatabase.getAppDatabase(this)
+
+        var menu = navView.menu
+        val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
+
+
+        if(listLists.isNotEmpty()) {
+            for (x in listLists) {
+
+                //Log.d("Hola", listLists.size.toString())
+
+                menu.add(R.id.group2, Menu.NONE, 1, x.listName)
+                    .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
+                    val nameList: TextView = findViewById(R.id.nameList)
+                    AppDatabase.setList(nameList)
+                    nameList.setText(x.listName)
+                    val drawerLayout = AppDatabase.getDrawer()
+                    drawerLayout.closeDrawers()
+                    background.setBackgroundColor(
+                        db.ListDAO().selectList(
+                            db.ListDAO().selectByName(
+                                x.listName
+                            ).idList
+                        ).listColor.toInt()
+                    )
+                    true
+                }
+            }
+        }
     }
 }
