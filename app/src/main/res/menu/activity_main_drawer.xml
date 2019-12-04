@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group
+  <group
         android:id="@+id/group1"
         android:checkableBehavior="single">
         <item
@@ -53,5 +53,6 @@
             </menu>
         </item>
     </group>
+
 
 </menu>
