@@ -1,6 +1,7 @@
 package com.fsd.proyectoedson10
 
 import android.app.usage.UsageEvents.Event.NONE
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
@@ -18,6 +19,7 @@ import com.fsd.proyectoedson10.DB.DAO.ListDAO
 import com.fsd.proyectoedson10.DB.Entities.ListETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.R
+import com.fsd.proyectoedson10.ui.list.ListFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.FirebaseDatabase
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -140,13 +142,6 @@ class AddMyListActivity : AppCompatActivity() {
                 nameString = R.drawable.foto
             }
             var rnds = (0..1000000).random()
-            menu.add(R.id.group2,rnds,1,edName.text.toString()).setIcon(nameString).setOnMenuItemClickListener {
-                val drawerLayout = AppDatabase.getDrawer()
-                drawerLayout.closeDrawers()
-                true
-            }
-
-
             var list = ListETY(db.UserDAO().getUser().id)
             list.idList = rnds.toString()
             list.listColor = defaultColor.toString()
@@ -162,7 +157,15 @@ class AddMyListActivity : AppCompatActivity() {
 
             dbRef.child(rnds.toString()).setValue(listToFirebase)
 
-
+//            menu.add(R.id.group2,rnds,1,edName.text.toString()).setIcon(nameString).setOnMenuItemClickListener {
+//                val drawerLayout = AppDatabase.getDrawer()
+//                drawerLayout.closeDrawers()
+//
+//
+//                true
+//            }
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }

@@ -124,6 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_addList->{
                 val intent = Intent(this, AddMyListActivity::class.java)
                 startActivity(intent)
+                finish()
             }
             R.id.nav_planneds->{
                 var fragment = SendFragment()
