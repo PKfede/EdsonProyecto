@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +36,7 @@ class ListFragment : Fragment() {
         val idList = AppDatabase.getCurrentListId()
         val db = AppDatabase.getAppDatabase(view.context)
         val listTask = db.TaskDAO().getTaskById(idList.toString())
-        val background : LinearLayout = view.findViewById(R.id.background)
+        val background : RecyclerView = view.findViewById(R.id.rv)
         view.nameList.setText(db.ListDAO().selectList(idList.toString()).listName)
         background.setBackgroundColor(db.ListDAO().selectList(idList.toString()).listColor.toInt())
         //Log.d("hola", listTask.size.toString())

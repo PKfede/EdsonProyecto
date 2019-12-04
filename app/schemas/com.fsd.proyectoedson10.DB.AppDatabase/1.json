@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "eaffe73878f10da97a8fff538435b74e",
+    "identityHash": "f2de89fb94c7c998c389a48612d6cf04",
     "entities": [
       {
         "tableName": "user",
@@ -157,7 +157,7 @@
       },
       {
         "tableName": "task",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idTask` TEXT NOT NULL, `listId` TEXT NOT NULL, `title` TEXT NOT NULL, `expiredDate` TEXT NOT NULL, `priority` TEXT NOT NULL, `userId` TEXT NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`idTask`), FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idTask` TEXT NOT NULL, `listId` TEXT NOT NULL, `title` TEXT NOT NULL, `expiredDate` TEXT NOT NULL, `priority` TEXT NOT NULL, `userId` TEXT NOT NULL, `status` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`idTask`), FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "idTask",
@@ -198,6 +198,12 @@
           {
             "fieldPath": "status",
             "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -414,7 +420,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eaffe73878f10da97a8fff538435b74e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f2de89fb94c7c998c389a48612d6cf04')"
     ]
   }
 }

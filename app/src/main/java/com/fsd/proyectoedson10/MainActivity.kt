@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Layout
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -40,14 +41,33 @@ class DemoAdapter(private val tasks: Array<TaskETY>) :
 
     class DemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var tvName: TextView
+        private var imagePriority : ImageView
+        private var creator : TextView
+        private var date : TextView
+        private var description : TextView
 
         init {
             tvName = view.findViewById(R.id.name)
+            imagePriority = view.findViewById(R.id.iconPriority)
+            creator = view.findViewById(R.id.creator)
+            date = view.findViewById(R.id.date)
+            description = view.findViewById(R.id.description)
 
         }
 
+        val db = AppDatabase.getAppDatabase(view.context)
+
         public fun bind(task: TaskETY) {
             tvName.setText(task.title)
+            when(task.priority){
+                "0" -> {imagePriority.setImageResource(R.drawable.sin_importancia)}
+                "1" -> {imagePriority.setImageResource(R.drawable.baja)}
+                "2" -> {imagePriority.setImageResource(R.drawable.normal)}
+                "3" -> {imagePriority.setImageResource(R.drawable.alta)}
+            }
+            creator.setText("${db.UserDAO().getUser().lastName}, ${db.UserDAO().getUser().name}" )
+            date.setText(task.expiredDate)
+            description.setText(task.description)
         }
     }
 
@@ -89,6 +109,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener {
             val intent = Intent(this, CreateTaskActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
