@@ -29,10 +29,9 @@ import com.fsd.proyectoedson10.DB.Entities.ListETY
 import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.ui.addlist.AddListFragment
-import com.fsd.proyectoedson10.ui.gallery.GalleryFragment
 import com.fsd.proyectoedson10.ui.list.ListFragment
-import com.fsd.proyectoedson10.ui.send.SendFragment
-import com.fsd.proyectoedson10.ui.share.ShareFragment
+import com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment
+import com.fsd.proyectoedson10.ui.task.TaskFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -121,9 +120,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-
                 R.id.nav_home, R.id.nav_alls, R.id.nav_importants,
-                R.id.nav_planneds
+                R.id.nav_planneds, R.id.nav_addList, R.id.nav_sharedList
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -148,15 +146,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 finish()
             }
             R.id.nav_planneds->{
-                var fragment = SendFragment()
+                var fragment = TaskFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
             }
             R.id.nav_alls->{
-                var fragment = ShareFragment()
+                var fragment = TaskFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
             }
             R.id.nav_importants->{
-                var fragment = GalleryFragment()
+                var fragment = TaskFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+            }
+            R.id.nav_sharedList->{
+                var fragment = SharedListFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
             }
         }
@@ -194,14 +196,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         val drawerLayout = AppDatabase.getDrawer()
                         drawerLayout.closeDrawers()
 
-//                        val listTask = db.TaskDAO().getTaskById("210697")
-//                        Log.d("Hola", listTask.size.toString())
-
-//                        rv = findViewById<RecyclerView>(R.id.rv).apply {
-//                            setHasFixedSize(true)
-//                            layoutManager = LinearLayoutManager(this@MainActivity)
-//                            adapter = DemoAdapter(listTask)
-//                        }
                         AppDatabase.setCurrentListId(x.idList.toInt())
                         var fragment = ListFragment()
                         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()

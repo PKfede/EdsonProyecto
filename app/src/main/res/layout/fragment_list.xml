@@ -10,8 +10,8 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-
         android:background="@drawable/fondito"
+        android:gravity="bottom">
 
         <TextView
             android:id="@+id/nameList"

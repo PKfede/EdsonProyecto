@@ -7,38 +7,29 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.fsd.proyectoedson10.ui.tools.ToolsFragment"
-        android:label="@string/menu_home" />
-
+        android:name="com.fsd.proyectoedson10.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.fsd.proyectoedson10.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:id="@+id/nav_planneds"
+        android:name="com.fsd.proyectoedson10.ui.task.TaskFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_task" />
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.fsd.proyectoedson10.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-
+        android:id="@+id/nav_importants"
+        android:name="com.fsd.proyectoedson10.ui.task.TaskFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_task" />
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.fsd.proyectoedson10.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
-
+        android:id="@+id/nav_addList"
+        android:name="com.fsd.proyectoedson10.ui.addlist.AddListFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_add_list_" />
     <fragment
-        android:id="@+id/nav_share"
-        android:name="com.fsd.proyectoedson10.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        android:id="@+id/nav_sharedList"
+        android:name="com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_shared_list" />
 
-    <fragment
-        android:id="@+id/nav_send"
-        android:name="com.fsd.proyectoedson10.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
 
 </navigation>

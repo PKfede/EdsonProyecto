@@ -1,4 +1,4 @@
-package com.fsd.proyectoedson10.ui.home
+package com.fsd.proyectoedson10.ui.task
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -9,24 +9,24 @@ import android.view.ViewGroup
 
 import com.fsd.proyectoedson10.R
 
-class HomeFragment : Fragment() {
+class TaskFragment : Fragment() {
 
     companion object {
-        fun newInstance() = HomeFragment()
+        fun newInstance() = TaskFragment()
     }
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: TaskViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_task, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
