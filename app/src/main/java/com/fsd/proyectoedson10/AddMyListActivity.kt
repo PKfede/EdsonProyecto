@@ -75,9 +75,6 @@ class AddMyListActivity : AppCompatActivity() {
           }
             })
 
-
-
-
          val menu = AppDatabase.getNav().menu
          val background = AppDatabase.getBackground()
 
@@ -154,8 +151,7 @@ class AddMyListActivity : AppCompatActivity() {
                 colorButton.setBackgroundColor(defaultColor)
             }
         })
-
         colorPicker.show()
-
     }
+
 }

@@ -3,6 +3,7 @@ package com.fsd.proyectoedson10
 import android.content.Intent
 import android.os.Bundle
 import android.text.Layout
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -39,8 +40,6 @@ class MainActivity : AppCompatActivity() {
 
         Stetho.initializeWithDefaults(this)
 
-
-
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             val intent = Intent(this, CreateTaskActivity::class.java)
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
 
                 R.id.nav_home, R.id.nav_alls, R.id.nav_importants,
-                R.id.nav_planneds,R.id.nav_createTask
+                R.id.nav_planneds
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -132,25 +131,27 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val db = AppDatabase.getAppDatabase(this)
 
-
         var menu = navView.menu
         val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
         val listIds : List<Int> = db.ListDAO().selectIds() //Esto consigue los ids de las listas porque no necesariamente son seguidos
 
 
-        if(db.ListDAO().getAll().size > 0) {
-            for (x in 0..db.ListDAO().getAll().size) {
-                menu.add(R.id.group2, Menu.NONE, 1, listLists[listIds[x]].listName)
-                    .setIcon(listLists[listIds[x]].listIcon.toInt()).setOnMenuItemClickListener {
+        if(listLists.isNotEmpty()) {
+            for (x in listLists) {
+
+                //Log.d("Hola", listLists.size.toString())
+
+                menu.add(R.id.group2, Menu.NONE, 1, x.listName)
+                    .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
                     val nameList: TextView = findViewById(R.id.nameList)
                     AppDatabase.setList(nameList)
-                    nameList.setText(listLists[listIds[x]].listName)
+                    nameList.setText(x.listName)
                     val drawerLayout = AppDatabase.getDrawer()
                     drawerLayout.closeDrawers()
                     background.setBackgroundColor(
                         db.ListDAO().selectList(
                             db.ListDAO().selectByName(
-                                listLists[listIds[x]].listName
+                                x.listName
                             ).idList
                         ).listColor.toInt()
                     )
