@@ -1,6 +1,7 @@
 package com.fsd.proyectoedson10
 
 import android.app.usage.UsageEvents.Event.NONE
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
@@ -18,9 +19,32 @@ import com.fsd.proyectoedson10.DB.DAO.ListDAO
 import com.fsd.proyectoedson10.DB.Entities.ListETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.R
+import com.fsd.proyectoedson10.ui.list.ListFragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.FirebaseDatabase
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.util.*
+
+data class toDoList(
+    var name: String = "", var idUser: String = "", var icon : String = "", var color : String= ""
+){
+    var id : String? = null
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as User
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+
+}
 
 class AddMyListActivity : AppCompatActivity() {
     private lateinit var colorButton : Button
@@ -61,12 +85,8 @@ class AddMyListActivity : AppCompatActivity() {
         rbMartillo = findViewById(R.id.radioHammer)
         rbImagen = findViewById(R.id.radioPicture)
 
-        val nameList = AppDatabase.getList()
-
         val db = AppDatabase.getAppDatabase(this)
         Stetho.initializeWithDefaults(this)
-
-        val listas = db.ListDAO().getAll()
 
         colorButton.setOnClickListener( object: View.OnClickListener{
 
@@ -76,7 +96,6 @@ class AddMyListActivity : AppCompatActivity() {
             })
 
          val menu = AppDatabase.getNav().menu
-         val background = AppDatabase.getBackground()
 
         btnSave.setOnClickListener{
 
@@ -122,34 +141,39 @@ class AddMyListActivity : AppCompatActivity() {
             {
                 nameString = R.drawable.foto
             }
-            menu.add(R.id.group2,Menu.NONE,1,edName.text.toString()).setIcon(nameString).setOnMenuItemClickListener {
-                nameList.setText(edName.text.toString())
-                val drawerLayout = AppDatabase.getDrawer()
-                drawerLayout.closeDrawers()
-                background.setBackgroundColor(db.ListDAO().selectList(db.ListDAO().selectByName(edName.text.toString()).idList).listColor.toInt())
-                true
-            }
-
             var rnds = (0..1000000).random()
-
             var list = ListETY(db.UserDAO().getUser().id)
             list.idList = rnds.toString()
             list.listColor = defaultColor.toString()
             list.listIcon = nameString.toString()
             list.listName = edName.text.toString()
             db.ListDAO().insertList(list)
+
+            val database = FirebaseDatabase.getInstance()
+            val dbRef = database.getReference("list")
+
+            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor)
+
+
+            dbRef.child(rnds.toString()).setValue(listToFirebase)
+
+//            menu.add(R.id.group2,rnds,1,edName.text.toString()).setIcon(nameString).setOnMenuItemClickListener {
+//                val drawerLayout = AppDatabase.getDrawer()
+//                drawerLayout.closeDrawers()
+//
+//
+//                true
+//            }
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
-
     }
-
     fun openColorPicker(){
         var colorPicker = AmbilWarnaDialog(this, defaultColor, object:AmbilWarnaDialog.OnAmbilWarnaListener{
             override fun onCancel(dialog: AmbilWarnaDialog?) {
             }
-
             override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
-
                 defaultColor = color
                 colorButton.setBackgroundColor(defaultColor)
             }

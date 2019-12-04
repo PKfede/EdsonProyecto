@@ -11,15 +11,15 @@ import androidx.room.*
         parentColumns = ["idList"],
         childColumns = ["listId"], onDelete = ForeignKey.CASCADE)],
 
-    indices = [Index(value = ["userId"], unique = true), Index(value = ["listId"], unique = true)]
+    indices = [Index(value = ["userId"], unique = false), Index(value = ["listId"], unique = false)]
 )
 data class TaskETY(
-                           @ColumnInfo(name="listId") var listId : String,
-                           @ColumnInfo(name="title") var title: String,
-                           @ColumnInfo(name="expiredDate") var expiredDate: String,
-                           @ColumnInfo(name="priority") var priority: String,
-                           @ColumnInfo(name="userId") var userId: String,
-                           @ColumnInfo(name="status") var status: String
-){
-    @PrimaryKey @ColumnInfo(name = "idTask", index = true) var idTask: String = ""
-}
+    @PrimaryKey @ColumnInfo(name = "idTask", index = true) var idTask: String = "",
+    @field:ColumnInfo(name="listId") var listId : String,
+    @field:ColumnInfo(name="title") var title: String,
+    @field:ColumnInfo(name="expiredDate") var expiredDate: String,
+    @field:ColumnInfo(name="priority") var priority: String,
+    @field:ColumnInfo(name="userId") var userId: String,
+    @field:ColumnInfo(name="status") var status: String,
+    @field:ColumnInfo(name="description") var description: String
+)
