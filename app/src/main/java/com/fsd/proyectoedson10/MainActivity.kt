@@ -180,6 +180,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                            layoutManager = LinearLayoutManager(this@MainActivity)
 //                            adapter = DemoAdapter(listTask)
 //                        }
+                        AppDatabase.setCurrentListId(x.idList.toInt())
                         var fragment = ListFragment()
                         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
                         true

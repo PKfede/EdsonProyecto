@@ -85,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
                var modifiedEmail = etUser.text.toString().replace("""[.]""".toRegex(), ",")
                val database = FirebaseDatabase.getInstance()
                val usersRef = database.getReference("user").child(modifiedEmail)
+
                usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
                    override fun onCancelled(p0: DatabaseError) {
 
