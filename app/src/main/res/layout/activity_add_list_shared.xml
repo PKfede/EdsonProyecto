@@ -14,9 +14,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Crear lista"
+            android:text="Crear lista compartida"
             android:textColor="@color/white"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -26,8 +26,40 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:hint="Nombre de la lista"
-        android:textSize="20dp"
-        android:textColorHint="@color/black"/>
+        android:textColorHint="@color/black"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/adParticipants"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Agregar participantes: "
+            android:textColorHint="@color/black"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/buttonAddParticipant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/button_background"
+                android:text="Agregar" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -44,27 +76,27 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Selecciona un icono de lista: "
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"
-                android:textColor="@color/black"/>
+                android:layout_marginTop="20dp"
+                android:text="Selecciona un icono de lista: "
+                android:textColor="@color/black" />
 
             <RadioGroup
                 android:id="@+id/radioGroup1"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:orientation="vertical"
+                android:layout_marginStart="50dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="50dp">
+                android:gravity="start"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/radioCar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:drawableRight="@drawable/auto"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:drawableRight="@drawable/auto" />
 
                 <RadioButton
                     android:id="@+id/radioPainting"
@@ -144,9 +176,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="100dp"
+                android:layout_marginBottom="100dp"
                 android:background="@drawable/button_background"
-                android:text="Color de fondo"
-                android:layout_marginBottom="100dp"/>
+                android:text="Color de fondo" />
 
             <Button
                 android:id="@+id/buttonSave"

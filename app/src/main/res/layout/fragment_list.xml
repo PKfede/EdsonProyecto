@@ -9,16 +9,17 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:gravity="bottom"
-        android:background="@color/blue">
+        android:background="@drawable/fondito"
+        android:gravity="bottom">
 
         <TextView
             android:id="@+id/nameList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mi lista"
+            android:textColor="#FFF"
             android:textSize="40dp"
-            android:textColor="#FFF"/>
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

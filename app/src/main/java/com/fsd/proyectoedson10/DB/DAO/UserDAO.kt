@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.fsd.proyectoedson10.DB.Entities.UserETY
-
 @Dao
 interface UserDAO {
 
