@@ -15,7 +15,7 @@ interface TaskDAO {
     @Query("SELECT * FROM task WHERE listId = :idList")
     fun getTaskById(idList : String) : Array<TaskETY>
 
-    @Query("INSERT INTO task (idTask, listId, title, expiredDate, priority, userId, status) VALUES ('2','474253', 'Ir por mi hermanita a las 2', '2019-12-06', 'no asignada', 'AAA', '1')")
+    @Query("INSERT INTO task (idTask, listId, title, expiredDate, priority, userId, status) VALUES ('3','474253', 'Ir por mi hermanita a las 2', '2019-12-06', 'no asignada', 'AAA', '1')")
     fun InsertChingon()
 
 }

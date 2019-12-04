@@ -27,6 +27,11 @@ import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.ListETY
 import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
+import com.fsd.proyectoedson10.ui.addlist.AddListFragment
+import com.fsd.proyectoedson10.ui.gallery.GalleryFragment
+import com.fsd.proyectoedson10.ui.list.ListFragment
+import com.fsd.proyectoedson10.ui.send.SendFragment
+import com.fsd.proyectoedson10.ui.share.ShareFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -64,7 +69,7 @@ class DemoAdapter(private val tasks: Array<TaskETY>) :
 }
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -75,6 +80,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        fillNavigationDrawer()
 
         Stetho.initializeWithDefaults(this)
 
@@ -100,61 +107,41 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-
-
-
-        navView.setNavigationItemSelectedListener { menuItem ->
-            // set item as selected to persist highlight
-            menuItem.isChecked = true
-            // close drawer when item is tapped
-            drawerLayout.closeDrawers()
-
-            val nameList : TextView = findViewById(R.id.nameList)
-            AppDatabase.setList(nameList)
-
-            // Handle navigation view item clicks here.
-            when (menuItem.itemId) {
-
-                R.id.nav_alls -> {
-                    nameList.setText("Todas")
-                }
-                R.id.nav_importants -> {
-                    nameList.setText("Importantes")
-                }
-                R.id.nav_planneds -> {
-                    nameList.setText("Planeadas")
-                }
-                R.id.nav_addList ->{
-                    val intent = Intent(this, AddMyListActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-            // Add code here to update the UI based on the item selected
-            // For example, swap UI fragments here
-
-            val background : LinearLayout = findViewById(R.id.background)
-            AppDatabase.setBackground(background)
-
-            true }
+        navView.setNavigationItemSelectedListener(this)
 
         val db = AppDatabase.getAppDatabase(this)
         db.TaskDAO().InsertChingon()
-        fillNavigationDrawer()
 
     }
 
+    override fun onNavigationItemSelected(menu: MenuItem): Boolean {
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                drawer_layout.openDrawer(GravityCompat.START)
-                true
+        menu.isChecked = true
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        drawerLayout.closeDrawers()
+        Log.d("Hola", menu.itemId.toString())
+        when(menu.itemId){
+            R.id.nav_addList->{
+                val intent = Intent(this, AddMyListActivity::class.java)
+                startActivity(intent)
             }
-
-            else -> super.onOptionsItemSelected(item)
+            R.id.nav_planneds->{
+                var fragment = SendFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+            }
+            R.id.nav_alls->{
+                var fragment = ShareFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+            }
+            R.id.nav_importants->{
+                var fragment = GalleryFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+            }
         }
+
+        return true
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -180,21 +167,10 @@ class MainActivity : AppCompatActivity() {
 
                 //Log.d("Hola", listLists.size.toString())
 
-                menu.add(R.id.group2, Menu.NONE, 1, x.listName)
+                menu.add(R.id.group2, x.idList.toInt(), 1, x.listName)
                     .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
-                        val nameList: TextView = findViewById(R.id.nameList)
-                        AppDatabase.setList(nameList)
-                        nameList.setText(x.listName)
                         val drawerLayout = AppDatabase.getDrawer()
                         drawerLayout.closeDrawers()
-                        background.setBackgroundColor(
-                            db.ListDAO().selectList(
-                                db.ListDAO().selectByName(
-                                    x.listName
-                                ).idList
-                            ).listColor.toInt()
-                        )
-
                         val listTask = db.TaskDAO().getTaskById("474253")
 
                         rv = findViewById<RecyclerView>(R.id.rv).apply {
@@ -202,6 +178,8 @@ class MainActivity : AppCompatActivity() {
                             layoutManager = LinearLayoutManager(this@MainActivity)
                             adapter = DemoAdapter(listTask)
                         }
+                        var fragment = ListFragment()
+                        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
                         true
                     }
             }
