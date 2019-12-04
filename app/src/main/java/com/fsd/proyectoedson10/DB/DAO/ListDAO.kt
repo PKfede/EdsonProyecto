@@ -13,7 +13,7 @@ interface ListDAO {
     fun insertList(list : ListETY)
 
     @Query ("SELECT * FROM list WHERE idList = :idList")
-    fun selectList(idList : Int) : ListETY
+    fun selectList(idList : String) : ListETY
 
     @Query("SELECT*FROM list")
     fun getAll(): Array<ListETY>

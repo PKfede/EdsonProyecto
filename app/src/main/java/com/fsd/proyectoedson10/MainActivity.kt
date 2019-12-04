@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                         db.ListDAO().selectList(
                             db.ListDAO().selectByName(
                                 x.listName
-                            ).idList.toInt()
+                            ).idList
                         ).listColor.toInt()
                     )
                     true
