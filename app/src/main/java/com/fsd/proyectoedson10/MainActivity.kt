@@ -39,8 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         Stetho.initializeWithDefaults(this)
 
-
-
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             val intent = Intent(this, CreateTaskActivity::class.java)
@@ -58,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
 
                 R.id.nav_home, R.id.nav_alls, R.id.nav_importants,
-                R.id.nav_planneds,R.id.nav_createTask
+                R.id.nav_planneds
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -131,7 +129,6 @@ class MainActivity : AppCompatActivity() {
     {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val db = AppDatabase.getAppDatabase(this)
-
 
         var menu = navView.menu
         val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
