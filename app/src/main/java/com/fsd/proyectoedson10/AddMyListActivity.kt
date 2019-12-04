@@ -126,7 +126,7 @@ class AddMyListActivity : AppCompatActivity() {
                 nameList.setText(edName.text.toString())
                 val drawerLayout = AppDatabase.getDrawer()
                 drawerLayout.closeDrawers()
-                background.setBackgroundColor(db.ListDAO().selectList(db.ListDAO().selectByName(edName.text.toString()).idList).listColor.toInt())
+                background.setBackgroundColor(db.ListDAO().selectList(db.ListDAO().selectByName(edName.text.toString()).idList.toInt()).listColor.toInt())
                 true
             }
 

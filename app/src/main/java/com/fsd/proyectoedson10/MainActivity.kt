@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         Stetho.initializeWithDefaults(this)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             val intent = Intent(this, CreateTaskActivity::class.java)
             startActivity(intent)
         }
@@ -133,7 +133,6 @@ class MainActivity : AppCompatActivity() {
 
         var menu = navView.menu
         val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
-        val listIds : List<Int> = db.ListDAO().selectIds() //Esto consigue los ids de las listas porque no necesariamente son seguidos
 
 
         if(listLists.isNotEmpty()) {
@@ -152,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                         db.ListDAO().selectList(
                             db.ListDAO().selectByName(
                                 x.listName
-                            ).idList
+                            ).idList.toInt()
                         ).listColor.toInt()
                     )
                     true

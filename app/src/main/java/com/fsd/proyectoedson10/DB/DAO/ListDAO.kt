@@ -25,5 +25,5 @@ interface ListDAO {
     fun selectByUser(userId : String) :List<ListETY>
 
     @Query("SELECT idList FROM list")
-    fun selectIds() : List<Int>
+    fun selectIds() : List<String>
 }

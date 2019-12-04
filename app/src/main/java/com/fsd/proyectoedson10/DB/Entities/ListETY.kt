@@ -13,7 +13,7 @@ import androidx.room.*
 
 data class  ListETY(@ColumnInfo(name="userId") var userId: String){
 
-    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "idList") var idList: Int = 0
+    @PrimaryKey @ColumnInfo(name = "idList") var idList: String = ""
     @field:ColumnInfo(name = "listName") var listName: String = ""
     @field:ColumnInfo(name = "listColor") var listColor: String = ""
     @field:ColumnInfo(name = "listIcon") var listIcon: String = ""
