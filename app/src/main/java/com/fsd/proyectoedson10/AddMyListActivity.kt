@@ -130,7 +130,10 @@ class AddMyListActivity : AppCompatActivity() {
                 true
             }
 
-            var list = ListETY("AAA")
+            var rnds = (0..1000000).random()
+
+            var list = ListETY(db.UserDAO().getUser().id)
+            list.idList = rnds.toString()
             list.listColor = defaultColor.toString()
             list.listIcon = nameString.toString()
             list.listName = edName.text.toString()
