@@ -36,6 +36,7 @@ class RegistryActivity : AppCompatActivity() {
 
     private lateinit var currentImageView: ImageView
     var selectedIcon = 0
+    var image = 1;
 
 
 
@@ -66,36 +67,42 @@ class RegistryActivity : AppCompatActivity() {
         selectedIcon = R.drawable.mujer_negra_rara
 
         imageBlackWoman.setOnClickListener {
+            image = 1
             changeSelectedIcon(
                 imageBlackMan,
                 R.drawable.mujer_negra_rara
             )
         }
         imageGrayWoman.setOnClickListener {
+            image = 2
             changeSelectedIcon(
                 imageGrayWoman,
                 R.drawable.mujer_pelo_gris
             )
         }
         imageGreenWoman.setOnClickListener {
+            image = 3
             changeSelectedIcon(
                 imageGreenWoman,
                 R.drawable.mujer_verde
             )
         }
         imageBlackMan.setOnClickListener {
+            image = 4
             changeSelectedIcon(
                 imageBlackMan,
                 R.drawable.hombre_negro_calvo
             )
         }
         imageGrayMan.setOnClickListener {
+            image = 5
             changeSelectedIcon(
                 imageGrayMan,
                 R.drawable.hombre_pelo_gris
             )
         }
         imageWeroMan.setOnClickListener {
+            image = 6
             changeSelectedIcon(
                 imageWeroMan,
                 R.drawable.hombre_wero
@@ -110,7 +117,8 @@ class RegistryActivity : AppCompatActivity() {
             val user = User(
                 etUserName.text.toString(),
                 etUserLastName.text.toString(),
-                etPass.text.toString()
+                etPass.text.toString(),
+                image.toString()
             )
 
             var modifiedEmail = etEmail.text.toString().replace("""[.]""".toRegex(), ",")
@@ -127,6 +135,11 @@ class RegistryActivity : AppCompatActivity() {
                         dbRef.child(modifiedEmail).setValue(user)
                         val intent = Intent(this@RegistryActivity, LoginActivity::class.java)
                         startActivity(intent)
+                        Toast.makeText(
+                            this@RegistryActivity,
+                            "Usuario creadoo",
+                            Toast.LENGTH_LONG
+                        ).show()
                     } else {
                         Toast.makeText(
                             this@RegistryActivity,

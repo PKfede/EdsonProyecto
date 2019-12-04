@@ -2,10 +2,12 @@ package com.fsd.proyectoedson10
 
 import android.content.ClipData
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Layout
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -30,6 +32,7 @@ import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import javax.annotation.meta.When
 
 class DemoAdapter(private val tasks: Array<TaskETY>) :
     RecyclerView.Adapter<DemoAdapter.DemoViewHolder>() {
@@ -70,6 +73,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var rv: RecyclerView
+
+    private lateinit var imageUser : ImageView
+    private lateinit var userName : TextView
+    private lateinit var userEmail : TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,6 +170,37 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+
+        val db  = AppDatabase.getAppDatabase(this)
+        val user = db.UserDAO().getUser()
+
+        imageUser = findViewById(R.id.imageUser)
+        userName = findViewById(R.id.tv_userName)
+        userEmail = findViewById(R.id.tv_userEmail)
+
+        when(user.avatar){
+            "1" ->{
+                imageUser.setImageResource(R.drawable.mujer_negra_rara)
+            }
+            "2" ->{
+                imageUser.setImageResource(R.drawable.mujer_pelo_gris)
+            }
+            "3" ->{
+                imageUser.setImageResource(R.drawable.mujer_verde)
+            }
+            "4" ->{
+                imageUser.setImageResource(R.drawable.hombre_negro_calvo)
+            }
+            "5" ->{
+                imageUser.setImageResource(R.drawable.hombre_pelo_gris)
+            }
+            "6" ->{
+                imageUser.setImageResource(R.drawable.hombre_wero)
+            }
+        }
+        userName.setText(user.name)
+        userEmail.setText(user.id)
+
 
         return true
     }
