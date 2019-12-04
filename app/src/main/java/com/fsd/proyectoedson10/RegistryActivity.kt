@@ -36,7 +36,7 @@ class RegistryActivity : AppCompatActivity() {
 
     private lateinit var currentImageView: ImageView
     var selectedIcon = 0
-    var image = 1;
+    var image = 1
 
 
 
@@ -132,14 +132,14 @@ class RegistryActivity : AppCompatActivity() {
 
                 override fun onDataChange(p0: DataSnapshot) {
                     if (p0.value == null) {
+                        Toast.makeText(
+                            this@RegistryActivity,
+                            "Usuario registrado",
+                            Toast.LENGTH_LONG
+                        ).show()
                         dbRef.child(modifiedEmail).setValue(user)
                         val intent = Intent(this@RegistryActivity, LoginActivity::class.java)
                         startActivity(intent)
-                        Toast.makeText(
-                            this@RegistryActivity,
-                            "Usuario creadoo",
-                            Toast.LENGTH_LONG
-                        ).show()
                     } else {
                         Toast.makeText(
                             this@RegistryActivity,
