@@ -3,6 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/blue"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Crear lista"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="30dp"/>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/editTextNameList"
@@ -10,15 +25,16 @@
         android:layout_height="wrap_content"
         android:hint="Nombre de la lista"
         android:textSize="20dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="40dp"/>
 
     <Button
         android:id="@+id/buttonColor"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Color de fondo"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_background"/>
 
    <RadioGroup
        android:id="@+id/radioGroup1"
@@ -112,11 +128,13 @@
 
     <Button
         android:id="@+id/buttonSave"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Guardar"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_background"
+        />
 
 
 
