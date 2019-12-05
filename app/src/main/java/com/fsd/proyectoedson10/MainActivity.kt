@@ -61,6 +61,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
 
+        fillNavigationDrawer()
+        fillNavigationSharedList()
+
         val fab1 : FloatingActionButton = findViewById(R.id.fab)
         var fragment = TaskFragment()
         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
@@ -73,8 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Stetho.initializeWithDefaults(this)
 
 
-        fillNavigationDrawer()
-        fillNavigationSharedList()
+
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {

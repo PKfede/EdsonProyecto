@@ -14,16 +14,28 @@ internal class DemoAdapter1(private val notifications: Array<NotificationETY>) :
     RecyclerView.Adapter<DemoAdapter1.DemoViewHolder>() {
 
     internal class DemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val titleList : TextView
+        val creatorNotification : TextView
+        val notiDate : TextView
 
 
         init {
 
-
+            titleList = view.findViewById(R.id.notificationTitle)
+            creatorNotification = view.findViewById(R.id.creatorNotification)
+            notiDate = view.findViewById(R.id.notificationDate)
         }
 
         val db = AppDatabase.getAppDatabase(view.context)
 
-        public fun bind(notifcation: NotificationETY) {
+
+
+        public fun bind(notification: NotificationETY)
+        {
+            titleList.setText(db.ListDAO().selectList(notification.sharedListId).listName)
+            creatorNotification.setText("${db.UserDAO().getById(notification.userId)?.name} " +
+                    "${db.UserDAO().getById(notification.userId)?.lastName} te ha invitado a una nueva lista compartida.")
+            notiDate.setText(notification.date)
 
         }
     }

@@ -51,7 +51,7 @@
                     android:text="Fiesta de paty"
                     android:textColor="@color/white"
                     android:textSize="25dp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"/>
             </LinearLayout>
 
         </LinearLayout>
