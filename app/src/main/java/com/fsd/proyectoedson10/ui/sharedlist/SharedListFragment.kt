@@ -25,10 +25,34 @@ import com.fsd.proyectoedson10.R
 import com.fsd.proyectoedson10.toDoList
 import com.google.firebase.database.FirebaseDatabase
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.text.DateFormat
+import java.time.LocalDate
+import java.util.*
 
 
 data class SharedToDoList(
     var listId :String = "",var userId: String = ""
+){
+    var id : String? = null
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as SharedToDoList
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+
+}
+
+data class SharedListNotification(
+    var userId: String = "", var date : String, var listId: String
 ){
     var id : String? = null
     override fun equals(other: Any?): Boolean {
@@ -152,7 +176,7 @@ class SharedListFragment : Fragment() {
             val dbFirebase = FirebaseDatabase.getInstance()
             val dbRef = dbFirebase.getReference("list")
 
-            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor)
+            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor,1)
             listToFirebase.id = rnds.toString()
             dbRef.child(rnds.toString()).setValue(listToFirebase)
 
@@ -166,6 +190,15 @@ class SharedListFragment : Fragment() {
             val listRef = dbFirebase.getReference("sharedList")
             listRef.child(rnds2.toString()).setValue(sharedList)
             Toast.makeText(view.context, "Lista agregada", Toast.LENGTH_SHORT).show()
+
+            val notRef = dbFirebase.getReference("notification")
+            var rnds3 = (0..1000000).random()
+            var currentTime : Date = Calendar.getInstance().time
+            var currentDate = newDateFormat(currentTime)
+
+            var notificationToFirebase = SharedListNotification(db.UserDAO().getUser().id,currentDate.toString(),rnds.toString())
+
+            notRef.child(rnds3.toString()).setValue(notificationToFirebase)
         }
 
 
@@ -175,7 +208,18 @@ class SharedListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SharedListViewModel::class.java)
-        // TODO: Use the ViewModel
+
+    }
+
+    fun newDateFormat(date : Date) : String
+    {
+        var newDate : String 
+        var dateString : String = date.toString()
+
+        newDate = "${dateString[8]}${dateString[9]}-${dateString[4]}${dateString[5]}${dateString[6]}-${dateString[24]}${dateString[25]}${dateString[26]}${dateString[27]}"
+
+        return newDate
+
     }
 
     fun openColorPicker(context: Context){

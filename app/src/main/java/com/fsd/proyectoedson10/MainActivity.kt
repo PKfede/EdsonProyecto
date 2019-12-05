@@ -65,8 +65,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fillNavigationSharedList()
 
         val fab1 : FloatingActionButton = findViewById(R.id.fab)
-        var fragment = TaskFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
         fab1.isVisible = false
         fab1.isClickable = false
         AppDatabase.setCurrentListId(R.id.nav_alls)
