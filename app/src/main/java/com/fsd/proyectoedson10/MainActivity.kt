@@ -35,15 +35,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var rv: RecyclerView
-    private lateinit var imageUser : ImageView
-    private lateinit var userName : TextView
-    private lateinit var userEmail : TextView
-    private lateinit var btnLogOut : ImageButton
-    private lateinit var btnNotificacion : ImageButton
+    private lateinit var imageUser: ImageView
+    private lateinit var userName: TextView
+    private lateinit var userEmail: TextView
+    private lateinit var btnLogOut: ImageButton
+    private lateinit var btnNotificacion: ImageButton
 
     val db = AppDatabase.getAppDatabase(this)
     val userThing = db.UserDAO().getUser().name
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fillNavigationDrawer()
         fillNavigationSharedList()
 
-        val fab1 : FloatingActionButton = findViewById(R.id.fab)
+        val fab1: FloatingActionButton = findViewById(R.id.fab)
         var fragment = TaskFragment()
         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
         fab1.isVisible = false
@@ -67,8 +67,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         Stetho.initializeWithDefaults(this)
-
-
 
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -107,36 +105,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //Log.d("Hola", menu.itemId.toString())
         fab.isVisible = true
         fab.isClickable = true
-        when(menu.itemId){
-            R.id.nav_addList->{
+        when (menu.itemId) {
+            R.id.nav_addList -> {
                 val intent = Intent(this, AddMyListActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-            R.id.nav_planneds->{
+            R.id.nav_planneds -> {
                 var fragment = TaskFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                    .commit()
                 fab.isVisible = false
                 fab.isClickable = false
                 AppDatabase.setCurrentListId(R.id.nav_planneds)
             }
-            R.id.nav_alls->{
+            R.id.nav_alls -> {
                 var fragment = TaskFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                    .commit()
                 fab.isVisible = false
                 fab.isClickable = false
                 AppDatabase.setCurrentListId(R.id.nav_alls)
             }
-            R.id.nav_importants->{
+            R.id.nav_importants -> {
                 var fragment = TaskFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                    .commit()
                 fab.isVisible = false
                 fab.isClickable = false
                 AppDatabase.setCurrentListId(R.id.nav_importants)
             }
-            R.id.nav_sharedList->{
+            R.id.nav_sharedList -> {
                 var fragment = SharedListFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                    .commit()
             }
         }
 
@@ -157,70 +159,81 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
-        btnNotificacion.setOnClickListener{
 
-            if(Network.isConnected(this))
-            {
+
+        btnNotificacion.setOnClickListener {
+
+            if (Network.isConnected(this)) {
                 //AQUI ENTRAN LAS NOTIFICACIONES AL ROOM
                 val db = AppDatabase.getAppDatabase(this@MainActivity)
                 val database = FirebaseDatabase.getInstance()
-                val notRef = database.getReference("notification").orderByChild("userId").equalTo(db.UserDAO().getUser().id)
+                var listOfNotifications: MutableList<NotificationETY> = mutableListOf()
+                val notRef = database.getReference("notification").orderByChild("userId")
+                    .equalTo(db.UserDAO().getUser().id)
 
-                notRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                notRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
-                        if(p0.exists())
-                        {
+                        Log.d("Hola", p0.toString())
+                        if (p0.exists()) {
                             val children = p0.children
-                            children.forEach{
+
+                            children.forEach {
                                 var noteDate = it.child("date").value
                                 var listId = it.child("listId").value
                                 var userId = it.child("userId").value
                                 var sender = it.child("sender").value
+                                var listName = it.child("listName").value
 
-                                var notToDatabase = NotificationETY (userId.toString(),listId.toString(),noteDate.toString(),sender.toString())
+                                var notToDatabase = NotificationETY(
+                                    userId.toString(),
+                                    listId.toString(),
+                                    noteDate.toString(),
+                                    sender.toString(),
+                                    listName.toString()
+                                )
                                 notToDatabase.idNotification = it.key.toString()
+                                db.NotificationDAO().insert(notToDatabase)
                             }
 
                         }
                     }
                 })
-                
+
                 var fragment = NotificationFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
                 fab.isVisible = false
                 fab.isClickable = false
                 drawerLayout.closeDrawers()
-            }
-            else
-            {
-                Toast.makeText(this,"No hay internet",Toast.LENGTH_SHORT).show()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
+                    .commit()
+            } else {
+                Toast.makeText(this, "No hay internet", Toast.LENGTH_SHORT).show()
             }
 
         }
 
-        val db  = AppDatabase.getAppDatabase(this)
+        val db = AppDatabase.getAppDatabase(this)
         val user = db.UserDAO().getUser()
 
-        when(user.avatar){
-            "1" ->{
+        when (user.avatar) {
+            "1" -> {
                 imageUser.setImageResource(R.drawable.mujer_negra_rara)
             }
-            "2" ->{
+            "2" -> {
                 imageUser.setImageResource(R.drawable.mujer_pelo_gris)
             }
-            "3" ->{
+            "3" -> {
                 imageUser.setImageResource(R.drawable.mujer_verde)
             }
-            "4" ->{
+            "4" -> {
                 imageUser.setImageResource(R.drawable.hombre_negro_calvo)
             }
-            "5" ->{
+            "5" -> {
                 imageUser.setImageResource(R.drawable.hombre_pelo_gris)
             }
-            "6" ->{
+            "6" -> {
                 imageUser.setImageResource(R.drawable.hombre_wero)
             }
         }
@@ -229,7 +242,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         userName.setText(user.name)
         userEmail.setText(user.id.replace("""[,]""".toRegex(), "."))
 
-        btnLogOut.setOnClickListener{
+        btnLogOut.setOnClickListener {
             onSignOff()
         }
         return true
@@ -240,18 +253,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun fillNavigationDrawer()
-    {
+    fun fillNavigationDrawer() {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val db = AppDatabase.getAppDatabase(this)
 
         var menu = navView.menu
-        val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
+        val listLists: List<ListETY> = db.ListDAO()
+            .selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
 
-        val  fb : FloatingActionButton = findViewById(R.id.fab)
+        val fb: FloatingActionButton = findViewById(R.id.fab)
 
         Log.d("tamano", listLists.size.toString())
-        if(listLists.isNotEmpty()) {
+        if (listLists.isNotEmpty()) {
             for (x in listLists) {
                 menu.add(R.id.group2, x.idList.toInt(), 1, x.listName)
                     .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
@@ -262,15 +275,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                         AppDatabase.setCurrentListId(x.idList.toInt())
                         var fragment = ListFragment()
-                        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.nav_host_fragment, fragment).commit()
                         true
                     }
             }
         }
     }
 
-    fun onSignOff()
-    {
+    fun onSignOff() {
         val builder = AlertDialog.Builder(this@MainActivity)
         builder.setTitle("Cerrar Sesión")
         builder.setMessage("¿Desea cerrar sesión?")
@@ -292,22 +305,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dialog.show()
     }
 
-    fun fillNavigationSharedList(){
+    fun fillNavigationSharedList() {
 
         val navView: NavigationView = findViewById(R.id.nav_view)
         val db = AppDatabase.getAppDatabase(this)
         var menu = navView.menu
-        val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id)
+        val listLists: List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id)
 
-        if(Network.isConnected(this)) {
+        if (Network.isConnected(this)) {
             var listOfListOfUser: MutableList<ListETY> = mutableListOf()
             val dbFirebase = FirebaseDatabase.getInstance()
-            val listRef = dbFirebase.getReference("list").orderByChild("idUser").equalTo(db.UserDAO().getUser().id)
+            val listRef = dbFirebase.getReference("list").orderByChild("idUser")
+                .equalTo(db.UserDAO().getUser().id)
             listRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }
+
                 override fun onDataChange(p0: DataSnapshot) {
-                    if(p0.exists()) {
+                    if (p0.exists()) {
 
                         var children = p0!!.children
                         children.forEach {
@@ -327,15 +342,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         }
                     }
                     onSharedListAdded(listOfListOfUser)
-                    if(listOfListOfUser.isNotEmpty()) {
-                        for(x in listOfListOfUser){
+                    if (listOfListOfUser.isNotEmpty()) {
+                        for (x in listOfListOfUser) {
                             menu.add(R.id.group3, x.idList.toInt(), 2, x.listName)
-                                .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener { menu->
+                                .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener { menu ->
                                     val drawerLayout = AppDatabase.getDrawer()
                                     drawerLayout.closeDrawers()
                                     AppDatabase.setCurrentListId(x.idList.toInt())
                                     var fragment = SharedListFragment()
-                                    supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                                    supportFragmentManager.beginTransaction()
+                                        .replace(R.id.nav_host_fragment, fragment).commit()
                                     true
                                 }
                         }
@@ -348,10 +364,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
     }
-    fun onSharedListAdded(list:MutableList<ListETY>){
+
+    fun onSharedListAdded(list: MutableList<ListETY>) {
         val navView: NavigationView = findViewById(R.id.nav_view)
         var menu = navView.menu
-        if(list.isNotEmpty()) {
+        if (list.isNotEmpty()) {
             for (x in list) {
                 menu.removeItem(x.idList.toInt())
             }
