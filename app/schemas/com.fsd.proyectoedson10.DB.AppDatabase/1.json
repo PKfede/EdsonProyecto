@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "32d84539a17e586d392dd57d63d661c1",
+    "identityHash": "7c6b035a48d1a3b7cf4dcdfd87569b02",
     "entities": [
       {
         "tableName": "user",
@@ -267,7 +267,7 @@
       },
       {
         "tableName": "notification",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idNotification` TEXT NOT NULL, `userId` TEXT NOT NULL, `listId` TEXT NOT NULL, `date` TEXT NOT NULL, `Sender` TEXT NOT NULL, PRIMARY KEY(`idNotification`), FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idNotification` TEXT NOT NULL, `userId` TEXT NOT NULL, `listId` TEXT NOT NULL, `date` TEXT NOT NULL, `Sender` TEXT NOT NULL, `listName` TEXT NOT NULL, PRIMARY KEY(`idNotification`), FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "idNotification",
@@ -296,6 +296,12 @@
           {
             "fieldPath": "sender",
             "columnName": "Sender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "listName",
+            "columnName": "listName",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -426,7 +432,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '32d84539a17e586d392dd57d63d661c1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7c6b035a48d1a3b7cf4dcdfd87569b02')"
     ]
   }
 }
