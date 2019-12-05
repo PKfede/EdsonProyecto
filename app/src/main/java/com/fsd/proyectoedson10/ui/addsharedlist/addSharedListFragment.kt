@@ -1,5 +1,7 @@
 package com.fsd.proyectoedson10.ui.addsharedlist
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -16,9 +18,11 @@ import androidx.core.content.ContextCompat
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.ListETY
+import com.fsd.proyectoedson10.MainActivity
 
 import com.fsd.proyectoedson10.R
 import com.fsd.proyectoedson10.toDoList
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.util.*
@@ -46,7 +50,7 @@ data class SharedToDoList(
 }
 
 data class SharedListNotification(
-    var userId: String = "", var date : String, var listId: String, var listName : String, var sender : String
+    var userId: String = "", var date : String, var listId: String
 ){
     var id : String? = null
     override fun equals(other: Any?): Boolean {
@@ -68,11 +72,7 @@ data class SharedListNotification(
 
 class SharedListFragment : Fragment() {
 
-    interface IFillNavigationShared{
-        fun fillNavigationSharedList()
-        fun onSharedListAdded()
-    }
-    private lateinit var callbackNavigation : IFillNavigationShared
+
 
     companion object {
         fun newInstance() = SharedListFragment()
@@ -184,6 +184,8 @@ class SharedListFragment : Fragment() {
 
             val listRef = dbFirebase.getReference("sharedList")
             listRef.child(rnds2.toString()).setValue(sharedList)
+
+            (activity as MainActivity).fillNavigationSharedList()
             Toast.makeText(view.context, "Lista agregada", Toast.LENGTH_SHORT).show()
 
 
@@ -243,7 +245,7 @@ class SharedListFragment : Fragment() {
                 var currentTime : Date = Calendar.getInstance().time
                 var currentDate = newDateFormat(currentTime)
 
-                var notificationToFirebase = SharedListNotification(x,currentDate.toString(),list.idList,list.listName, list.userId)
+                var notificationToFirebase = SharedListNotification(x,currentDate.toString(),list.idList)
 
                 notRef.child(rnds3.toString()).setValue(notificationToFirebase)
             }
