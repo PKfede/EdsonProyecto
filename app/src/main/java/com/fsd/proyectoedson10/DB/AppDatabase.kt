@@ -12,6 +12,7 @@ import androidx.room.RoomDatabase
 import com.fsd.proyectoedson10.DB.DAO.*
 import com.fsd.proyectoedson10.DB.Entities.*
 import com.fsd.proyectoedson10.R
+import com.fsd.proyectoedson10.ui.addsharedlist.SharedListNotification
 import com.google.android.material.navigation.NavigationView
 
 
@@ -42,6 +43,7 @@ abstract class AppDatabase : RoomDatabase() {
         private lateinit var backgorund : LinearLayout
 
         private var currentListId : Int = 0
+        private var listNotification : MutableList<NotificationETY> = mutableListOf()
 
         fun getCurrentListId() = currentListId
         fun setCurrentListId(id:Int){
@@ -69,6 +71,13 @@ abstract class AppDatabase : RoomDatabase() {
         {
             backgorund = bg
         }
+
+        fun getNotificationList() = listNotification
+        fun setNotificationList(listNoti: MutableList<NotificationETY>)
+        {
+            listNotification = listNoti
+        }
+
         fun getAppDatabase(context: Context): AppDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(

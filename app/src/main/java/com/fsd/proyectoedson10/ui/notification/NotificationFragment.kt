@@ -29,7 +29,7 @@ class NotificationFragment : Fragment() {
         var view =  inflater.inflate(R.layout.fragment_notification, container, false)
 
         val db = AppDatabase.getAppDatabase(view.context)
-        val listNoti = db.NotificationDAO().getAll()
+        val listNoti = AppDatabase.getNotificationList().toTypedArray()
 
 
         var rv = view.findViewById<RecyclerView>(R.id.rv2).apply {

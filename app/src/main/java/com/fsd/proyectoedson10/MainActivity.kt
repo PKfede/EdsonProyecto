@@ -158,6 +158,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
+        var listOfNotifications : MutableList<NotificationETY> = mutableListOf()
+
         btnNotificacion.setOnClickListener{
 
             if(Network.isConnected(this))
@@ -183,6 +185,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                                 var notToDatabase = NotificationETY (userId.toString(),listId.toString(),noteDate.toString(),sender.toString())
                                 notToDatabase.idNotification = it.key.toString()
+                                listOfNotifications.add(notToDatabase)
+                                AppDatabase.setNotificationList(listOfNotifications)
                             }
 
                         }
