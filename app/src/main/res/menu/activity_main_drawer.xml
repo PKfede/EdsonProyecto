@@ -3,23 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-  <group
+    <group
         android:id="@+id/group1"
         android:checkableBehavior="single">
+
         <item
+            android:id="@+id/refresh"
+            android:icon="@drawable/sync"
             android:orderInCategory="0"
+            android:title="Refrescar" />
+
+        <item
             android:id="@+id/nav_alls"
             android:icon="@drawable/all"
+            android:orderInCategory="0"
             android:title="Todas" />
         <item
-            android:orderInCategory="0"
             android:id="@+id/nav_importants"
             android:icon="@drawable/exclamation"
+            android:orderInCategory="0"
             android:title="Importantes" />
         <item
-            android:orderInCategory="0"
             android:id="@+id/nav_planneds"
             android:icon="@drawable/planeadas"
+            android:orderInCategory="0"
             android:title="Planeadas" />
 
     </group>
@@ -31,9 +38,9 @@
             <menu>
 
                 <item
-                    android:orderInCategory="1"
                     android:id="@+id/nav_addList"
                     android:icon="@drawable/add_list"
+                    android:orderInCategory="1"
                     android:title="Agregar Lista" />
             </menu>
         </item>
@@ -46,9 +53,9 @@
             <menu>
 
                 <item
-                    android:orderInCategory="2"
                     android:id="@+id/nav_sharedList"
                     android:icon="@drawable/add_list"
+                    android:orderInCategory="2"
                     android:title="Agregar Lista" />
             </menu>
         </item>

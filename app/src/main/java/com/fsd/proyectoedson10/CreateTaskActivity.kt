@@ -90,6 +90,7 @@ class CreateTaskActivity : AppCompatActivity() {
     //    if (etTaskTitle.text.toString().trim().length > 0) {
             btnSaveTask.setOnClickListener {
                 val db = AppDatabase.getAppDatabase(this)
+                var deit : String
 
                 if (radioHigh.isChecked) {
                     priority = "3"
@@ -101,7 +102,9 @@ class CreateTaskActivity : AppCompatActivity() {
                     priority = "0"
                 }
                 if (btnDate.text.toString() == "Fecha de vencimiento") {
-                    btnDate.text = "Fecha de vencimiento"
+                    deit = ""
+                }else {
+                    deit = btnDate.text.toString()
                 }
                 var rnds = (0..1000000).random()
 
@@ -109,7 +112,7 @@ class CreateTaskActivity : AppCompatActivity() {
                     rnds.toString(),
                     AppDatabase.getCurrentListId().toString(),
                     etTaskTitle.text.toString(),
-                    btnDate.text.toString(),
+                    deit,
                     priority,
                     db.UserDAO().getUser().id,
                     "1",
