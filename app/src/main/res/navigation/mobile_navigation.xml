@@ -30,9 +30,9 @@
         tools:layout="@layout/fragment_add_list_" />
     <fragment
         android:id="@+id/nav_sharedList"
-        android:name="com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment"
+        android:name="com.fsd.proyectoedson10.ui.addsharedlist.SharedListFragment"
         android:label="Listas compartidas"
-        tools:layout="@layout/fragment_shared_list" />
+        tools:layout="@layout/fragment_add_shared_list" />
     <fragment
         android:id="@+id/nav_notification"
         android:name="com.fsd.proyectoedson10.ui.notification.NotificationFragment"

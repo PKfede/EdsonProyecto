@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
-import com.fsd.proyectoedson10.DemoAdapter1
+import com.fsd.proyectoedson10.DemoAdapterTaskNotification
 import com.fsd.proyectoedson10.R
 
 
@@ -36,7 +35,7 @@ class NotificationFragment : Fragment() {
         var rv = view.findViewById<RecyclerView>(R.id.rv2).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@NotificationFragment.context)
-            adapter = DemoAdapter1(listNoti)
+            adapter = DemoAdapterTaskNotification(listNoti)
         }
 
         return view

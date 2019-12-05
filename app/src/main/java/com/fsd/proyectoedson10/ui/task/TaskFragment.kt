@@ -8,15 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.TaskETY
-import com.fsd.proyectoedson10.DemoAdapter
+import com.fsd.proyectoedson10.DemoAdapterTaskList
 
 import com.fsd.proyectoedson10.R
-import kotlinx.android.synthetic.*
 
 class TaskFragment : Fragment() {
 
@@ -63,7 +61,7 @@ class TaskFragment : Fragment() {
         var rv = view.findViewById<RecyclerView>(R.id.rv1).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@TaskFragment.context)
-            adapter = DemoAdapter(listTask)
+            adapter = DemoAdapterTaskList(listTask)
         }
         return view
     }

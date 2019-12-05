@@ -3,12 +3,10 @@ package com.fsd.proyectoedson10
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.*
 import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -18,27 +16,20 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.ListETY
-import com.fsd.proyectoedson10.DB.Entities.TaskETY
-import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.DB.Network
-import com.fsd.proyectoedson10.ui.addlist.AddListFragment
 import com.fsd.proyectoedson10.ui.list.ListFragment
 import com.fsd.proyectoedson10.ui.notification.NotificationFragment
-import com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment
+import com.fsd.proyectoedson10.ui.addsharedlist.SharedListFragment
 import com.fsd.proyectoedson10.ui.task.TaskFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_list.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
