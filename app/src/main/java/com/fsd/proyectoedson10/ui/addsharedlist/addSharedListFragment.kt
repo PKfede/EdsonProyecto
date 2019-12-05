@@ -186,14 +186,7 @@ class SharedListFragment : Fragment() {
             listRef.child(rnds2.toString()).setValue(sharedList)
             Toast.makeText(view.context, "Lista agregada", Toast.LENGTH_SHORT).show()
 
-            val notRef = dbFirebase.getReference("notification")
-            var rnds3 = (0..1000000).random()
-            var currentTime : Date = Calendar.getInstance().time
-            var currentDate = newDateFormat(currentTime)
 
-            var notificationToFirebase = SharedListNotification(db.UserDAO().getUser().id,currentDate.toString(),rnds.toString())
-
-            notRef.child(rnds3.toString()).setValue(notificationToFirebase)
         }
 
 
@@ -221,7 +214,6 @@ class SharedListFragment : Fragment() {
         var colorPicker = AmbilWarnaDialog(context, defaultColor, object: AmbilWarnaDialog.OnAmbilWarnaListener{
             override fun onCancel(dialog: AmbilWarnaDialog?) {
             }
-
             override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
 
                 defaultColor = color
@@ -244,6 +236,16 @@ class SharedListFragment : Fragment() {
 
                 val listRef = dbFirebase.getReference("sharedList")
                 listRef.child(rnds2.toString()).setValue(sharedList)
+
+                //Notificaciones
+                val notRef = dbFirebase.getReference("notification")
+                var rnds3 = (0..1000000).random()
+                var currentTime : Date = Calendar.getInstance().time
+                var currentDate = newDateFormat(currentTime)
+
+                var notificationToFirebase = SharedListNotification(x,currentDate.toString(),list.idList)
+
+                notRef.child(rnds3.toString()).setValue(notificationToFirebase)
             }
         }
     }
