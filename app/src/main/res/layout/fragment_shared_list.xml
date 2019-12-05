@@ -1,13 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DB.sharedlist.SharedListFragment">
+    tools:context=".ui.list.ListFragment"
+    android:orientation="vertical"
+    android:transitionName="Mi Lista">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/fondito"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="55dp"
+            android:gravity="top|end">
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/button_background"
+                android:layout_margin="10dp"
+                android:src="@drawable/basura"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/nameList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lista compartida"
+            android:textColor="#FFF"
+            android:textSize="40dp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:scrollbars="vertical"/>
 
-</FrameLayout>
+</LinearLayout>
