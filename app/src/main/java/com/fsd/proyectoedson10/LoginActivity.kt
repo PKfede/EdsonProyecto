@@ -55,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
         val db = AppDatabase.getAppDatabase(this)
         Stetho.initializeWithDefaults(this)
+        val x = db.UserDAO().getAll()
 
         textRegistry = findViewById(R.id.editText_registry)
         btnLogin = findViewById(R.id.btn_login)
@@ -154,6 +155,10 @@ class LoginActivity : AppCompatActivity() {
                                 if (etUser.text.toString().trim { it <= ' ' }.matches(
                                         emailPattern.toRegex())) {
                                     if (p0.exists()) {
+
+                                        //A PARTIR DE AQUÍ SE RECUPERA LA INFORMACIÓN DE LAS LISTAS DEL USUARIO QUE SE ESTÁ LOGEANDO
+                                        // val listRef = database.getReference("listasproyecto").child("list").orderByChild("idUser").equalTo(etUser.text.toString())
+
                                         var user: User? = p0.getValue(User::class.java)
                                         user?.id = p0.key
 
@@ -189,6 +194,40 @@ class LoginActivity : AppCompatActivity() {
                                                         this@LoginActivity,
                                                         MainActivity::class.java
                                                     )
+
+                                                val listRef = database.getReference("list").orderByChild("idUser").equalTo(modifiedEmail)
+
+
+                                                //referencia = database.getReference("app").child("list").orderByChild("idUser").equalTo(auxUser)
+
+                                                listRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                                                    override fun onCancelled(p0: DatabaseError) {
+                                                    }
+
+                                                    override fun onDataChange(p0: DataSnapshot) {
+                                                        if(p0.exists())
+                                                        {
+
+                                                            val children = p0!!.children
+                                                            children.forEach{
+                                                                var listColor = it.child("color").value
+                                                                var listIcon = it.child("icon").value
+                                                                var listName = it.child("name").value
+                                                                var listIdUser = it.child("idUser").value
+                                                                var listIdList = it.child("idList").value
+
+                                                                var listToDatabase = ListETY(listIdUser.toString())
+                                                                listToDatabase.listColor = listColor.toString()
+                                                                listToDatabase.listIcon = listIcon.toString()
+                                                                listToDatabase.listName = listName.toString()
+                                                                listToDatabase.idList = listIdList.toString()
+
+                                                                db.ListDAO().insertList(listToDatabase)
+                                                            }
+                                                            Log.d("hola",p0.toString())
+                                                        }
+                                                    }
+                                                })
                                                 startActivity(intent)
                                                 finish()
                                             } else {

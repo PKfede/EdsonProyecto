@@ -25,5 +25,8 @@ interface TaskDAO {
    @Query("SELECT * FROM task WHERE expiredDate != '' ORDER BY expiredDate DESC")
    fun orderByDate() : Array<TaskETY>
 
+    @Query("SELECT * FROM task WHERE title = :name AND priority = 0")
+    fun getTaskByTaskTitle(name : String) : Array<TaskETY>
+
 
 }

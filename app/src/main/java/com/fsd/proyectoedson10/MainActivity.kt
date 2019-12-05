@@ -106,9 +106,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        Stetho.initializeWithDefaults(this)
+
         fillNavigationDrawer()
 
-        Stetho.initializeWithDefaults(this)
+
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {

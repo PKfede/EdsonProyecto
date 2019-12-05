@@ -124,6 +124,8 @@ class CreateTaskActivity : AppCompatActivity() {
                 etDescripton.text.toString()
             )
 
+
+
             db.TaskDAO().insertTask(task)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
