@@ -133,7 +133,6 @@ class CreateTaskActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
 
         val builder = AlertDialog.Builder(this@CreateTaskActivity)
 

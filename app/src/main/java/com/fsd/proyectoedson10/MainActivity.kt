@@ -96,6 +96,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var userEmail : TextView
     private lateinit var btnLogOut : ImageButton
 
+    val db = AppDatabase.getAppDatabase(this)
+    val userThing = db.UserDAO().getUser().name
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -216,6 +220,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         userName.setText(user.name)
         userEmail.setText(user.id.replace("""[,]""".toRegex(), "."))
+
+        btnLogOut.setOnClickListener{
+            onSignOff()
+        }
         return true
     }
 
@@ -253,5 +261,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
             }
         }
+
+
+    }
+
+    fun onSignOff()
+    {
+        val db = AppDatabase.getAppDatabase(this)
+        if (db.UserDAO().getUser().isLogged == 1) {
+            db.UserDAO().updateByNameTo0(userThing)
+        }
+        finish()
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+
     }
 }
