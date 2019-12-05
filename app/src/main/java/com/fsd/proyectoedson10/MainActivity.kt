@@ -322,7 +322,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                         val drawerLayout = AppDatabase.getDrawer()
                                         drawerLayout.closeDrawers()
                                         AppDatabase.setCurrentListId(it.key!!.toInt())
-                                        var fragment = ListFragment()
+                                        var fragment = SharedListFragment()
                                         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
                                         true
                                     }
