@@ -26,7 +26,7 @@ import yuku.ambilwarna.AmbilWarnaDialog
 import java.util.*
 
 data class toDoList(
-    var name: String = "", var idUser: String = "", var icon : String = "", var color : String= "", var idList : Long = 0
+    var name: String = "", var idUser: String = "", var icon : String = "", var color : String= "", var idList : String = ""
 ){
     var id : String = ""
     override fun equals(other: Any?): Boolean {
@@ -152,7 +152,7 @@ class AddMyListActivity : AppCompatActivity() {
             val database = FirebaseDatabase.getInstance()
             val dbRef = database.getReference("list")
 
-            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor)
+            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor,rnds.toString())
 
 
             dbRef.child(rnds.toString()).setValue(listToFirebase)
