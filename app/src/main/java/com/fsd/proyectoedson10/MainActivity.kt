@@ -274,7 +274,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         drawerLayout.closeDrawers()
 
                         AppDatabase.setCurrentListId(x.idList.toInt())
-                        var fragment = ListFragment()
+                        var fragment = SharedListFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.nav_host_fragment, fragment).commit()
                         true

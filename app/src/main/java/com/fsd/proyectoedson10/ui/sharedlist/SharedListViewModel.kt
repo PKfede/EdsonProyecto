@@ -1,4 +1,4 @@
-package com.fsd.proyectoedson10.DB.sharedlist
+package com.fsd.proyectoedson10.ui.sharedlist
 
 import androidx.lifecycle.ViewModel
 

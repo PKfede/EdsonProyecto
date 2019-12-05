@@ -41,7 +41,7 @@ internal class DemoAdapterSharedList(private val shared: Array<SharedListETY>) :
         viewType: Int
     ): DemoAdapterSharedList.DemoViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_demo_holder, parent, false) as View
+            .inflate(R.layout.rv_shared_list_holder, parent, false) as View
 
         return DemoViewHolder(view)
     }
