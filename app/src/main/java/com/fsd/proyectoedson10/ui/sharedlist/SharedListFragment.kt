@@ -79,6 +79,7 @@ class SharedListFragment : Fragment() {
         fun onSharedListAdded()
     }
     private lateinit var callbackNavigation : IFillNavigationShared
+
     companion object {
         fun newInstance() = SharedListFragment()
     }
