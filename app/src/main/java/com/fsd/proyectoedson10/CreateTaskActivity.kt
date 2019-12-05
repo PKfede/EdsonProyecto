@@ -1,5 +1,6 @@
 package com.fsd.proyectoedson10
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -10,6 +11,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.TaskETY
@@ -63,22 +65,26 @@ class CreateTaskActivity : AppCompatActivity() {
             DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
                 var month = month
                 var day = day
+                var dia = day.toString()
+                var mes = month.toString()
                 month = month + 1
                 Log.d(TAG, "onDateSet: mm/dd/yyy: $month/$day/$year")
 
                 if(month < 10)
                 {
-                    month = ("0" + month.toString()).toInt()
+                    mes = "0" + mes
                 }
 
                 if(day < 10)
                 {
-                   day = ("0" + day.toString()).toInt()
+                  dia = "0" + dia
                 }
 
-                val date = "$month/$day/$year"
+                val date = "$year/$mes/$dia"
                 btnDate.setText(date)  // el date es lo que vas a guardar en la BD como la fecha ejemplo del string que imprime 11/5/2019
             }
+
+
 
 
 
@@ -101,6 +107,10 @@ class CreateTaskActivity : AppCompatActivity() {
             {
                 priority = "0"
             }
+            if(btnDate.text.toString() == "Fecha de vencimiento")
+            {
+                btnDate.text = ""
+            }
             var rnds = (0..1000000).random()
 
             var task = TaskETY(
@@ -114,11 +124,38 @@ class CreateTaskActivity : AppCompatActivity() {
                 etDescripton.text.toString()
             )
 
+
+
             db.TaskDAO().insertTask(task)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
+
+    }
+
+    override fun onBackPressed() {
+
+        val builder = AlertDialog.Builder(this@CreateTaskActivity)
+
+        builder.setTitle("ADVERTENCIA")
+        builder.setMessage("¿Estas seguro que desas cancelar la creacion de la tarea? ")
+
+        builder.setPositiveButton("Si") { dialog, which ->
+
+            Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
+        }
+
+        builder.setNegativeButton("No") { dialog, which ->
+
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
 
     }
 

@@ -1,11 +1,12 @@
 package com.fsd.proyectoedson10
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Layout
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
+import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -17,10 +18,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.stetho.Stetho
@@ -30,6 +29,7 @@ import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.ui.addlist.AddListFragment
 import com.fsd.proyectoedson10.ui.list.ListFragment
+import com.fsd.proyectoedson10.ui.notification.NotificationFragment
 import com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment
 import com.fsd.proyectoedson10.ui.task.TaskFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -93,16 +93,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var rv: RecyclerView
+    private lateinit var imageUser : ImageView
+    private lateinit var userName : TextView
+    private lateinit var userEmail : TextView
+    private lateinit var btnLogOut : ImageButton
+    private lateinit var btnNotificacion : ImageButton
+
+    val db = AppDatabase.getAppDatabase(this)
+    val userThing = db.UserDAO().getUser().name
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        val fab1 : FloatingActionButton = findViewById(R.id.fab)
+        var fragment = TaskFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+        fab1.isVisible = false
+        fab1.isClickable = false
+        AppDatabase.setCurrentListId(R.id.nav_alls)
+
         setSupportActionBar(toolbar)
+
+        Stetho.initializeWithDefaults(this)
+
 
         fillNavigationDrawer()
 
-        Stetho.initializeWithDefaults(this)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
@@ -110,6 +129,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(intent)
             finish()
         }
+
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -127,18 +147,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.setNavigationItemSelectedListener(this)
-
-        val db = AppDatabase.getAppDatabase(this)
         //db.TaskDAO().InsertChingon()
 
     }
 
     override fun onNavigationItemSelected(menu: MenuItem): Boolean {
 
+
         menu.isChecked = true
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val fab: FloatingActionButton = findViewById(R.id.fab)
         drawerLayout.closeDrawers()
-        Log.d("Hola", menu.itemId.toString())
+        //Log.d("Hola", menu.itemId.toString())
+        fab.isVisible = true
+        fab.isClickable = true
         when(menu.itemId){
             R.id.nav_addList->{
                 val intent = Intent(this, AddMyListActivity::class.java)
@@ -148,14 +170,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_planneds->{
                 var fragment = TaskFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                fab.isVisible = false
+                fab.isClickable = false
+                AppDatabase.setCurrentListId(R.id.nav_planneds)
             }
             R.id.nav_alls->{
                 var fragment = TaskFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                fab.isVisible = false
+                fab.isClickable = false
+                AppDatabase.setCurrentListId(R.id.nav_alls)
             }
             R.id.nav_importants->{
                 var fragment = TaskFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                fab.isVisible = false
+                fab.isClickable = false
+                AppDatabase.setCurrentListId(R.id.nav_importants)
             }
             R.id.nav_sharedList->{
                 var fragment = SharedListFragment()
@@ -170,6 +201,55 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+        imageUser = findViewById(R.id.imageUser)
+        userName = findViewById(R.id.tv_userName)
+        userEmail = findViewById(R.id.tv_userEmail)
+        btnLogOut = findViewById(R.id.btnLogOut)
+        btnNotificacion = findViewById(R.id.notificationButton)
+
+
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val fab: FloatingActionButton = findViewById(R.id.fab)
+
+        btnNotificacion.setOnClickListener{
+            var fragment = NotificationFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+            fab.isVisible = false
+            fab.isClickable = false
+            drawerLayout.closeDrawers()
+        }
+
+        val db  = AppDatabase.getAppDatabase(this)
+        val user = db.UserDAO().getUser()
+
+        when(user.avatar){
+            "1" ->{
+                imageUser.setImageResource(R.drawable.mujer_negra_rara)
+            }
+            "2" ->{
+                imageUser.setImageResource(R.drawable.mujer_pelo_gris)
+            }
+            "3" ->{
+                imageUser.setImageResource(R.drawable.mujer_verde)
+            }
+            "4" ->{
+                imageUser.setImageResource(R.drawable.hombre_negro_calvo)
+            }
+            "5" ->{
+                imageUser.setImageResource(R.drawable.hombre_pelo_gris)
+            }
+            "6" ->{
+                imageUser.setImageResource(R.drawable.hombre_wero)
+            }
+        }
+
+
+        userName.setText(user.name)
+        userEmail.setText(user.id.replace("""[,]""".toRegex(), "."))
+
+        btnLogOut.setOnClickListener{
+            onSignOff()
+        }
         return true
     }
 
@@ -186,13 +266,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var menu = navView.menu
         val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
 
+        val  fb : FloatingActionButton = findViewById(R.id.fab)
+
+        Log.d("tamano", listLists.size.toString())
         if(listLists.isNotEmpty()) {
             for (x in listLists) {
-
-                Log.d("Hola", x.idList)
-
                 menu.add(R.id.group2, x.idList.toInt(), 1, x.listName)
                     .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
+                        fb.isVisible = true
+                        fb.isClickable = true
                         val drawerLayout = AppDatabase.getDrawer()
                         drawerLayout.closeDrawers()
 
@@ -203,5 +285,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
             }
         }
+
+
+    }
+
+    fun onSignOff()
+    {
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle("Cerrar Sesión")
+        builder.setMessage("¿Desea cerrar sesión?")
+
+        builder.setPositiveButton("Si") { dialog, which ->
+
+            val db = AppDatabase.getAppDatabase(this)
+            if (db.UserDAO().getUser().isLogged == 1) {
+                db.UserDAO().updateByNameTo0(userThing)
+            }
+            finish()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        builder.setNeutralButton("No") { dialog, which ->
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
     }
 }

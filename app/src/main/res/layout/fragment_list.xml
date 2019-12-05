@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.list.ListFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:transitionName="Mi Lista">
 
     <LinearLayout
         android:id="@+id/background"
@@ -19,7 +20,6 @@
             android:layout_height="wrap_content"
             android:text="Mi lista"
             android:textColor="#FFF"
-
             android:textSize="40dp"
             android:textStyle="bold"/>
 

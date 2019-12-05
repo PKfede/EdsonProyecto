@@ -3,6 +3,7 @@ package com.fsd.proyectoedson10
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -26,6 +27,7 @@ class RegistryActivity : AppCompatActivity() {
     private lateinit var etUserLastName: EditText
     private lateinit var etEmail: EditText
     private lateinit var etPass: EditText
+    private lateinit var etConPass: EditText
 
     private lateinit var imageBlackWoman : ImageView
     private lateinit var imageGrayWoman : ImageView
@@ -34,9 +36,13 @@ class RegistryActivity : AppCompatActivity() {
     private lateinit var imageGrayMan : ImageView
     private lateinit var imageWeroMan: ImageView
 
+    lateinit var emailPattern: String
+
+
+
     private lateinit var currentImageView: ImageView
     var selectedIcon = 0
-    var image = 1
+    var image = 1;
 
 
 
@@ -52,6 +58,7 @@ class RegistryActivity : AppCompatActivity() {
         etUserLastName = findViewById(R.id.editText_userLastName)
         etEmail = findViewById(R.id.editText_email)
         etPass = findViewById(R.id.editText_userPass)
+        etConPass = findViewById(R.id.editText_userConfirmedPass)
 
 
         imageBlackWoman = findViewById(R.id.ImageBlackWoman)
@@ -66,10 +73,15 @@ class RegistryActivity : AppCompatActivity() {
         currentImageView.foreground.alpha = 0
         selectedIcon = R.drawable.mujer_negra_rara
 
+
+
+
+
+
         imageBlackWoman.setOnClickListener {
             image = 1
             changeSelectedIcon(
-                imageBlackMan,
+                imageBlackWoman,
                 R.drawable.mujer_negra_rara
             )
         }
@@ -109,6 +121,14 @@ class RegistryActivity : AppCompatActivity() {
             )
         }
 
+
+
+        emailPattern = "[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+\\.+[a-z]+"
+
+        etEmail = findViewById(R.id.editText_email) as EditText
+        btnRegistry = findViewById(R.id.btn_registry) as Button
+
+
         btnRegistry.setOnClickListener {
 
             val database = FirebaseDatabase.getInstance()
@@ -121,6 +141,7 @@ class RegistryActivity : AppCompatActivity() {
                 image.toString()
             )
 
+
             var modifiedEmail = etEmail.text.toString().replace("""[.]""".toRegex(), ",")
 
             val userRef = database.getReference("user").child(modifiedEmail)
@@ -131,21 +152,93 @@ class RegistryActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    if (p0.value == null) {
+                    if (etEmail.text.toString().trim().length>0) {
+                        if (etUserName.text.toString().trim().length>0) {
+                            if (etUserLastName.text.toString().trim().length>0) {
+                                if (etPass.text.toString().trim().length>0 ) {
+                                    if (etConPass.text.toString().trim().length>0) {
+                                        if (etConPass.text.toString() == etPass.text.toString()) {
+                                            if (p0.value == null) {
+                                                if (etEmail.text.toString().trim { it <= ' ' }.matches(emailPattern.toRegex())) {
+
+                                                    dbRef.child(modifiedEmail).setValue(user)
+
+
+                                                    val intent =
+                                                        Intent(this@RegistryActivity, LoginActivity::class.java)
+                                                    startActivity(intent)
+                                                    Toast.makeText(
+                                                        this@RegistryActivity,
+                                                        "Usuario creadoo",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+
+                                                } else {
+                                                    Toast.makeText(
+                                                        this@RegistryActivity,
+                                                        "Ingresar un e-mail valido",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+
+                                                }
+                                            } else {
+
+
+                                                Toast.makeText(
+                                                    this@RegistryActivity,
+                                                    "Ya existe el usuario",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+
+                                            }
+                                        }else{
+                                            Toast.makeText(
+                                                this@RegistryActivity,
+                                                "La contraseña no concuerda",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+
+
+                                        }
+                                    }else{
+                                        Toast.makeText(
+                                            this@RegistryActivity,
+                                            "No lleno la confirmacion de la contraseña",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        etConPass.setHintTextColor(Color.RED)
+                                    }
+                                }else{
+                                    Toast.makeText(
+                                        this@RegistryActivity,
+                                        "No lleno la contraseña",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    etPass.setHintTextColor(Color.RED)
+                                }
+                            }else{
+                                Toast.makeText(
+                                    this@RegistryActivity,
+                                    "No lleno el apellido",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                etUserLastName.setHintTextColor(Color.RED)
+                            }
+                        }else{
+                            Toast.makeText(
+                                this@RegistryActivity,
+                                "No lleno el nombre",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            etUserName.setHintTextColor(Color.RED)
+                        }
+                    }else{
                         Toast.makeText(
                             this@RegistryActivity,
-                            "Usuario registrado",
-                            Toast.LENGTH_LONG
+                            "No lleno el email",
+                            Toast.LENGTH_SHORT
                         ).show()
-                        dbRef.child(modifiedEmail).setValue(user)
-                        val intent = Intent(this@RegistryActivity, LoginActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(
-                            this@RegistryActivity,
-                            "Ya existe el usuario",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        etEmail.setHintTextColor(Color.RED)
                     }
                 }
             })
@@ -175,5 +268,3 @@ class RegistryActivity : AppCompatActivity() {
 
 
 }
-
-
