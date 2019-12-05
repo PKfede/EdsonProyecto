@@ -27,65 +27,18 @@ import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.ListETY
 import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
+import com.fsd.proyectoedson10.DB.Network
 import com.fsd.proyectoedson10.ui.addlist.AddListFragment
 import com.fsd.proyectoedson10.ui.list.ListFragment
 import com.fsd.proyectoedson10.ui.notification.NotificationFragment
 import com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment
 import com.fsd.proyectoedson10.ui.task.TaskFragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
-
-class DemoAdapter(private val tasks: Array<TaskETY>) :
-    RecyclerView.Adapter<DemoAdapter.DemoViewHolder>() {
-
-    class DemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private var tvName: TextView
-        private var imagePriority : ImageView
-        private var creator : TextView
-        private var date : TextView
-        private var description : TextView
-
-        init {
-            tvName = view.findViewById(R.id.name)
-            imagePriority = view.findViewById(R.id.iconPriority)
-            creator = view.findViewById(R.id.creator)
-            date = view.findViewById(R.id.date)
-            description = view.findViewById(R.id.description)
-
-        }
-
-        val db = AppDatabase.getAppDatabase(view.context)
-
-        public fun bind(task: TaskETY) {
-            tvName.setText(task.title)
-            when(task.priority){
-                "0" -> {imagePriority.setImageResource(R.drawable.sin_importancia)}
-                "1" -> {imagePriority.setImageResource(R.drawable.baja)}
-                "2" -> {imagePriority.setImageResource(R.drawable.normal)}
-                "3" -> {imagePriority.setImageResource(R.drawable.alta)}
-            }
-            creator.setText("${db.UserDAO().getUser().lastName}, ${db.UserDAO().getUser().name}" )
-            date.setText(task.expiredDate)
-            description.setText(task.description)
-        }
-    }
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): DemoAdapter.DemoViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_demo_holder, parent, false) as View
-
-        return DemoViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: DemoViewHolder, position: Int) {
-        holder.bind(tasks[position])
-    }
-
-    override fun getItemCount() = tasks.size
-}
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -121,7 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         fillNavigationDrawer()
-
+        fillNavigationSharedList()
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
@@ -129,7 +82,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(intent)
             finish()
         }
-
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -152,7 +104,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(menu: MenuItem): Boolean {
-
 
         menu.isChecked = true
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -285,8 +236,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
             }
         }
-
-
     }
 
     fun onSignOff()
@@ -308,9 +257,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         builder.setNeutralButton("No") { dialog, which ->
         }
-
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    fun fillNavigationSharedList(){
+
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val db = AppDatabase.getAppDatabase(this)
+        var menu = navView.menu
+        val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id)
+
+        if(Network.isConnected(this)) {
+            var listOfListOfUser: MutableList<ListETY> = mutableListOf()
+            val dbFirebase = FirebaseDatabase.getInstance()
+            val listRef = dbFirebase.getReference("list").orderByChild("idUser").equalTo(db.UserDAO().getUser().id)
+            listRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+                    if(p0.exists()) {
+                        var children = p0!!.children
+                        children.forEach{
+
+                            if(it.child("shared").value.toString() == "1"){
+                                menu.add(R.id.group3, it.key!!.toInt(), 2, it.child("name").value.toString())
+                                    .setIcon(it.child("icon").value.toString().toInt()).setOnMenuItemClickListener { menu->
+                                        val drawerLayout = AppDatabase.getDrawer()
+                                        drawerLayout.closeDrawers()
+                                        AppDatabase.setCurrentListId(it.key!!.toInt())
+                                        var fragment = ListFragment()
+                                        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                                        true
+                                    }
+                            }
+                        }
+                    }
+                }
+            })
+        }
 
     }
+
+
+
 }
