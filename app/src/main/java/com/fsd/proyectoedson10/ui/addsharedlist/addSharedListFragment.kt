@@ -186,6 +186,7 @@ class SharedListFragment : Fragment() {
             listRef.child(rnds2.toString()).setValue(sharedList)
 
             (activity as MainActivity).fillNavigationSharedList()
+            edName.text.clear()
             Toast.makeText(view.context, "Lista agregada", Toast.LENGTH_SHORT).show()
 
 

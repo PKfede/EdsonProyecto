@@ -1,4 +1,4 @@
-package com.fsd.proyectoedson10.DB.sharedlist
+package com.fsd.proyectoedson10.ui.sharedlist
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fsd.proyectoedson10.DemoAdapterTaskNotification
 
 import com.fsd.proyectoedson10.R
 
