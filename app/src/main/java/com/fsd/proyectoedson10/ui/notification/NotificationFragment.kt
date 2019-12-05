@@ -48,7 +48,7 @@ class NotificationFragment : Fragment() {
         }
 
         buttonAceptar.setOnClickListener{
-            
+
         }
 
         return view
