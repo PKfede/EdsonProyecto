@@ -36,19 +36,11 @@ class NotificationFragment : Fragment() {
         var view =  inflater.inflate(R.layout.fragment_notification, container, false)
         val db = AppDatabase.getAppDatabase(view.context)
         val listNoti = db.NotificationDAO().getAll()
-        val buttonAceptar : Button = view.findViewById(R.id.buttonAcept)
-        val buttonCancel : Button = view.findViewById(R.id.buttonCancel)
-
-
 
         var rv = view.findViewById<RecyclerView>(R.id.rv2).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@NotificationFragment.context)
             adapter = DemoAdapterTaskNotification(listNoti)
-        }
-
-        buttonAceptar.setOnClickListener{
-
         }
 
         return view
