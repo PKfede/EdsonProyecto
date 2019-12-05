@@ -24,15 +24,11 @@ internal class DemoAdapterTaskNotification(private val notifications: Array<Noti
             notiDate = view.findViewById(R.id.notificationDate)
         }
 
-        val db = AppDatabase.getAppDatabase(view.context)
-
-
 
         public fun bind(notification: NotificationETY)
         {
-            titleList.setText(db.ListDAO().selectList(notification.sharedListId).listName)
-            creatorNotification.setText("${db.UserDAO().getById(notification.userId)?.name} " +
-                    "${db.UserDAO().getById(notification.userId)?.lastName} te ha invitado a una nueva lista compartida.")
+            titleList.setText(notification.listName)
+            creatorNotification.setText("${notification.sender} te ha invitado a una nueva lista compartida.")
             notiDate.setText(notification.date)
 
         }
