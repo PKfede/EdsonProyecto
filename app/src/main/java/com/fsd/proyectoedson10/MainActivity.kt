@@ -35,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
+
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -189,7 +191,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                                 var notToDatabase = NotificationETY (userId.toString(),listId.toString(),noteDate.toString(),sender.toString(),listName.toString())
                                 notToDatabase.idNotification = it.key.toString()
-
                                 db.NotificationDAO().insert(notToDatabase)
                             }
 
@@ -197,12 +198,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 })
 
-                
                 var fragment = NotificationFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
                 fab.isVisible = false
                 fab.isClickable = false
                 drawerLayout.closeDrawers()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
             }
             else
             {

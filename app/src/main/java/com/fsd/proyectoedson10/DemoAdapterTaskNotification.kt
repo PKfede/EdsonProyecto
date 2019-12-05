@@ -18,8 +18,7 @@ internal class DemoAdapterTaskNotification(private val notifications: Array<Noti
 
 
         init {
-
-            titleList = view.findViewById(R.id.notificationTitle)
+            titleList = view.findViewById(R.id.notification)
             creatorNotification = view.findViewById(R.id.creatorNotification)
             notiDate = view.findViewById(R.id.notificationDate)
         }
@@ -39,7 +38,7 @@ internal class DemoAdapterTaskNotification(private val notifications: Array<Noti
         viewType: Int
     ): DemoAdapterTaskNotification.DemoViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_demo_holder, parent, false) as View
+            .inflate(R.layout.rv_notification_holder, parent, false) as View
 
         return DemoViewHolder(view)
     }

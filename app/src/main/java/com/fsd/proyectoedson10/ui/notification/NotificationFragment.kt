@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
@@ -33,17 +34,21 @@ class NotificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var view =  inflater.inflate(R.layout.fragment_notification, container, false)
+        val db = AppDatabase.getAppDatabase(view.context)
+        val listNoti = db.NotificationDAO().getAll()
+        val buttonAceptar : Button = view.findViewById(R.id.buttonAcept)
+        val buttonCancel : Button = view.findViewById(R.id.buttonCancel)
 
-
-
-
-        val listNoti = AppDatabase.getNotificationList().toTypedArray()
 
 
         var rv = view.findViewById<RecyclerView>(R.id.rv2).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@NotificationFragment.context)
             adapter = DemoAdapterTaskNotification(listNoti)
+        }
+
+        buttonAceptar.setOnClickListener{
+            
         }
 
         return view
