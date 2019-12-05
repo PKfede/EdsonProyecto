@@ -20,5 +20,4 @@ interface NotificationDAO {
     @Query("SELECT*FROM notification")
     fun getAll(): Array<NotificationETY>
 
-
 }
