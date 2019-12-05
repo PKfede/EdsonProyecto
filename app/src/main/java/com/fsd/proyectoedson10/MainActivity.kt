@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
-        var listOfNotifications : MutableList<NotificationETY> = mutableListOf()
+
 
         btnNotificacion.setOnClickListener{
 
@@ -167,16 +167,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //AQUI ENTRAN LAS NOTIFICACIONES AL ROOM
                 val db = AppDatabase.getAppDatabase(this@MainActivity)
                 val database = FirebaseDatabase.getInstance()
+                var listOfNotifications : MutableList<NotificationETY> = mutableListOf()
                 val notRef = database.getReference("notification").orderByChild("userId").equalTo(db.UserDAO().getUser().id)
 
-                notRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                notRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
+                        Log.d("Hola", p0.toString())
                         if(p0.exists())
                         {
                             val children = p0.children
+
                             children.forEach{
                                 var noteDate = it.child("date").value
                                 var listId = it.child("listId").value
@@ -186,13 +189,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                                 var notToDatabase = NotificationETY (userId.toString(),listId.toString(),noteDate.toString(),sender.toString(),listName.toString())
                                 notToDatabase.idNotification = it.key.toString()
-                                listOfNotifications.add(notToDatabase)
-                                AppDatabase.setNotificationList(listOfNotifications)
+
+                                db.NotificationDAO().insert(notToDatabase)
                             }
 
                         }
                     }
                 })
+
                 
                 var fragment = NotificationFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()

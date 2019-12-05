@@ -3,6 +3,8 @@
   "database": {
     "version": 1,
     "identityHash": "7c6b035a48d1a3b7cf4dcdfd87569b02",
+
+    
     "entities": [
       {
         "tableName": "user",
@@ -268,6 +270,7 @@
       {
         "tableName": "notification",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idNotification` TEXT NOT NULL, `userId` TEXT NOT NULL, `listId` TEXT NOT NULL, `date` TEXT NOT NULL, `Sender` TEXT NOT NULL, `listName` TEXT NOT NULL, PRIMARY KEY(`idNotification`), FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+
         "fields": [
           {
             "fieldPath": "idNotification",
@@ -314,22 +317,6 @@
         },
         "indices": [
           {
-            "name": "index_notification_userId",
-            "unique": true,
-            "columnNames": [
-              "userId"
-            ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_notification_userId` ON `${TABLE_NAME}` (`userId`)"
-          },
-          {
-            "name": "index_notification_listId",
-            "unique": true,
-            "columnNames": [
-              "listId"
-            ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_notification_listId` ON `${TABLE_NAME}` (`listId`)"
-          },
-          {
             "name": "index_notification_idNotification",
             "unique": false,
             "columnNames": [
@@ -338,30 +325,7 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_notification_idNotification` ON `${TABLE_NAME}` (`idNotification`)"
           }
         ],
-        "foreignKeys": [
-          {
-            "table": "user",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "userId"
-            ],
-            "referencedColumns": [
-              "idUser"
-            ]
-          },
-          {
-            "table": "list",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "listId"
-            ],
-            "referencedColumns": [
-              "idList"
-            ]
-          }
-        ]
+        "foreignKeys": []
       },
       {
         "tableName": "list",
@@ -433,6 +397,7 @@
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
       "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7c6b035a48d1a3b7cf4dcdfd87569b02')"
+
     ]
   }
 }
