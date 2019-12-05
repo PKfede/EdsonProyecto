@@ -61,6 +61,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
 
+        val fab1 : FloatingActionButton = findViewById(R.id.fab)
+        fab1.isVisible = false
+        fab1.isClickable = false
         AppDatabase.setCurrentListId(R.id.nav_alls)
 
         setSupportActionBar(toolbar)
