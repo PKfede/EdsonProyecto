@@ -222,6 +222,8 @@ class LoginActivity : AppCompatActivity() {
                                                                 listToDatabase.listName = listName.toString()
                                                                 listToDatabase.idList = listIdList.toString()
 
+
+
                                                                 db.ListDAO().insertList(listToDatabase)
                                                             }
                                                             Log.d("p0",p0.toString())
