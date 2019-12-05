@@ -87,51 +87,52 @@ class CreateTaskActivity : AppCompatActivity() {
 
 
 
+    //    if (etTaskTitle.text.toString().trim().length > 0) {
+            btnSaveTask.setOnClickListener {
+                val db = AppDatabase.getAppDatabase(this)
 
-        btnSaveTask.setOnClickListener{
-            val db = AppDatabase.getAppDatabase(this)
+                if (radioHigh.isChecked) {
+                    priority = "3"
+                } else if (radioNormal.isChecked) {
+                    priority = "2"
+                } else if (radioLow.isChecked) {
+                    priority = "1"
+                } else {
+                    priority = "0"
+                }
+                if (btnDate.text.toString() == "Fecha de vencimiento") {
+                    btnDate.text = "Fecha de vencimiento"
+                }
+                var rnds = (0..1000000).random()
 
-            if(radioHigh.isChecked)
-            {
-                priority = "3"
+                var task = TaskETY(
+                    rnds.toString(),
+                    AppDatabase.getCurrentListId().toString(),
+                    etTaskTitle.text.toString(),
+                    btnDate.text.toString(),
+                    priority,
+                    db.UserDAO().getUser().id,
+                    "1",
+                    etDescripton.text.toString()
+                )
+
+                if (etTaskTitle.text.toString().trim().length > 0) {
+                    db.TaskDAO().insertTask(task)
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                else{
+                    Toast.makeText(
+                this@CreateTaskActivity,
+                "Debe asignarle un titulo",
+                Toast.LENGTH_SHORT
+            ).show()
+            etTaskTitle.setHintTextColor(Color.RED)
+                }
+
+
             }
-            else if(radioNormal.isChecked)
-            {
-                priority = "2"
-            }
-            else if(radioLow.isChecked)
-            {
-                priority = "1"
-            }
-            else
-            {
-                priority = "0"
-            }
-            if(btnDate.text.toString() == "Fecha de vencimiento")
-            {
-                btnDate.text = ""
-            }
-            var rnds = (0..1000000).random()
-
-            var task = TaskETY(
-                rnds.toString(),
-                AppDatabase.getCurrentListId().toString(),
-                etTaskTitle.text.toString(),
-                btnDate.text.toString(),
-                priority,
-                db.UserDAO().getUser().id,
-                "1",
-                etDescripton.text.toString()
-            )
-
-
-
-            db.TaskDAO().insertTask(task)
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
     }
 
     override fun onBackPressed() {
