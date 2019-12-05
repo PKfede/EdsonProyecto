@@ -2,21 +2,16 @@ package com.fsd.proyectoedson10.ui.list
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
-import com.fsd.proyectoedson10.DemoAdapter
+import com.fsd.proyectoedson10.DemoAdapterTaskList
 
 import com.fsd.proyectoedson10.R
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_list.view.*
 
 class ListFragment : Fragment() {
@@ -48,7 +43,7 @@ class ListFragment : Fragment() {
             var rv = view.findViewById<RecyclerView>(R.id.rv).apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(this@ListFragment.context)
-                adapter = DemoAdapter(listTask)
+                adapter = DemoAdapterTaskList(listTask)
             }
         }
 

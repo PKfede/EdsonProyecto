@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.TaskETY
 
-internal class DemoAdapter(private val tasks: Array<TaskETY>) :
-    RecyclerView.Adapter<DemoAdapter.DemoViewHolder>() {
+internal class DemoAdapterTaskList(private val tasks: Array<TaskETY>) :
+    RecyclerView.Adapter<DemoAdapterTaskList.DemoViewHolder>() {
 
     internal class DemoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var tvName: TextView
@@ -55,7 +55,7 @@ internal class DemoAdapter(private val tasks: Array<TaskETY>) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DemoAdapter.DemoViewHolder {
+    ): DemoAdapterTaskList.DemoViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.rv_demo_holder, parent, false) as View
 

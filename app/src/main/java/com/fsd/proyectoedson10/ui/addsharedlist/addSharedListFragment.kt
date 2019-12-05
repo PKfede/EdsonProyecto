@@ -1,7 +1,6 @@
-package com.fsd.proyectoedson10.ui.sharedlist
+package com.fsd.proyectoedson10.ui.addsharedlist
 
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -14,19 +13,14 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.ListETY
-import com.fsd.proyectoedson10.DB.Entities.SharedListETY
-import com.fsd.proyectoedson10.MainActivity
 
 import com.fsd.proyectoedson10.R
 import com.fsd.proyectoedson10.toDoList
 import com.google.firebase.database.FirebaseDatabase
 import yuku.ambilwarna.AmbilWarnaDialog
-import java.text.DateFormat
-import java.time.LocalDate
 import java.util.*
 
 
@@ -79,13 +73,14 @@ class SharedListFragment : Fragment() {
         fun onSharedListAdded()
     }
     private lateinit var callbackNavigation : IFillNavigationShared
+
     companion object {
         fun newInstance() = SharedListFragment()
     }
 
     private var listOfUsers : MutableList<String> = mutableListOf()
 
-    private lateinit var viewModel: SharedListViewModel
+    private lateinit var viewModel: addSharedListViewModel
     private lateinit var colorButton : Button
     private var defaultColor  : Int = 0
     private lateinit var btnSave : Button
@@ -107,7 +102,7 @@ class SharedListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_shared_list, container, false)
+        var view = inflater.inflate(R.layout.fragment_add_shared_list, container, false)
 
         edAddParticipants = view.findViewById(R.id.adParticipants)
         btnAddParticipants = view.findViewById(R.id.buttonAddParticipant)
@@ -191,14 +186,7 @@ class SharedListFragment : Fragment() {
             listRef.child(rnds2.toString()).setValue(sharedList)
             Toast.makeText(view.context, "Lista agregada", Toast.LENGTH_SHORT).show()
 
-            val notRef = dbFirebase.getReference("notification")
-            var rnds3 = (0..1000000).random()
-            var currentTime : Date = Calendar.getInstance().time
-            var currentDate = newDateFormat(currentTime)
 
-            var notificationToFirebase = SharedListNotification(db.UserDAO().getUser().id,currentDate.toString(),rnds.toString())
-
-            notRef.child(rnds3.toString()).setValue(notificationToFirebase)
         }
 
 
@@ -207,7 +195,7 @@ class SharedListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SharedListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(addSharedListViewModel::class.java)
 
     }
 
@@ -226,7 +214,6 @@ class SharedListFragment : Fragment() {
         var colorPicker = AmbilWarnaDialog(context, defaultColor, object: AmbilWarnaDialog.OnAmbilWarnaListener{
             override fun onCancel(dialog: AmbilWarnaDialog?) {
             }
-
             override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
 
                 defaultColor = color
@@ -249,6 +236,16 @@ class SharedListFragment : Fragment() {
 
                 val listRef = dbFirebase.getReference("sharedList")
                 listRef.child(rnds2.toString()).setValue(sharedList)
+
+                //Notificaciones
+                val notRef = dbFirebase.getReference("notification")
+                var rnds3 = (0..1000000).random()
+                var currentTime : Date = Calendar.getInstance().time
+                var currentDate = newDateFormat(currentTime)
+
+                var notificationToFirebase = SharedListNotification(x,currentDate.toString(),list.idList)
+
+                notRef.child(rnds3.toString()).setValue(notificationToFirebase)
             }
         }
     }
