@@ -214,7 +214,8 @@ class LoginActivity : AppCompatActivity() {
                                                                 var listIcon = it.child("icon").value
                                                                 var listName = it.child("name").value
                                                                 var listIdUser = it.child("idUser").value
-                                                                var listIdList = it.child("idList").value
+                                                                var listIdList = it.child("id").value
+                                                                var listIsShared = it.child("shared").value.toString()
 
                                                                 var listToDatabase = ListETY(listIdUser.toString())
                                                                 listToDatabase.listColor = listColor.toString()
@@ -222,7 +223,10 @@ class LoginActivity : AppCompatActivity() {
                                                                 listToDatabase.listName = listName.toString()
                                                                 listToDatabase.idList = listIdList.toString()
 
-                                                                db.ListDAO().insertList(listToDatabase)
+                                                                if(listIsShared == "0")
+                                                                {
+                                                                    db.ListDAO().insertList(listToDatabase)
+                                                                }
                                                             }
                                                             Log.d("p0",p0.toString())
                                                         }
