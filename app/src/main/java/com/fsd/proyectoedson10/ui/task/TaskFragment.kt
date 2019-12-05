@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
@@ -47,7 +48,7 @@ class TaskFragment : Fragment() {
             R.id.nav_alls ->{
                 nameList1.setText("Todas")
                 listTask = db.TaskDAO().getAll()
-                
+                orderButtom.setImageResource(R.drawable.todos)
 
             }
 
@@ -57,6 +58,7 @@ class TaskFragment : Fragment() {
                 orderButtom.setImageResource(R.drawable.date)
             }
         }
+
 
         var rv = view.findViewById<RecyclerView>(R.id.rv1).apply {
             setHasFixedSize(true)
