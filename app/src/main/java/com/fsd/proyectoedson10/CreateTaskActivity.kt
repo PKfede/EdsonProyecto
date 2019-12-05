@@ -1,5 +1,6 @@
 package com.fsd.proyectoedson10
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -10,6 +11,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.TaskETY
@@ -133,9 +135,27 @@ class CreateTaskActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
 
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        val builder = AlertDialog.Builder(this@CreateTaskActivity)
+
+        builder.setTitle("ADVERTENCIA")
+        builder.setMessage("¿Estas seguro que desas cancelar la creacion de la tarea? ")
+
+        builder.setPositiveButton("Si") { dialog, which ->
+
+            Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
+        }
+
+        builder.setNegativeButton("No") { dialog, which ->
+
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
     }
 
 
