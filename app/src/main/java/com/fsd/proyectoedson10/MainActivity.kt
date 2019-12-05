@@ -35,8 +35,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var rv: RecyclerView
@@ -309,26 +308,54 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
                 override fun onDataChange(p0: DataSnapshot) {
                     if(p0.exists()) {
-                        var children = p0!!.children
-                        children.forEach{
 
-                            if(it.child("shared").value.toString() == "1"){
-                                menu.add(R.id.group3, it.key!!.toInt(), 2, it.child("name").value.toString())
-                                    .setIcon(it.child("icon").value.toString().toInt()).setOnMenuItemClickListener { menu->
-                                        val drawerLayout = AppDatabase.getDrawer()
-                                        drawerLayout.closeDrawers()
-                                        AppDatabase.setCurrentListId(it.key!!.toInt())
-                                        var fragment = SharedListFragment()
-                                        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
-                                        true
-                                    }
+                        var children = p0!!.children
+                        children.forEach {
+                            if (it.child("shared").value.toString() == "1") {
+                                var listColor = it.child("color").value
+                                var listIcon = it.child("icon").value
+                                var listName = it.child("name").value
+                                var listIdUser = it.child("idUser").value
+                                var listIdList = it.key
+                                var listToDatabase = ListETY(listIdUser.toString())
+                                listToDatabase.listColor = listColor.toString()
+                                listToDatabase.listIcon = listIcon.toString()
+                                listToDatabase.listName = listName.toString()
+                                listToDatabase.idList = listIdList.toString()
+                                listOfListOfUser.add(listToDatabase)
                             }
                         }
                     }
+                    onSharedListAdded(listOfListOfUser)
+                    if(listOfListOfUser.isNotEmpty()) {
+                        for(x in listOfListOfUser){
+                            menu.add(R.id.group3, x.idList.toInt(), 2, x.listName)
+                                .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener { menu->
+                                    val drawerLayout = AppDatabase.getDrawer()
+                                    drawerLayout.closeDrawers()
+                                    AppDatabase.setCurrentListId(x.idList.toInt())
+                                    var fragment = SharedListFragment()
+                                    supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                                    true
+                                }
+                        }
+
+                    }
+
                 }
+
             })
         }
 
+    }
+    fun onSharedListAdded(list:MutableList<ListETY>){
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        var menu = navView.menu
+        if(list.isNotEmpty()) {
+            for (x in list) {
+                menu.removeItem(x.idList.toInt())
+            }
+        }
     }
 
 
