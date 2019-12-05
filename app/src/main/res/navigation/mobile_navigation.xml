@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_alls">
 
     <fragment
         android:id="@+id/nav_home"
@@ -13,22 +13,22 @@
     <fragment
         android:id="@+id/nav_planneds"
         android:name="com.fsd.proyectoedson10.ui.task.TaskFragment"
-        android:label="@string/menu_home"
+        android:label="Planeadas"
         tools:layout="@layout/fragment_task" />
     <fragment
         android:id="@+id/nav_importants"
         android:name="com.fsd.proyectoedson10.ui.task.TaskFragment"
-        android:label="@string/menu_home"
+        android:label="Importantes"
         tools:layout="@layout/fragment_task" />
     <fragment
         android:id="@+id/nav_addList"
         android:name="com.fsd.proyectoedson10.ui.addlist.AddListFragment"
-        android:label="@string/menu_home"
+        android:label="Añadir lista"
         tools:layout="@layout/fragment_add_list_" />
     <fragment
         android:id="@+id/nav_sharedList"
         android:name="com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment"
-        android:label="@string/menu_home"
+        android:label="Listas compartidas"
         tools:layout="@layout/fragment_shared_list" />
 
 
