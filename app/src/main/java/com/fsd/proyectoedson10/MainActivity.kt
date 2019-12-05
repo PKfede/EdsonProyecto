@@ -27,7 +27,8 @@ import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.DB.Network
 import com.fsd.proyectoedson10.ui.list.ListFragment
 import com.fsd.proyectoedson10.ui.notification.NotificationFragment
-import com.fsd.proyectoedson10.ui.addsharedlist.SharedListFragment
+import com.fsd.proyectoedson10.ui.addsharedlist.addSharedListFragment
+import com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment
 import com.fsd.proyectoedson10.ui.task.TaskFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -274,7 +275,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         drawerLayout.closeDrawers()
 
                         AppDatabase.setCurrentListId(x.idList.toInt())
-                        var fragment = SharedListFragment()
+                        var fragment = ListFragment()
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.nav_host_fragment, fragment).commit()
                         true
