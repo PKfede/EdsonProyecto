@@ -180,6 +180,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 var listId = it.child("listId").value
                                 var userId = it.child("userId").value
                                 var sender = it.child("sender").value
+                                var listName = it.child("listName").value
 
                                 var notToDatabase = NotificationETY (userId.toString(),listId.toString(),noteDate.toString(),sender.toString())
                                 notToDatabase.idNotification = it.key.toString()
