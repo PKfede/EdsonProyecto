@@ -122,7 +122,7 @@ class LoginActivity : AppCompatActivity() {
                         } else {
                             Toast.makeText(
                                 this@LoginActivity,
-                                "Please enter valid email",
+                                "Ingresar un e-mail valido",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -224,7 +224,7 @@ class LoginActivity : AppCompatActivity() {
 
                                                                 db.ListDAO().insertList(listToDatabase)
                                                             }
-                                                            Log.d("hola",p0.toString())
+                                                            Log.d("p0",p0.toString())
                                                         }
                                                     }
                                                 })

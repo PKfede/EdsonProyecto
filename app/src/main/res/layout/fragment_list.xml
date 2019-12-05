@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:text="Mi lista"
             android:textColor="#FFF"
-
             android:textSize="40dp"
             android:textStyle="bold"/>
 

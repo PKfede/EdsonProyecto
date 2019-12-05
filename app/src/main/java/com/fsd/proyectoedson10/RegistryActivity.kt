@@ -176,7 +176,7 @@ class RegistryActivity : AppCompatActivity() {
                                                 } else {
                                                     Toast.makeText(
                                                         this@RegistryActivity,
-                                                        "Please enter valid email",
+                                                        "Ingresar un e-mail valido",
                                                         Toast.LENGTH_SHORT
                                                     ).show()
 
@@ -194,7 +194,7 @@ class RegistryActivity : AppCompatActivity() {
                                         }else{
                                             Toast.makeText(
                                                 this@RegistryActivity,
-                                                "la contraseña no concuerda",
+                                                "La contraseña no concuerda",
                                                 Toast.LENGTH_SHORT
                                             ).show()
 

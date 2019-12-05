@@ -13,8 +13,7 @@
     <fragment
         android:id="@+id/nav_planneds"
         android:name="com.fsd.proyectoedson10.ui.task.TaskFragment"
-        android:label="Planeadas"
-        tools:layout="@layout/fragment_task" />
+        android:label="Planeadas" />
     <fragment
         android:id="@+id/nav_importants"
         android:name="com.fsd.proyectoedson10.ui.task.TaskFragment"
@@ -30,6 +29,10 @@
         android:name="com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment"
         android:label="Listas compartidas"
         tools:layout="@layout/fragment_shared_list" />
-
+    <fragment
+        android:id="@+id/nav_notification"
+        android:name="com.fsd.proyectoedson10.ui.notification.NotificationFragment"
+        android:label="Notificaciones"
+        tools:layout="@layout/fragment_notification" />
 
 </navigation>

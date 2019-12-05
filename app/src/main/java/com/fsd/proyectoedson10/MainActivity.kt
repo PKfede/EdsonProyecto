@@ -1,5 +1,6 @@
 package com.fsd.proyectoedson10
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Layout
@@ -28,6 +29,7 @@ import com.fsd.proyectoedson10.DB.Entities.TaskETY
 import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.ui.addlist.AddListFragment
 import com.fsd.proyectoedson10.ui.list.ListFragment
+import com.fsd.proyectoedson10.ui.notification.NotificationFragment
 import com.fsd.proyectoedson10.ui.sharedlist.SharedListFragment
 import com.fsd.proyectoedson10.ui.task.TaskFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -95,6 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var userName : TextView
     private lateinit var userEmail : TextView
     private lateinit var btnLogOut : ImageButton
+    private lateinit var btnNotificacion : ImageButton
 
     val db = AppDatabase.getAppDatabase(this)
     val userThing = db.UserDAO().getUser().name
@@ -104,12 +107,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        val fab1 : FloatingActionButton = findViewById(R.id.fab)
+        var fragment = TaskFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+        fab1.isVisible = false
+        fab1.isClickable = false
+        AppDatabase.setCurrentListId(R.id.nav_alls)
+
         setSupportActionBar(toolbar)
 
         Stetho.initializeWithDefaults(this)
 
-        fillNavigationDrawer()
 
+        fillNavigationDrawer()
 
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -136,13 +147,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.setNavigationItemSelectedListener(this)
-
-        val db = AppDatabase.getAppDatabase(this)
         //db.TaskDAO().InsertChingon()
 
     }
 
     override fun onNavigationItemSelected(menu: MenuItem): Boolean {
+
 
         menu.isChecked = true
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -195,6 +205,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         userName = findViewById(R.id.tv_userName)
         userEmail = findViewById(R.id.tv_userEmail)
         btnLogOut = findViewById(R.id.btnLogOut)
+        btnNotificacion = findViewById(R.id.notificationButton)
+
+
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val fab: FloatingActionButton = findViewById(R.id.fab)
+
+        btnNotificacion.setOnClickListener{
+            var fragment = NotificationFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+            fab.isVisible = false
+            fab.isClickable = false
+            drawerLayout.closeDrawers()
+        }
+
         val db  = AppDatabase.getAppDatabase(this)
         val user = db.UserDAO().getUser()
 
@@ -244,11 +268,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val  fb : FloatingActionButton = findViewById(R.id.fab)
 
+        Log.d("tamano", listLists.size.toString())
         if(listLists.isNotEmpty()) {
             for (x in listLists) {
-
-                Log.d("Hola", x.idList)
-
                 menu.add(R.id.group2, x.idList.toInt(), 1, x.listName)
                     .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
                         fb.isVisible = true
@@ -269,13 +291,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun onSignOff()
     {
-        val db = AppDatabase.getAppDatabase(this)
-        if (db.UserDAO().getUser().isLogged == 1) {
-            db.UserDAO().updateByNameTo0(userThing)
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle("Cerrar Sesión")
+        builder.setMessage("¿Desea cerrar sesión?")
+
+        builder.setPositiveButton("Si") { dialog, which ->
+
+            val db = AppDatabase.getAppDatabase(this)
+            if (db.UserDAO().getUser().isLogged == 1) {
+                db.UserDAO().updateByNameTo0(userThing)
+            }
+            finish()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
-        finish()
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
+
+        builder.setNeutralButton("No") { dialog, which ->
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
 
     }
 }

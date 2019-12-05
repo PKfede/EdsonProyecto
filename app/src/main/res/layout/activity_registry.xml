@@ -154,17 +154,8 @@
             android:hint="Contraseña:"
             android:textColor="#000000"
             android:textColorHint="#000000"
-            android:theme="@style/Green" />
-
-        <!--        <EditText-->
-        <!--            android:id="@+id/editText_nickName"-->
-        <!--            android:layout_width="350dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="20dp"-->
-        <!--            android:hint="Avatar:"-->
-        <!--            android:textColor="#000000"-->
-        <!--            android:textColorHint="#000000"-->
-        <!--            android:theme="@style/Green" />-->
+            android:theme="@style/Green"
+            android:inputType="textPassword"/>
 
 
         <EditText
@@ -175,7 +166,8 @@
             android:hint="Confirmar contraseña:"
             android:textColor="#000000"
             android:textColorHint="#000000"
-            android:theme="@style/Green" />
+            android:theme="@style/Green"
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/btn_registry"
