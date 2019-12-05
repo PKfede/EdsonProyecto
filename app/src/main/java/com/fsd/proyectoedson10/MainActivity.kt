@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.text.Layout
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
+import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -17,10 +17,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.stetho.Stetho
@@ -93,6 +91,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var rv: RecyclerView
+    private lateinit var imageUser : ImageView
+    private lateinit var userName : TextView
+    private lateinit var userEmail : TextView
+    private lateinit var btnLogOut : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +112,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(intent)
             finish()
         }
+
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -137,8 +140,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         menu.isChecked = true
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val fab: FloatingActionButton = findViewById(R.id.fab)
         drawerLayout.closeDrawers()
-        Log.d("Hola", menu.itemId.toString())
+        //Log.d("Hola", menu.itemId.toString())
+        fab.isVisible = true
+        fab.isClickable = true
         when(menu.itemId){
             R.id.nav_addList->{
                 val intent = Intent(this, AddMyListActivity::class.java)
@@ -148,14 +154,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_planneds->{
                 var fragment = TaskFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                fab.isVisible = false
+                fab.isClickable = false
+                AppDatabase.setCurrentListId(R.id.nav_planneds)
             }
             R.id.nav_alls->{
                 var fragment = TaskFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                fab.isVisible = false
+                fab.isClickable = false
+                AppDatabase.setCurrentListId(R.id.nav_alls)
             }
             R.id.nav_importants->{
                 var fragment = TaskFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                fab.isVisible = false
+                fab.isClickable = false
+                AppDatabase.setCurrentListId(R.id.nav_importants)
             }
             R.id.nav_sharedList->{
                 var fragment = SharedListFragment()
@@ -170,6 +185,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+        imageUser = findViewById(R.id.imageUser)
+        userName = findViewById(R.id.tv_userName)
+        userEmail = findViewById(R.id.tv_userEmail)
+        btnLogOut = findViewById(R.id.btnLogOut)
+        val db  = AppDatabase.getAppDatabase(this)
+        val user = db.UserDAO().getUser()
+
+        when(user.avatar){
+            "1" ->{
+                imageUser.setImageResource(R.drawable.mujer_negra_rara)
+            }
+            "2" ->{
+                imageUser.setImageResource(R.drawable.mujer_pelo_gris)
+            }
+            "3" ->{
+                imageUser.setImageResource(R.drawable.mujer_verde)
+            }
+            "4" ->{
+                imageUser.setImageResource(R.drawable.hombre_negro_calvo)
+            }
+            "5" ->{
+                imageUser.setImageResource(R.drawable.hombre_pelo_gris)
+            }
+            "6" ->{
+                imageUser.setImageResource(R.drawable.hombre_wero)
+            }
+        }
+
+
+        userName.setText(user.name)
+        userEmail.setText(user.id.replace("""[,]""".toRegex(), "."))
         return true
     }
 
@@ -186,6 +232,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var menu = navView.menu
         val listLists : List<ListETY> = db.ListDAO().selectByUser(db.UserDAO().getUser().id) // Esto consigue la lista de listas del usuario que se encuentra logeado
 
+        val  fb : FloatingActionButton = findViewById(R.id.fab)
+
         if(listLists.isNotEmpty()) {
             for (x in listLists) {
 
@@ -193,6 +241,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 menu.add(R.id.group2, x.idList.toInt(), 1, x.listName)
                     .setIcon(x.listIcon.toInt()).setOnMenuItemClickListener {
+                        fb.isVisible = true
+                        fb.isClickable = true
                         val drawerLayout = AppDatabase.getDrawer()
                         drawerLayout.closeDrawers()
 

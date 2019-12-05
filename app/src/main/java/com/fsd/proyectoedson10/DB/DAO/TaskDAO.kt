@@ -19,4 +19,11 @@ interface TaskDAO {
     @Query("SELECT * FROM task WHERE listId = :idList")
     fun getTaskById(idList : String) : Array<TaskETY>
 
+    @Query("SELECT * FROM task WHERE priority != '0' ORDER BY priority DESC")
+    fun orderByPriority() : Array<TaskETY>
+
+   @Query("SELECT * FROM task WHERE expiredDate != '' ORDER BY expiredDate DESC")
+   fun orderByDate() : Array<TaskETY>
+
+
 }

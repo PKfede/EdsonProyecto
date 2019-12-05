@@ -63,22 +63,26 @@ class CreateTaskActivity : AppCompatActivity() {
             DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
                 var month = month
                 var day = day
+                var dia = day.toString()
+                var mes = month.toString()
                 month = month + 1
                 Log.d(TAG, "onDateSet: mm/dd/yyy: $month/$day/$year")
 
                 if(month < 10)
                 {
-                    month = ("0" + month.toString()).toInt()
+                    mes = "0" + mes
                 }
 
                 if(day < 10)
                 {
-                   day = ("0" + day.toString()).toInt()
+                  dia = "0" + dia
                 }
 
-                val date = "$month/$day/$year"
+                val date = "$year/$mes/$dia"
                 btnDate.setText(date)  // el date es lo que vas a guardar en la BD como la fecha ejemplo del string que imprime 11/5/2019
             }
+
+
 
 
 
@@ -100,6 +104,10 @@ class CreateTaskActivity : AppCompatActivity() {
             else
             {
                 priority = "0"
+            }
+            if(btnDate.text.toString() == "Fecha de vencimiento")
+            {
+                btnDate.text = ""
             }
             var rnds = (0..1000000).random()
 
