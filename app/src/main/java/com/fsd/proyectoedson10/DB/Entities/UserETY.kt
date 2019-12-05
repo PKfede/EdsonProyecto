@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-    @Entity(tableName = "user", indices = [Index(value = ["idUser"], unique = true)]
+    @Entity(tableName = "user", indices = [Index(value = ["idUser"])]
     )
 
     data class UserETY(

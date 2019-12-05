@@ -19,7 +19,7 @@ import androidx.room.PrimaryKey
 
 data class SharedListETY (
     @field:ColumnInfo(name = "listId", index = true) var listId: String,
-    @field:ColumnInfo(name = "userId", index = true) var userId: Int
+    @field:ColumnInfo(name = "userId", index = true) var userId: String
 ){
     @PrimaryKey @ColumnInfo(name = "idSharedList", index = true) var idSharedList: String = ""
 }

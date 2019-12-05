@@ -64,6 +64,7 @@ class AddMyListActivity : AppCompatActivity() {
     private lateinit var rbImagen: RadioButton
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_add_my_list)

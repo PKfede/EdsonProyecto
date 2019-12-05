@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f2de89fb94c7c998c389a48612d6cf04",
+    "identityHash": "e4c2374fcbc28cbf7236dede53d0ffe1",
     "entities": [
       {
         "tableName": "user",
@@ -66,18 +66,18 @@
         "indices": [
           {
             "name": "index_user_idUser",
-            "unique": true,
+            "unique": false,
             "columnNames": [
               "idUser"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_user_idUser` ON `${TABLE_NAME}` (`idUser`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_user_idUser` ON `${TABLE_NAME}` (`idUser`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "sharedList",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idSharedList` TEXT NOT NULL, `listId` TEXT NOT NULL, `userId` INTEGER NOT NULL, PRIMARY KEY(`idSharedList`), FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idSharedList` TEXT NOT NULL, `listId` TEXT NOT NULL, `userId` TEXT NOT NULL, PRIMARY KEY(`idSharedList`), FOREIGN KEY(`listId`) REFERENCES `list`(`idList`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userId`) REFERENCES `user`(`idUser`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "idSharedList",
@@ -94,7 +94,7 @@
           {
             "fieldPath": "userId",
             "columnName": "userId",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -420,7 +420,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f2de89fb94c7c998c389a48612d6cf04')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e4c2374fcbc28cbf7236dede53d0ffe1')"
     ]
   }
 }
