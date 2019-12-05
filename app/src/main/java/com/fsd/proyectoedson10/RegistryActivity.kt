@@ -161,7 +161,17 @@ class RegistryActivity : AppCompatActivity() {
                                             if (p0.value == null) {
                                                 if (etEmail.text.toString().trim { it <= ' ' }.matches(emailPattern.toRegex())) {
 
+                                                    var rnds = (0..1000000).random()
+
                                                     dbRef.child(modifiedEmail).setValue(user)
+
+                                                    val database = FirebaseDatabase.getInstance()
+                                                    val dbRef = database.getReference("list")
+
+                                                    var listToFirebase = toDoList("Pendientes",modifiedEmail,"2131165285","-16743049",0
+                                                    )
+                                                    listToFirebase.id = rnds.toString()
+                                                    dbRef.child(rnds.toString()).setValue(listToFirebase)
 
 
                                                     val intent =
