@@ -46,7 +46,7 @@ data class SharedToDoList(
 }
 
 data class SharedListNotification(
-    var userId: String = "", var date : String, var listId: String
+    var userId: String = "", var date : String, var listId: String, var listName : String, var sender : String
 ){
     var id : String? = null
     override fun equals(other: Any?): Boolean {
@@ -243,7 +243,7 @@ class SharedListFragment : Fragment() {
                 var currentTime : Date = Calendar.getInstance().time
                 var currentDate = newDateFormat(currentTime)
 
-                var notificationToFirebase = SharedListNotification(x,currentDate.toString(),list.idList)
+                var notificationToFirebase = SharedListNotification(x,currentDate.toString(),list.idList,list.listName, list.userId)
 
                 notRef.child(rnds3.toString()).setValue(notificationToFirebase)
             }
