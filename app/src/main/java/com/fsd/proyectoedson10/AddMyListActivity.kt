@@ -3,6 +3,7 @@ package com.fsd.proyectoedson10
 import android.app.AlertDialog
 import android.app.usage.UsageEvents.Event.NONE
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
@@ -23,6 +24,7 @@ import com.fsd.proyectoedson10.R
 import com.fsd.proyectoedson10.ui.list.ListFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_add_list_.*
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.util.*
 
@@ -130,7 +132,17 @@ class AddMyListActivity : AppCompatActivity() {
             list.listColor = defaultColor.toString()
             list.listIcon = nameString.toString()
             list.listName = edName.text.toString()
-            db.ListDAO().insertList(list)
+
+            if (edName.text.toString().trim().length > 0) {
+                db.ListDAO().insertList(list)
+            }else
+            {
+                Toast.makeText(this,
+                    "Agreguele un titulo a la lista",
+                    Toast.LENGTH_SHORT
+                ).show()
+                edName.setHintTextColor(Color.RED)
+            }
 
             val database = FirebaseDatabase.getInstance()
             val dbRef = database.getReference("list")
@@ -144,8 +156,19 @@ class AddMyListActivity : AppCompatActivity() {
             )
             listToFirebase.id = rnds.toString()
 
-
-            dbRef.child(rnds.toString()).setValue(listToFirebase)
+            if (edName.text.toString().trim().length > 0) {
+                dbRef.child(rnds.toString()).setValue(listToFirebase)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else
+            {
+                Toast.makeText(this,
+                    "Agreguele un titulo a la lista",
+                    Toast.LENGTH_SHORT
+                ).show()
+                edName.setHintTextColor(Color.RED)
+            }
 
 //            menu.add(R.id.group2,rnds,1,edName.text.toString()).setIcon(nameString).setOnMenuItemClickListener {
 //                val drawerLayout = AppDatabase.getDrawer()
@@ -154,9 +177,6 @@ class AddMyListActivity : AppCompatActivity() {
 //
 //                true
 //            }
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
         }
     }
 
