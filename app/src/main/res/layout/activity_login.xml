@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="To"
+            android:text="ToDo"
             android:textColor="@color/orange"
             android:textSize="50dp"
             android:textStyle="bold" />
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Do"
+            android:text="List"
             android:textColor="@color/blue"
             android:textSize="50dp"
             android:textStyle="bold" />
