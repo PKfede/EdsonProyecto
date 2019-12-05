@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.facebook.stetho.Stetho
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.ListETY
+import com.fsd.proyectoedson10.DB.Entities.NotificationETY
+import com.fsd.proyectoedson10.DB.Entities.TaskETY
+import com.fsd.proyectoedson10.DB.Entities.UserETY
 import com.fsd.proyectoedson10.DB.Network
 import com.fsd.proyectoedson10.ui.list.ListFragment
 import com.fsd.proyectoedson10.ui.notification.NotificationFragment
@@ -156,11 +159,47 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
         btnNotificacion.setOnClickListener{
-            var fragment = NotificationFragment()
-            supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
-            fab.isVisible = false
-            fab.isClickable = false
-            drawerLayout.closeDrawers()
+
+            if(Network.isConnected(this))
+            {
+                //AQUI ENTRAN LAS NOTIFICACIONES AL ROOM
+                val db = AppDatabase.getAppDatabase(this@MainActivity)
+                val database = FirebaseDatabase.getInstance()
+                val notRef = database.getReference("notification").orderByChild("userId").equalTo(db.UserDAO().getUser().id)
+
+                notRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        if(p0.exists())
+                        {
+                            val children = p0.children
+                            children.forEach{
+                                var noteDate = it.child("date").value
+                                var listId = it.child("listId").value
+                                var userId = it.child("userId").value
+                                var sender = it.child("sender").value
+
+                                var notToDatabase = NotificationETY (userId.toString(),listId.toString(),noteDate.toString(),sender.toString())
+                                notToDatabase.idNotification = it.key.toString()
+                            }
+
+                        }
+                    }
+                })
+                
+                var fragment = NotificationFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit()
+                fab.isVisible = false
+                fab.isClickable = false
+                drawerLayout.closeDrawers()
+            }
+            else
+            {
+                Toast.makeText(this,"No hay internet",Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         val db  = AppDatabase.getAppDatabase(this)
