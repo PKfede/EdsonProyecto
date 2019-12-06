@@ -12,7 +12,7 @@ interface NotificationDAO {
     fun delete(notification: NotificationETY)
 
     @Query("DELETE FROM notification where idNotification= :id")
-    fun deleteById(id:Int)
+    fun deleteById(id:String)
 
     @Query("SELECT*FROM notification WHERE idNotification = :id")
     fun getById(id:Int): NotificationETY
@@ -22,6 +22,9 @@ interface NotificationDAO {
 
     @Query("DELETE FROM notification")
     fun deleteAll()
+    @Query("SELECT*FROM notification")
+    fun getOne(): NotificationETY
+
 
 
 }

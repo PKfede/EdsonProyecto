@@ -174,7 +174,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //AQUI ENTRAN LAS NOTIFICACIONES AL ROOM
                 val db = AppDatabase.getAppDatabase(this@MainActivity)
                 val database = FirebaseDatabase.getInstance()
-                var listOfNotifications: MutableList<NotificationETY> = mutableListOf()
                 val notRef = database.getReference("notification").orderByChild("userId")
                     .equalTo(db.UserDAO().getUser().id)
 
