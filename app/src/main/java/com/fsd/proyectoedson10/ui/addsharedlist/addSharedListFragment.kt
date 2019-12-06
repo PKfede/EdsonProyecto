@@ -164,7 +164,9 @@ class addSharedListFragment : Fragment() {
             }
 //
             var rnds = (0..1000000).random()
+            var rnds2 = (0..1000000).random()
             var list = ListETY(db.UserDAO().getUser().id)
+
             list.idList = rnds.toString()
             list.listColor = defaultColor.toString()
             list.listIcon = nameString.toString()
@@ -174,8 +176,8 @@ class addSharedListFragment : Fragment() {
             val dbFirebase = FirebaseDatabase.getInstance()
             val dbRef = dbFirebase.getReference("list")
 
-            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor,1,"0")
-            listToFirebase.id = rnds.toString()
+            var listToFirebase = toDoList(rnds.toString(),list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor,1,"0")
+            listToFirebase.id = rnds2.toString()
             dbRef.child(rnds.toString()).setValue(listToFirebase)
 
 //            agrega a los invitados
@@ -226,15 +228,15 @@ class addSharedListFragment : Fragment() {
         Log.d("Hol2a", listOfUsers.size.toString())
         //verifica que la lista de usuarios agregados nio este vacia y luego agrega en sharedlist un record por cada usuario en la lista
         if(listOfUsers.isNotEmpty()){
+            var rnds = (0..1000000).random()
             for(x in listOfUsers){
                 val dbFirebase = FirebaseDatabase.getInstance()
 
-                var rnds = (0..1000000).random()
                 val listRef = dbFirebase.getReference("list")
-
-                var listToFirebase = toDoList(list.listName,x,list.listIcon,list.listColor,1,"0")
-                listToFirebase.id = rnds.toString()
-                listRef.child(rnds.toString()).setValue(listToFirebase)
+                var rnds2 = (0..1000000).random()
+                var listToFirebase = toDoList(list.idList,list.listName,x,list.listIcon,list.listColor,1,"0")
+                listToFirebase.id = rnds2.toString()
+                listRef.child(rnds2.toString()).setValue(listToFirebase)
 
                 //Notificaciones
                 val notRef = dbFirebase.getReference("notification")

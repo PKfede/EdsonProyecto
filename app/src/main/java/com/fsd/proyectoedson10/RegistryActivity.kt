@@ -168,7 +168,8 @@ class RegistryActivity : AppCompatActivity() {
                                                     val database = FirebaseDatabase.getInstance()
                                                     val dbRef = database.getReference("list")
 
-                                                    var listToFirebase = toDoList("Pendientes",modifiedEmail,"2131165285","-16743049",0
+                                                    var rnds2 = (0..1000000).random()
+                                                    var listToFirebase = toDoList(rnds.toString(),"Pendientes",modifiedEmail,"2131165285","-16743049",0
                                                     )
                                                     listToFirebase.id = rnds.toString()
                                                     dbRef.child(rnds.toString()).setValue(listToFirebase)
