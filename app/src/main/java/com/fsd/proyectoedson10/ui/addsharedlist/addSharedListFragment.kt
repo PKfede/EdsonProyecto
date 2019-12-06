@@ -178,13 +178,6 @@ class addSharedListFragment : Fragment() {
 
 //            agrega a los invitados
             addAllUsers(list, view.context)
-//            //Despues de que agrega a los invitados si es que lo hace, agrega al que hizo la lista
-            var rnds2 = (0..1000000).random()
-            var sharedList = SharedToDoList(list.idList, db.UserDAO().getUser().id)
-            sharedList.id = rnds2.toString()
-
-            val listRef = dbFirebase.getReference("sharedList")
-            listRef.child(rnds2.toString()).setValue(sharedList)
 
             (activity as MainActivity).fillNavigationSharedList()
             edName.text.clear()
@@ -233,13 +226,13 @@ class addSharedListFragment : Fragment() {
         if(listOfUsers.isNotEmpty()){
             for(x in listOfUsers){
                 val dbFirebase = FirebaseDatabase.getInstance()
-                val db = AppDatabase.getAppDatabase(context)
-                var rnds2 = (0..1000000).random()
-                var sharedList = SharedToDoList(list.idList, x)
-                sharedList.id = rnds2.toString()
 
-                val listRef = dbFirebase.getReference("sharedList")
-                listRef.child(rnds2.toString()).setValue(sharedList)
+                var rnds = (0..1000000).random()
+                val listRef = dbFirebase.getReference("list")
+
+                var listToFirebase = toDoList(list.listName,x,list.listIcon,list.listColor,1,"0")
+                listToFirebase.id = rnds.toString()
+                listRef.child(rnds.toString()).setValue(listToFirebase)
 
                 //Notificaciones
                 val notRef = dbFirebase.getReference("notification")

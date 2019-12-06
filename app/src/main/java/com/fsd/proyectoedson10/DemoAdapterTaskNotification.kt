@@ -20,14 +20,12 @@ internal class DemoAdapterTaskNotification(private val notifications: Array<Noti
         val buttonAceptar : Button
         val buttonCancel : Button
 
-
         init {
             titleList = view.findViewById(R.id.notification)
             creatorNotification = view.findViewById(R.id.creatorNotification)
             notiDate = view.findViewById(R.id.notificationDate)
             buttonAceptar = view.findViewById(R.id.buttonAcept)
             buttonCancel = view.findViewById(R.id.buttonCancel)
-
         }
 
 
@@ -39,7 +37,6 @@ internal class DemoAdapterTaskNotification(private val notifications: Array<Noti
             titleList.setText(notification.listName)
             creatorNotification.setText("${notification.sender} te ha invitado a una nueva lista compartida.")
             notiDate.setText(notification.date)
-
 
             buttonCancel.setOnClickListener{
                 db.NotificationDAO().deleteById(notification.idNotification)
