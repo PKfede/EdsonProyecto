@@ -140,7 +140,8 @@ class addSharedListFragment : Fragment() {
         //val background = AppDatabase.getBackground()
 
         btnAddParticipants.setOnClickListener{
-            listOfUsers.add(edAddParticipants.text.toString())
+            var modifiedEmail = edAddParticipants.text.toString().replace("""[.]""".toRegex(), ",")
+            listOfUsers.add(modifiedEmail)
             edAddParticipants.text.clear()
             Log.d("Hol2a", listOfUsers.size.toString())
         }
