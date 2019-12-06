@@ -50,7 +50,7 @@ data class SharedToDoList(
 }
 
 data class SharedListNotification(
-    var userId: String = "", var date : String, var listId: String
+    var userId: String = "", var date : String, var listId: String, var sender : String, var listName : String
 ){
     var id : String? = null
     override fun equals(other: Any?): Boolean {
@@ -171,7 +171,7 @@ class SharedListFragment : Fragment() {
             val dbFirebase = FirebaseDatabase.getInstance()
             val dbRef = dbFirebase.getReference("list")
 
-            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor,1)
+            var listToFirebase = toDoList(list.listName,db.UserDAO().getUser().id,list.listIcon,list.listColor,1,"0")
             listToFirebase.id = rnds.toString()
             dbRef.child(rnds.toString()).setValue(listToFirebase)
 
@@ -246,7 +246,7 @@ class SharedListFragment : Fragment() {
                 var currentTime : Date = Calendar.getInstance().time
                 var currentDate = newDateFormat(currentTime)
 
-                var notificationToFirebase = SharedListNotification(x,currentDate.toString(),list.idList)
+                var notificationToFirebase = SharedListNotification(x,currentDate.toString(),list.idList,list.userId,list.listName)
 
                 notRef.child(rnds3.toString()).setValue(notificationToFirebase)
             }
