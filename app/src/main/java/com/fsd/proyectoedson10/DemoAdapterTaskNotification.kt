@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.NotificationETY
 import com.fsd.proyectoedson10.DB.Network
+import com.google.firebase.database.FirebaseDatabase
 
 internal class DemoAdapterTaskNotification(private val notifications: Array<NotificationETY>) :
     RecyclerView.Adapter<DemoAdapterTaskNotification.DemoViewHolder>() {
@@ -37,6 +38,11 @@ internal class DemoAdapterTaskNotification(private val notifications: Array<Noti
             titleList.setText(notification.listName)
             creatorNotification.setText("${notification.sender} te ha invitado a una nueva lista compartida.")
             notiDate.setText(notification.date)
+
+            val database = FirebaseDatabase.getInstance()
+
+            val usersRef = database.getReference("notification")
+            usersRef.child(db.NotificationDAO().getOne().idNotification).removeValue()
 
             buttonCancel.setOnClickListener{
                 db.NotificationDAO().deleteById(notification.idNotification)
