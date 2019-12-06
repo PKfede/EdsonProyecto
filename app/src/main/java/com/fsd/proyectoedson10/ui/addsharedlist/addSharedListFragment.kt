@@ -70,12 +70,12 @@ data class SharedListNotification(
 
 }
 
-class SharedListFragment : Fragment() {
+class addSharedListFragment : Fragment() {
 
 
 
     companion object {
-        fun newInstance() = SharedListFragment()
+        fun newInstance() = addSharedListFragment()
     }
 
     private var listOfUsers : MutableList<String> = mutableListOf()
