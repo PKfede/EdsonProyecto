@@ -300,6 +300,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val db = AppDatabase.getAppDatabase(this)
             if (db.UserDAO().getUser().isLogged == 1) {
                 db.UserDAO().updateByNameTo0(userThing)
+                db.NotificationDAO().deleteAll()
             }
             finish()
             val intent = Intent(this, LoginActivity::class.java)
