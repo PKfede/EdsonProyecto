@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.NotificationETY
+import com.fsd.proyectoedson10.DB.Network
 
 internal class DemoAdapterTaskNotification(private val notifications: Array<NotificationETY>) :
     RecyclerView.Adapter<DemoAdapterTaskNotification.DemoViewHolder>() {
@@ -26,10 +27,12 @@ internal class DemoAdapterTaskNotification(private val notifications: Array<Noti
             notiDate = view.findViewById(R.id.notificationDate)
             buttonAceptar = view.findViewById(R.id.buttonAcept)
             buttonCancel = view.findViewById(R.id.buttonCancel)
+
         }
 
 
         val db = AppDatabase.getAppDatabase(view.context)
+        var context =  view.context
 
         public fun bind(notification: NotificationETY)
         {

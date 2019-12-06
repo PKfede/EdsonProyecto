@@ -41,6 +41,7 @@ class NotificationFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@NotificationFragment.context)
             adapter = DemoAdapterTaskNotification(listNoti)
+
         }
 
         return view
