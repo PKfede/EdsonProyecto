@@ -216,6 +216,7 @@ class LoginActivity : AppCompatActivity() {
                                                                 var listIdUser = it.child("idUser").value
                                                                 var listIdList = it.child("id").value
                                                                 var listIsShared = it.child("shared").value.toString()
+                                                                var listIsAccepted = it.child("accepted").value.toString()
 
                                                                 var listToDatabase = ListETY(listIdUser.toString())
                                                                 listToDatabase.listColor = listColor.toString()
@@ -223,7 +224,7 @@ class LoginActivity : AppCompatActivity() {
                                                                 listToDatabase.listName = listName.toString()
                                                                 listToDatabase.idList = listIdList.toString()
 
-                                                                if(listIsShared == "0")
+                                                                if(listIsShared == "0" && listIsAccepted != "0")
                                                                 {
                                                                     db.ListDAO().insertList(listToDatabase)
                                                                 }
