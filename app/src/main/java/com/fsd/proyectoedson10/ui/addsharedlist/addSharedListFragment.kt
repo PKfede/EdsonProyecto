@@ -2,7 +2,9 @@ package com.fsd.proyectoedson10.ui.addsharedlist
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -246,4 +248,10 @@ class addSharedListFragment : Fragment() {
             }
         }
     }
+
+
+
+
 }
+
+

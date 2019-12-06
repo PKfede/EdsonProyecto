@@ -107,6 +107,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.isVisible = true
         fab.isClickable = true
         when (menu.itemId) {
+            R.id.refresh ->{
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
             R.id.nav_addList -> {
                 val intent = Intent(this, AddMyListActivity::class.java)
                 startActivity(intent)
