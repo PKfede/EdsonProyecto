@@ -1,10 +1,12 @@
 package com.fsd.proyectoedson10
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.fsd.proyectoedson10.DB.AppDatabase
 import com.fsd.proyectoedson10.DB.Entities.TaskETY
@@ -18,6 +20,7 @@ internal class DemoAdapterTaskList(private val tasks: Array<TaskETY>) :
         private var creator: TextView
         private var date: TextView
         private var description: TextView
+        private var cbTask : CheckBox
 
         init {
             tvName = view.findViewById(R.id.name)
@@ -25,10 +28,12 @@ internal class DemoAdapterTaskList(private val tasks: Array<TaskETY>) :
             creator = view.findViewById(R.id.creator)
             date = view.findViewById(R.id.date)
             description = view.findViewById(R.id.description)
+            cbTask = view.findViewById(R.id.cbTask)
 
         }
 
         val db = AppDatabase.getAppDatabase(view.context)
+        val builder = AlertDialog.Builder(view.context)
 
         public fun bind(task: TaskETY) {
             tvName.setText(task.title)
@@ -49,6 +54,7 @@ internal class DemoAdapterTaskList(private val tasks: Array<TaskETY>) :
             creator.setText("${db.UserDAO().getUser().lastName}, ${db.UserDAO().getUser().name}")
             date.setText(task.expiredDate)
             description.setText(task.description)
+            
         }
     }
 
