@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 AppDatabase.setCurrentListId(R.id.nav_importants)
             }
             R.id.nav_sharedList -> {
-                var fragment = SharedListFragment()
+                var fragment = addSharedListFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment)
                     .commit()
             }
